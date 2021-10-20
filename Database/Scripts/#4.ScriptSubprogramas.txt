@@ -1,10 +1,11 @@
+
 -------------------------------------------------
 -- PACKAGE ASISTENCIA
 -------------------------------------------------
 
 CREATE OR REPLACE PACKAGE  PKG_ASISTENCIA IS 
-    PROCEDURE SP_INSERTAR_ASISTENCIA(estadoID IN asistencia.id_asistencia%type, valida OUT NUMBER);
-    PROCEDURE SP_MODIFICAR_ASISTENCIA(ASISTENCIAID IN asistencia.id_asistencia%type, valida OUT NUMBER);
+    PROCEDURE SP_INSERTAR_ASISTENCIA(estadoID IN ASISTENCIA.id_estado%type, valida OUT NUMBER);
+    PROCEDURE SP_MODIFICAR_ASISTENCIA(ASISTENCIAID IN asistencia.id_asistencia%type, estadoID IN ASISTENCIA.id_estado%type, valida OUT NUMBER);
     PROCEDURE SP_ELIMINAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, valida OUT NUMBER);
     PROCEDURE SP_BUSCAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER);
     PROCEDURE SP_LISTAR_ASISTENCIA(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
@@ -14,35 +15,72 @@ END PKG_ASISTENCIA;
 -- PACKAGE ERRORES
 -------------------------------------------------
 CREATE OR REPLACE PACKAGE PKG_ERRORES IS 
-    v_mensaje_error varchar2(20);
-    v_subprograma varchar2(20);
+    reg_errores REGISTRO_ERROR%ROWTYPE;
     v_fecha date DEFAULT sysdate;
-    v_hora varchar2(10) DEFAULT TO_CHAR(sysdate,'HH24:MI:SS');
+    v_hora registro_error.hora%type DEFAULT TO_CHAR(sysdate,'HH24:MI:SS');
     PROCEDURE sp_error;
 END PKG_ERRORES;
 
 ----------------------------------------------------
 -- PACKAGE BOBY ASISTENCIA
 ----------------------------------------------------
--- FALTAN LAS EXCEPTION
--- FALTAN LOS VALIDAR PROCEDIMIENTOS
 
 CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
-BEGIN 
-    PROCEDURE SP_INSERTAR_ASISTENCIA (estadoID IN asistencia.id_asistencia%type, valida OUT NUMBER) IS 
+    PROCEDURE SP_INSERTAR_ASISTENCIA(estadoID IN ASISTENCIA.id_estado%type, valida OUT NUMBER) is
     reg_asistencia asistencia%rowtype;
     BEGIN 
         valida := 0;
         reg_asistencia.id_asistencia := seq_asistencia.nextval;
         reg_asistencia.fecha := sysdate;
-        reg_asistencia.hora :=  TO_CHAR(sysdate(,'HH24:MI:SS'));
+        reg_asistencia.hora :=  TO_CHAR(sysdate,('HH24:MI:SS'));
         reg_asistencia.id_estado:= estadoID;
-        INSERT INTO asistencia VALUES (reg_asistencia);
+        INSERT INTO asistencia VALUES reg_asistencia;
         valida := 1;
         COMMIT;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
     END SP_INSERTAR_ASISTENCIA;
     
-    PROCEDURE SP_ELIMINAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, valida OUT NUMBER);
+    PROCEDURE SP_ELIMINAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, valida OUT NUMBER) IS
     BEGIN
         valida := 0;
         delete from asistencia where id_asistencia = asistenciaID;
@@ -50,12 +88,235 @@ BEGIN
             valida := 1;
         END IF;
         COMMIT;
-    END;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+
+    END SP_ELIMINAR_ASISTENCIA;
+    
+    PROCEDURE SP_MODIFICAR_ASISTENCIA(ASISTENCIAID IN asistencia.id_asistencia%type, estadoID IN ASISTENCIA.id_estado%type, valida OUT NUMBER)IS
+    BEGIN
+        valida := 0;
+        UPDATE asistencia SET id_estado = estadoID where id_asistencia = asistenciaID;
+        IF sql%rowcount > 0 THEN
+            valida := 1;
+        END IF;
+        COMMIT;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+    END SP_MODIFICAR_ASISTENCIA;
     
     PROCEDURE SP_BUSCAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER) IS
+        v_cantidad NUMBER default 0;
     BEGIN 
-    END 
+            valida := 0;
+        SELECT COUNT(*) INTO v_cantidad FROM asistencia where id_asistencia = asistenciaID;
+        IF v_cantidad > 0 THEN 
+            OPEN entidad FOR SELECT a.id_asistencia,asig.descripcion, c.fecha, c.hora_inicio, c.hora_termino,e.descripcion, a.fecha,a.hora,alu.rut,  
+                                                        alu.nombre || ' '|| alu.nombre_s ||' '|| alu.nombre_t ||' '|| alu.apellido_p||' '|| alu.apellido_m as nombre
+                                                        FROM ASISTENCIA a
+                                                        INNER JOIN DETALLE_ASISTENCIA det_a
+                                                        ON a.id_asistencia = det_a.id_asistencia
+                                                        INNER JOIN CLASE c
+                                                        ON det_a.id_clase = c.id_clase
+                                                        INNER JOIN detalle_CLASE_ALU det_c
+                                                        ON c.id_clase = det_c.id_clase
+                                                        INNER JOIN PERSONA alu
+                                                        ON det_c.rut_alumno = alu.rut
+                                                        INNER JOIN ASIGNATURA asig
+                                                        ON c.id_asignatura = asig.id_asignatura
+                                                        INNER JOIN ESTADO_ASISTENCIA e
+                                                        ON a.id_estado = e.id_estado
+                                                        WHERE a.id_asistencia = asistenciaID;
+            valida := 1;
+        END IF;
+            EXCEPTION
+                WHEN too_many_rows THEN
+                    PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+                    PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+                    PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+                    PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
+                    PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+                    PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                WHEN invalid_number THEN
+                    PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+                    PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+                    PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+                    PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
+                    PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+                    PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                WHEN no_data_found THEN
+                    PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+                    PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+                    PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+                    PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
+                    PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+                    PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                WHEN zero_divide THEN
+                    PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+                    PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+                    PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+                    PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
+                    PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+                    PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                WHEN OTHERS THEN 
+                    PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+                    PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+                    PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+                    PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
+                    PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+                    PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+    END SP_BUSCAR_ASISTENCIA;
     
-END;
+    PROCEDURE SP_LISTAR_ASISTENCIA(lista OUT SYS_REFCURSOR, valida OUT NUMBER) IS
+    v_cantidad NUMBER DEFAULT 0;
+    BEGIN
+        valida := 0;
+        SELECT COUNT(*) INTO v_cantidad FROM asistencia;
+        IF v_cantidad > 0 THEN 
+        OPEN lista FOR SELECT a.id_asistencia,asig.descripcion, c.fecha, c.hora_inicio, c.hora_termino,e.descripcion, a.fecha,a.hora,alu.rut,  
+                                                        alu.nombre || ' '|| alu.nombre_s ||' '|| alu.nombre_t ||' '|| alu.apellido_p||' '|| alu.apellido_m as nombre
+                                                        FROM ASISTENCIA a
+                                                        INNER JOIN DETALLE_ASISTENCIA det_a
+                                                        ON a.id_asistencia = det_a.id_asistencia
+                                                        INNER JOIN CLASE c
+                                                        ON det_a.id_clase = c.id_clase
+                                                        INNER JOIN detalle_CLASE_ALU det_c
+                                                        ON c.id_clase = det_c.id_clase
+                                                        INNER JOIN PERSONA alu
+                                                        ON det_c.rut_alumno = alu.rut
+                                                        INNER JOIN ASIGNATURA asig
+                                                        ON c.id_asignatura = asig.id_asignatura
+                                                        INNER JOIN ESTADO_ASISTENCIA e
+                                                        ON a.id_estado = e.id_estado
+                                                        order by asig.descripcion asc, c.fecha asc;
+        valida := 1;
+        END IF;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+    END SP_LISTAR_ASISTENCIA;
+    
+END PKG_ASISTENCIA;
 
 
