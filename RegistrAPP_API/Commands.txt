@@ -1,0 +1,6 @@
+django startproject RegistrAPP_API
+django startapp api
+python manage.py inspectdb > api/models.py
+python manage.py migrate
+python manage.py createsuperuser
+

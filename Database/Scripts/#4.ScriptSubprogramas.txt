@@ -329,3 +329,68 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
     END SP_LISTAR_ASISTENCIA;
     
 END PKG_ASISTENCIA;
+
+
+CREATE OR REPLACE PACKAGE  PKG_ALUMNO IS 
+    PROCEDURE SP_LISTAR_ALUMNO(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
+END PKG_ALUMNO;
+
+
+CREATE OR REPLACE PACKAGE BODY PKG_ALUMNO IS
+    
+    PROCEDURE SP_LISTAR_ALUMNO(lista OUT SYS_REFCURSOR, valida OUT NUMBER) IS
+    v_cantidad NUMBER DEFAULT 0;
+    BEGIN
+        valida := 0;
+        SELECT COUNT(*) INTO v_cantidad FROM persona;
+        IF v_cantidad > 0 THEN 
+        OPEN lista FOR SELECT * from persona p
+                                INNER JOIN ALUMNO a
+                                ON p.rut = a.rut_alumno;
+        valida := 1;
+        END IF;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+    END SP_LISTAR_ALUMNO;
+    
+END PKG_ALUMNO;
+

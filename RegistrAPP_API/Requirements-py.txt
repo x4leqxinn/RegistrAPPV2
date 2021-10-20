@@ -1,0 +1,6 @@
+pip install pip --upgrade
+pip install django
+pip install cx_oracle
+django-admin-interface
+djangorestframework
+python -m pip install requests
