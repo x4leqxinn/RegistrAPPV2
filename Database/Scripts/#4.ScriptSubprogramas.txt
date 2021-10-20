@@ -18,9 +18,20 @@ CREATE OR REPLACE PACKAGE PKG_ERRORES IS
     reg_errores REGISTRO_ERROR%ROWTYPE;
     v_fecha date DEFAULT sysdate;
     v_hora registro_error.hora%type DEFAULT TO_CHAR(sysdate,'HH24:MI:SS');
-    PROCEDURE sp_error;
+    PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprogrma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type);
 END PKG_ERRORES;
 
+----------------------------------------------------
+-- PACKAGE BOBY ERRORES
+----------------------------------------------------
+
+CREATE OR REPLACE PACKAGE BODY PKG_ERRORES IS 
+    PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprogrma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type)
+    IS
+    BEGIN 
+        INSERT INTO registro_error VALUES (correlativo, p_codigo_error, p_mensaje, p_subprogrma, p_fecha, p_hora);
+    END sp_errores;
+END PKG_ERRORES;
 ----------------------------------------------------
 -- PACKAGE BOBY ASISTENCIA
 ----------------------------------------------------
@@ -45,7 +56,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN invalid_number THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -53,7 +64,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+      PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN no_data_found THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -61,7 +72,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN zero_divide THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -69,7 +80,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN OTHERS THEN 
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -77,7 +88,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
     END SP_INSERTAR_ASISTENCIA;
     
     PROCEDURE SP_ELIMINAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, valida OUT NUMBER) IS
@@ -96,7 +107,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN invalid_number THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -104,7 +115,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN no_data_found THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -112,7 +123,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN zero_divide THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -120,7 +131,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN OTHERS THEN 
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -128,7 +139,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
 
     END SP_ELIMINAR_ASISTENCIA;
     
@@ -148,7 +159,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN invalid_number THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -156,7 +167,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN no_data_found THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -164,7 +175,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN zero_divide THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -172,7 +183,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN OTHERS THEN 
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -180,7 +191,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
     END SP_MODIFICAR_ASISTENCIA;
     
     PROCEDURE SP_BUSCAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER) IS
@@ -215,7 +226,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
                     PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
                     PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
                     PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                    PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
                 WHEN invalid_number THEN
                     PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
                     PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -223,7 +234,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
                     PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
                     PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
                     PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                    PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
                 WHEN no_data_found THEN
                     PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
                     PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -231,7 +242,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
                     PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
                     PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
                     PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                    PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
                 WHEN zero_divide THEN
                     PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
                     PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -239,7 +250,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
                     PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
                     PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
                     PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                    PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
                 WHEN OTHERS THEN 
                     PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
                     PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -247,7 +258,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
                     PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA';
                     PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
                     PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-                    INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+                    PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
     END SP_BUSCAR_ASISTENCIA;
     
     PROCEDURE SP_LISTAR_ASISTENCIA(lista OUT SYS_REFCURSOR, valida OUT NUMBER) IS
@@ -282,7 +293,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN invalid_number THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -290,7 +301,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN no_data_found THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -298,7 +309,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN zero_divide THEN
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -306,7 +317,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
         WHEN OTHERS THEN 
             PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
             PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
@@ -314,9 +325,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
             PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
             PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
             PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
-            INSERT INTO registro_error VALUES PKG_ERRORES.reg_errores;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
     END SP_LISTAR_ASISTENCIA;
     
 END PKG_ASISTENCIA;
-
-
