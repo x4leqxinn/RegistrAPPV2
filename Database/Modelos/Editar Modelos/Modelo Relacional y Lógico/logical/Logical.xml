@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="80CAD564-7544-93DB-5898-17B7E859D086" mainViewID="5640B5FE-4C27-B173-3129-95DDDF7C6F3D">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:29:02 UTC</createdTime>
+<ownerDesignName>Modelo Logico - RegistrAPP</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>

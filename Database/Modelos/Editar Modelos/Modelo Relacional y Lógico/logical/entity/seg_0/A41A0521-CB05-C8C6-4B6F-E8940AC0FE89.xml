@@ -1,0 +1,33 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A41A0521-CB05-C8C6-4B6F-E8940AC0FE89" name="PROFESOR">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:31:53 UTC</createdTime>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<engineerTo>
+<item key="F1465DA2-5CBF-E313-1BDF-6D409F8F2E95" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<hierarchicalParent>9E701B94-05CB-B5A7-E767-77E692CE2107</hierarchicalParent>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="sueldo" id="EA7A1CB3-6188-9BBD-FC3A-BC9944A52127">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:23:39 UTC</createdTime>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<engineerTo>
+<item key="F1465DA2-5CBF-E313-1BDF-6D409F8F2E95" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,7,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

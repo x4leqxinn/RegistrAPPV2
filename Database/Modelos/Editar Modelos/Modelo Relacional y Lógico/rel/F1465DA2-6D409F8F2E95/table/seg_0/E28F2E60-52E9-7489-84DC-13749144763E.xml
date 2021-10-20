@@ -1,0 +1,52 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E28F2E60-52E9-7489-84DC-13749144763E" name="ALUMNO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>68B6D59F-3499-C946-85F3-6A6C49C81CD8</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="rut_alumno" id="D44D2A10-A3CE-A9F6-25AB-3974E70671BF">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3EB58ABD-68AE-B3B3-FDF6-4F86171410C0" referredColumn="FB329D9A-EFAD-C7AB-3C0D-569097CA7E4D"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="A146B603-9BC5-8EA2-37A8-CEA6C7DA5C21" name="ALUMNO_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>B6C083E7-954A-B4F8-B808-E7DAAADF6684</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D44D2A10-A3CE-A9F6-25AB-3974E70671BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B669F01F-60B5-6F42-E06F-070029E70A58" name="ALUMNO_PERSONA_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>A719B625-FFB9-7E7F-7E0B-3524BCA52902</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D44D2A10-A3CE-A9F6-25AB-3974E70671BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

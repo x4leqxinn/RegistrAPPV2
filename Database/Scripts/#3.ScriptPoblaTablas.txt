@@ -1,0 +1,99 @@
+-----------------------------------------------------
+-- SECUENCIAS
+-----------------------------------------------------
+DROP SEQUENCE SEQ_CURSO;
+DROP SEQUENCE SEQ_RESUMEN_ASISTENCIA;
+DROP SEQUENCE SEQ_ASIGNATURA;
+DROP SEQUENCE SEQ_DETALLE_ASISTENCIA;
+DROP SEQUENCE SEQ_DETALLE_CLASE_ALU;
+DROP SEQUENCE SEQ_DETALLE_CLASE_PROFE;
+DROP  SEQUENCE SEQ_DETALLE_CURSO;
+DROP SEQUENCE SEQ_ERRORES;
+
+CREATE SEQUENCE SEQ_CURSO;
+CREATE SEQUENCE SEQ_RESUMEN_ASISTENCIA;
+CREATE SEQUENCE SEQ_ASIGNATURA;
+CREATE SEQUENCE SEQ_DETALLE_ASISTENCIA;
+CREATE SEQUENCE SEQ_DETALLE_CLASE_ALU;
+CREATE SEQUENCE SEQ_DETALLE_CLASE_PROFE;
+CREATE SEQUENCE SEQ_DETALLE_CURSO;
+CREATE SEQUENCE SEQ_ERRORES;
+
+-----------------------------------------------------
+-- TIPO USUARIO
+-----------------------------------------------------
+INSERT INTO TIPO_USUARIO VALUES (1,'PROFESOR');
+INSERT INTO TIPO_USUARIO VALUES (2, 'ALUMNO');
+
+-----------------------------------------------------
+-- ESTADO USUARIO
+-----------------------------------------------------
+INSERT INTO ESTADO_USUARIO VALUES (1, 'ACTIVO');
+INSERT INTO ESTADO_USUARIO VALUES(2, 'INACTIVO');
+
+-----------------------------------------------------
+-- GENERO
+-----------------------------------------------------
+INSERT INTO GENERO VALUES(1, 'MASCULINO');
+INSERT INTO GENERO VALUES(2, 'FEMENINO');
+
+-----------------------------------------------------
+-- CURSO
+-----------------------------------------------------
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'PRIMERO MEDIO A');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'PRIMERO MEDIO B');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'PRIMERO MEDIO C');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'SEGUNDO MEDIO A');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'SEGUNDO MEDIO B');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'SEGUNDO MEDIO C');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'TERCERO MEDIO A');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'TERCERO MEDIO B');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'TERCERO MEDIO C');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'CUARTO MEDIO A');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'CUARTO MEDIO B');
+INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'CUARTO MEDIO C');
+
+-----------------------------------------------------
+-- ASIGNATURA
+-----------------------------------------------------
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'MATEMÁTICAS');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'BIOLOGÍA');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'QUIMÍCA');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'FÍSICA');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'ED. FÍSICA');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'LENGUAJE Y COMUNICACIÓN');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'INGLÉS');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'ARTES VISUALES');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'MÚSICA');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'FILOSOFÍA Y PSICOLOGÍA');
+INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'HISTORIA Y GEOGRAFÍA');
+-----------------------------------------------------
+-- USUARIO
+-----------------------------------------------------
+
+-- Alumnos
+
+INSERT INTO USUARIO VALUES ('x4leqxinn', 'admin123',1,2);
+INSERT INTO USUARIO VALUES ('ratitalizz', 'admin123',1,2);
+INSERT INTO USUARIO VALUES ('matt69', 'admin123',1,2);
+
+-- Profesores
+INSERT INTO USUARIO VALUES ('fre.camposo', 'admin123',1,1);
+-----------------------------------------------------
+-- PERSONA
+-----------------------------------------------------
+INSERT INTO PERSONA VALUES ('20281676','2','JORGE','ALEJANDRO', null , 'QUINTUI','VERGARA','jorgealequinn@gmail.com','x4leqxinn',1);
+INSERT INTO PERSONA VALUES ('19317764','6','BARBARA','ELIZABETH', null , 'AROCA','ESPINOZA','ba.aroca@gmail.com','ratitalizz',2);
+INSERT INTO PERSONA VALUES ('19708456','1','MATIAS','IGNACIO', null , 'AMION','ARANEDA','mat.amion@gmail.com','matt69',1);
+INSERT INTO PERSONA VALUES ('12647021','5','FREDDY','MAURICIO', null , 'CAMPOS','ORELLANA','fre.camposo@profesor.duoc.cl ','fre.camposo',1);
+
+-----------------------------------------------------
+-- ALUMNO
+-----------------------------------------------------
+insert INTO ALUMNO VALUES ('20281676');
+insert INTO ALUMNO VALUES ('19317764');
+insert INTO ALUMNO VALUES ('19708456');
+-----------------------------------------------------
+-- PROFESOR
+-----------------------------------------------------
+INSERT INTO PROFESOR VALUES ('12647021',5000000);

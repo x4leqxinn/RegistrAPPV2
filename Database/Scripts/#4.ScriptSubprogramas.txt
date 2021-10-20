@@ -1,0 +1,61 @@
+-------------------------------------------------
+-- PACKAGE ASISTENCIA
+-------------------------------------------------
+
+CREATE OR REPLACE PACKAGE  PKG_ASISTENCIA IS 
+    PROCEDURE SP_INSERTAR_ASISTENCIA(estadoID IN asistencia.id_asistencia%type, valida OUT NUMBER);
+    PROCEDURE SP_MODIFICAR_ASISTENCIA(ASISTENCIAID IN asistencia.id_asistencia%type, valida OUT NUMBER);
+    PROCEDURE SP_ELIMINAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, valida OUT NUMBER);
+    PROCEDURE SP_BUSCAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER);
+    PROCEDURE SP_LISTAR_ASISTENCIA(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
+END PKG_ASISTENCIA;
+
+-------------------------------------------------
+-- PACKAGE ERRORES
+-------------------------------------------------
+CREATE OR REPLACE PACKAGE PKG_ERRORES IS 
+    v_mensaje_error varchar2(20);
+    v_subprograma varchar2(20);
+    v_fecha date DEFAULT sysdate;
+    v_hora varchar2(10) DEFAULT TO_CHAR(sysdate,'HH24:MI:SS');
+    PROCEDURE sp_error;
+END PKG_ERRORES;
+
+----------------------------------------------------
+-- PACKAGE BOBY ASISTENCIA
+----------------------------------------------------
+-- FALTAN LAS EXCEPTION
+-- FALTAN LOS VALIDAR PROCEDIMIENTOS
+
+CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
+BEGIN 
+    PROCEDURE SP_INSERTAR_ASISTENCIA (estadoID IN asistencia.id_asistencia%type, valida OUT NUMBER) IS 
+    reg_asistencia asistencia%rowtype;
+    BEGIN 
+        valida := 0;
+        reg_asistencia.id_asistencia := seq_asistencia.nextval;
+        reg_asistencia.fecha := sysdate;
+        reg_asistencia.hora :=  TO_CHAR(sysdate(,'HH24:MI:SS'));
+        reg_asistencia.id_estado:= estadoID;
+        INSERT INTO asistencia VALUES (reg_asistencia);
+        valida := 1;
+        COMMIT;
+    END SP_INSERTAR_ASISTENCIA;
+    
+    PROCEDURE SP_ELIMINAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, valida OUT NUMBER);
+    BEGIN
+        valida := 0;
+        delete from asistencia where id_asistencia = asistenciaID;
+        IF sql%rowcount > 0 THEN
+            valida := 1;
+        END IF;
+        COMMIT;
+    END;
+    
+    PROCEDURE SP_BUSCAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER) IS
+    BEGIN 
+    END 
+    
+END;
+
+

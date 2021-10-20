@@ -1,0 +1,328 @@
+-- Generado por Oracle SQL Developer Data Modeler 18.4.0.339.1532
+--   en:        2021-10-19 22:28:21 CLST
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+CREATE TABLE alumno (
+    rut_alumno VARCHAR2(12) NOT NULL
+);
+
+ALTER TABLE alumno ADD CONSTRAINT alumno_pk PRIMARY KEY ( rut_alumno );
+
+CREATE TABLE asignatura (
+    id_asignatura   NUMBER(4) NOT NULL,
+    descripcion     VARCHAR2(40) NOT NULL
+);
+
+ALTER TABLE asignatura ADD CONSTRAINT asignatura_pk PRIMARY KEY ( id_asignatura );
+
+CREATE TABLE asistencia (
+    id_asistencia   NUMBER(4) NOT NULL,
+    fecha           DATE NOT NULL,
+    hora            VARCHAR2(8) NOT NULL,
+    id_estado       NUMBER(4) NOT NULL
+);
+
+ALTER TABLE asistencia ADD CONSTRAINT asistencia_pk PRIMARY KEY ( id_asistencia );
+
+CREATE TABLE clase (
+    id_clase        NUMBER(4) NOT NULL,
+    fecha           DATE NOT NULL,
+    hora_inicio     VARCHAR2(10) NOT NULL,
+    hora_termino    VARCHAR2(10) NOT NULL,
+    id_asignatura   NUMBER(4) NOT NULL,
+    codigo_qr       VARCHAR2(100)
+);
+
+ALTER TABLE clase ADD CONSTRAINT clase_pk PRIMARY KEY ( id_clase );
+
+CREATE TABLE curso (
+    id_curso      NUMBER(4) NOT NULL,
+    descripcion   VARCHAR2(50) NOT NULL
+);
+
+ALTER TABLE curso ADD CONSTRAINT curso_pk PRIMARY KEY ( id_curso );
+
+CREATE TABLE detalle_asistencia (
+    id_detalle_asist   NUMBER(4) NOT NULL,
+    id_asistencia      NUMBER(4) NOT NULL,
+    id_clase           NUMBER(4) NOT NULL
+);
+
+ALTER TABLE detalle_asistencia ADD CONSTRAINT detalle_asistencia_pk PRIMARY KEY ( id_detalle_asist );
+
+CREATE TABLE detalle_clase_alu (
+    id_det_clase_alu   NUMBER(4) NOT NULL,
+    id_clase           NUMBER(4) NOT NULL,
+    rut_alumno         VARCHAR2(12) NOT NULL
+);
+
+ALTER TABLE detalle_clase_alu ADD CONSTRAINT detalle_clase_alu_pk PRIMARY KEY ( id_det_clase_alu );
+
+CREATE TABLE detalle_clase_profe (
+    id_det_clase_profe   NUMBER NOT NULL,
+    id_clase             NUMBER(4) NOT NULL,
+    rut_profesor         VARCHAR2(12) NOT NULL
+);
+
+ALTER TABLE detalle_clase_profe ADD CONSTRAINT detalle_clase_profe_pk PRIMARY KEY ( id_det_clase_profe );
+
+CREATE TABLE detalle_curso (
+    id_detalle_curso   NUMBER(4) NOT NULL,
+    id_clase           NUMBER(4) NOT NULL,
+    id_curso           NUMBER(4) NOT NULL
+);
+
+ALTER TABLE detalle_curso ADD CONSTRAINT detalle_curso_pk PRIMARY KEY ( id_detalle_curso );
+
+CREATE TABLE estado_asistencia (
+    id_estado     NUMBER(4) NOT NULL,
+    descripcion   VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE estado_asistencia ADD CONSTRAINT estado_asistencia_pk PRIMARY KEY ( id_estado );
+
+CREATE TABLE estado_usuario (
+    id_estado     NUMBER(4) NOT NULL,
+    descripcion   VARCHAR2(15) NOT NULL
+);
+
+ALTER TABLE estado_usuario ADD CONSTRAINT estado_usuario_pk PRIMARY KEY ( id_estado );
+
+CREATE TABLE genero (
+    id_genero     NUMBER(4) NOT NULL,
+    descripcion   VARCHAR2(10) NOT NULL
+);
+
+ALTER TABLE genero ADD CONSTRAINT genero_pk PRIMARY KEY ( id_genero );
+
+CREATE TABLE persona (
+    rut              VARCHAR2(12) NOT NULL,
+    dv               VARCHAR2(1) NOT NULL,
+    nombre           VARCHAR2(40) NOT NULL,
+    nombre_s         VARCHAR2(40) NOT NULL,
+    nombre_t         VARCHAR2(40),
+    apellido_p       VARCHAR2(40) NOT NULL,
+    apellido_m       VARCHAR2(40) NOT NULL,
+    email            VARCHAR2(100) NOT NULL,
+    nombre_usuario   VARCHAR2(40) NOT NULL,
+    id_genero        NUMBER(4) NOT NULL
+);
+
+CREATE UNIQUE INDEX persona__idx ON
+    persona (
+        nombre_usuario
+    ASC );
+
+ALTER TABLE persona ADD CONSTRAINT persona_pk PRIMARY KEY ( rut );
+
+CREATE TABLE profesor (
+    rut_profesor   VARCHAR2(12) NOT NULL,
+    sueldo         NUMBER(7) NOT NULL
+);
+
+ALTER TABLE profesor ADD CONSTRAINT profesor_pk PRIMARY KEY ( rut_profesor );
+
+CREATE TABLE registro_error (
+    id              NUMBER(4) NOT NULL,
+    codigo_error    VARCHAR2(30) NOT NULL,
+    mensaje_error   VARCHAR2(300) NOT NULL,
+    subprograma     VARCHAR2(80) NOT NULL,
+    fecha           DATE NOT NULL,
+    hora            VARCHAR2(10) NOT NULL
+);
+
+ALTER TABLE registro_error ADD CONSTRAINT registro_error_pk PRIMARY KEY ( id );
+
+CREATE TABLE resumen_asistencia (
+    id_resumen        NUMBER(5) NOT NULL,
+    rut_alumno        NUMBER(4) NOT NULL,
+    rut_profesor      NUMBER(4) NOT NULL,
+    profesor          VARCHAR2(150) NOT NULL,
+    asignatura        VARCHAR2(40) NOT NULL,
+    alumno            VARCHAR2(150) NOT NULL,
+    cant_asistencia   NUMBER(4) NOT NULL
+);
+
+ALTER TABLE resumen_asistencia ADD CONSTRAINT resumen_asistencia_pk PRIMARY KEY ( id_resumen );
+
+CREATE TABLE tipo_usuario (
+    id_tipo       NUMBER(4) NOT NULL,
+    descripcion   VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tipo_usuario ADD CONSTRAINT tipo_usuario_pk PRIMARY KEY ( id_tipo );
+
+CREATE TABLE usuario (
+    nombre_usuario   VARCHAR2(40) NOT NULL,
+    contrasenia      VARCHAR2(25) NOT NULL,
+    id_estado        NUMBER(4) NOT NULL,
+    id_tipo          NUMBER(4) NOT NULL
+);
+
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( nombre_usuario );
+
+ALTER TABLE alumno
+    ADD CONSTRAINT alumno_persona_fk FOREIGN KEY ( rut_alumno )
+        REFERENCES persona ( rut );
+
+ALTER TABLE asistencia
+    ADD CONSTRAINT asistencia_est_asist_fk FOREIGN KEY ( id_estado )
+        REFERENCES estado_asistencia ( id_estado );
+
+ALTER TABLE clase
+    ADD CONSTRAINT clase_asignatura_fk FOREIGN KEY ( id_asignatura )
+        REFERENCES asignatura ( id_asignatura );
+
+ALTER TABLE detalle_asistencia
+    ADD CONSTRAINT det_asistencia_asist_fk FOREIGN KEY ( id_asistencia )
+        REFERENCES asistencia ( id_asistencia );
+
+ALTER TABLE detalle_asistencia
+    ADD CONSTRAINT det_asistencia_cl_fk FOREIGN KEY ( id_clase )
+        REFERENCES clase ( id_clase );
+
+ALTER TABLE detalle_clase_alu
+    ADD CONSTRAINT det_clase_alu_alu_fk FOREIGN KEY ( rut_alumno )
+        REFERENCES alumno ( rut_alumno );
+
+ALTER TABLE detalle_clase_alu
+    ADD CONSTRAINT det_clase_alu_cl_fk FOREIGN KEY ( id_clase )
+        REFERENCES clase ( id_clase );
+
+ALTER TABLE detalle_clase_profe
+    ADD CONSTRAINT det_clase_profe_cl_fk FOREIGN KEY ( id_clase )
+        REFERENCES clase ( id_clase );
+
+ALTER TABLE detalle_clase_profe
+    ADD CONSTRAINT det_clase_profe_profe_fk FOREIGN KEY ( rut_profesor )
+        REFERENCES profesor ( rut_profesor );
+
+ALTER TABLE detalle_curso
+    ADD CONSTRAINT det_curso_cl_fk FOREIGN KEY ( id_clase )
+        REFERENCES clase ( id_clase );
+
+ALTER TABLE detalle_curso
+    ADD CONSTRAINT det_curso_cur_fk FOREIGN KEY ( id_curso )
+        REFERENCES curso ( id_curso );
+
+ALTER TABLE persona
+    ADD CONSTRAINT persona_genero_fk FOREIGN KEY ( id_genero )
+        REFERENCES genero ( id_genero );
+
+ALTER TABLE persona
+    ADD CONSTRAINT persona_usuario_fk FOREIGN KEY ( nombre_usuario )
+        REFERENCES usuario ( nombre_usuario );
+
+ALTER TABLE profesor
+    ADD CONSTRAINT profesor_persona_fk FOREIGN KEY ( rut_profesor )
+        REFERENCES persona ( rut );
+
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_est_usu_fk FOREIGN KEY ( id_estado )
+        REFERENCES estado_usuario ( id_estado );
+
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_tp_usu_fk FOREIGN KEY ( id_tipo )
+        REFERENCES tipo_usuario ( id_tipo );
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_profesor BEFORE
+    INSERT OR UPDATE OF rut_profesor ON profesor
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(12);
+BEGIN
+    SELECT
+        a.rut
+    INTO d
+    FROM
+        persona a
+    WHERE
+        a.rut = :new.rut_profesor;
+
+    IF ( d IS NULL OR d <> '2' ) THEN
+        raise_application_error(-20223, 'FK PROFESOR_PERSONA_FK in Table PROFESOR violates Arc constraint on Table PERSONA - discriminator column rut doesn''t have value ''2'''
+        );
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_alumno BEFORE
+    INSERT OR UPDATE OF rut_alumno ON alumno
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(12);
+BEGIN
+    SELECT
+        a.rut
+    INTO d
+    FROM
+        persona a
+    WHERE
+        a.rut = :new.rut_alumno;
+
+    IF ( d IS NULL OR d <> '1' ) THEN
+        raise_application_error(-20223, 'FK ALUMNO_PERSONA_FK in Table ALUMNO violates Arc constraint on Table PERSONA - discriminator column rut doesn''t have value ''1'''
+        );
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                            18
+-- CREATE INDEX                             1
+-- ALTER TABLE                             34
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           2
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0

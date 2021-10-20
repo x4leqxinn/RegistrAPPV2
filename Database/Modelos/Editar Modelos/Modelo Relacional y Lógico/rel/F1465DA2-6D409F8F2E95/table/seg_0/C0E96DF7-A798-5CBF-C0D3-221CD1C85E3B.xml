@@ -1,0 +1,113 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C0E96DF7-A798-5CBF-C0D3-221CD1C85E3B" name="CLASE">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>A2556A8A-725A-32E0-CD86-04DE62E744B1</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_clase" id="A69BCC16-D9E0-54D6-7C0B-51098BAF78F2">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>D6F0028F-3DDB-4123-F750-9C7504465C37</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="E5EC19FD-A487-9747-533A-DA031F6F6E37">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>46A657F2-C058-CE5B-8E3A-25E91E96CA7A</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="hora_inicio" id="00E6EBFE-B9D9-6264-F9A0-EAA2C4A78DE4">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>81D9BF07-3A4D-8340-E8A8-FE0239F1B18C</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="hora_termino" id="2082C02C-EA09-9963-C83A-F4E6DC223EE5">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>B1558C1C-D29C-8F0B-B052-C28075B94BBD</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_asignatura" id="A6712E36-F06F-4283-DA3C-35C4A4A3D2E2">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>C2857D7F-98D5-2736-4983-A0B5BE44CBB7</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9245A631-2A9B-77DB-8714-589CF7A5E93F" referredColumn="7BD4BF0B-E979-E231-CE73-EE32CC609DD9"/>
+</associations>
+</Column>
+<Column name="codigo_qr" id="4FEFB6CF-FFA5-B7DD-A1FB-BCC0DA0FFBD0">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>2799E2A3-41ED-B08F-A234-751C5F9F8A1A</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E0A80A21-6AB3-7368-DC43-42A39E6D3B51" name="CLASE_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>2E4A23C4-34B8-E508-6865-76BB9979BE26</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A69BCC16-D9E0-54D6-7C0B-51098BAF78F2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="664B3284-9BC7-458E-038B-560E79391FCE" name="CLASE_ASIGNATURA_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 23:36:36 UTC</createdTime>
+<generatorID>B33B99A3-A2F5-07AB-79E6-639A1AF31BDE</generatorID>
+<ownerDesignName>Modelo Relacional y Lógico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A6712E36-F06F-4283-DA3C-35C4A4A3D2E2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
