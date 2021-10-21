@@ -342,7 +342,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ALUMNO IS
     v_cantidad NUMBER DEFAULT 0;
     BEGIN
         valida := 0;
-        SELECT COUNT(*) INTO v_cantidad FROM persona;
+        SELECT COUNT(*) INTO v_cantidad FROM alumno;
         IF v_cantidad > 0 THEN 
         OPEN lista FOR SELECT * from persona p
                                 INNER JOIN ALUMNO a
@@ -393,4 +393,18 @@ CREATE OR REPLACE PACKAGE BODY PKG_ALUMNO IS
     END SP_LISTAR_ALUMNO;
     
 END PKG_ALUMNO;
+
+
+-------------------------------------
+-- TEST 
+-------------------------------------
+
+set SERVEROUTPUT on;
+---- Probar LISTAR Y BUSCAR
+var cursor_x refcursor
+var v_valida number
+exec pkg_alumno.sp_listar_alumno(:cursor_x, :v_valida);
+print cursor_x;
+print v_valida;
+
 

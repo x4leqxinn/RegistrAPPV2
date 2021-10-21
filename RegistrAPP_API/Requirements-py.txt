@@ -1,4 +1,8 @@
-pip install pip --upgrade
+////////////////////////////
+// Dependencias
+////////////////////////////
+pip freeze // Para ver que dependencias tenemos instaladas
+pip install pip --upgrade 
 pip install django
 pip install cx_oracle
 django-admin-interface

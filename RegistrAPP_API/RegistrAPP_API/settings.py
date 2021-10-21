@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api', #Asignamos nuestra APP en el archivo de configuración del proyecto
+    'rest_framework', # Asignamos en Nuestra APP Django Rest Framework
 ]
 
 MIDDLEWARE = [

@@ -69,6 +69,15 @@ INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'ARTES VISUALES');
 INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'MÚSICA');
 INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'FILOSOFÍA Y PSICOLOGÍA');
 INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'HISTORIA Y GEOGRAFÍA');
+
+-----------------------------------------------------
+-- ESTADO ASISTENCIA
+-----------------------------------------------------
+
+INSERT INTO ESTADO_ASISTENCIA VALUES (1, 'PRESENTE');
+INSERT INTO ESTADO_ASISTENCIA VALUES (2, 'AUSENTE');
+INSERT INTO ESTADO_ASISTENCIA VALUES (3, 'JUSTIFICADO');
+
 -----------------------------------------------------
 -- USUARIO
 -----------------------------------------------------

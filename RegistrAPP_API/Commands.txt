@@ -1,6 +1,17 @@
+////////////////////////////
+// Comandos
+////////////////////////////
+
+// Creamos un proyecto en Django
 django startproject RegistrAPP_API
+// Creamos una app dentro del proyecto
 django startapp api
-python manage.py inspectdb > api/models.py
+// Crea los modelos a partir de mi Base de datos
+python manage.py inspectdb > api/models.py 
+// Exportamos las tablas de autenticación de usuarios
 python manage.py migrate
+// Creamos un super usuario para el adminsitrador de Django
 python manage.py createsuperuser
+// Corremos el servidor en el puerto 9100
+python manage.py runserver
 

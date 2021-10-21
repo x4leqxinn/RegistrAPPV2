@@ -10,6 +10,19 @@
 
 <body>
     <h1>Gestión de Alumnos</h1>
+    <h2>Lista de Alumnos</h2>
+    <table>
+        <tr>
+            <th>Rut</th>
+            <th>Nombre</th>
+        </tr>
+        {% for a in alumnos %}
+        <tr>
+            <td>{{ a.0 }}</td>
+            <td>{{ a.2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 
 </html>
