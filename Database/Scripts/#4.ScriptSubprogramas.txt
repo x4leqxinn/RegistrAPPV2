@@ -1,4 +1,87 @@
 
+
+------------------------------------------------------------------------------
+-- FORMATO ZONA HORARIA SANTIAGO CHILE
+------------------------------------------------------------------------------
+
+-- Alteramos el formato fecha de la sesión para que muestre la hora, los minutos y los segundos
+ALTER SESSION SET  NLS_DATE_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
+
+SELECT SYSDATE FROM DUAL;
+
+-- Indicamos la zona horaria America
+ALTER SESSION SET NLS_TERRITORY = "AMERICA";
+
+-- Revisamos la Zona Horaria de America/Santiago
+
+SELECT SYSTIMESTAMP AT TIME ZONE CAST( 'America/Santiago' AS VARCHAR2(80)) FROM DUAL;
+
+
+-- Verificamos los JOBS creados
+SELECT * FROM ALL_SCHEDULER_JOBS;
+
+-- Revisar el log de los JOBS
+SELECT * FROM ALL_SCHEDULER_JOB_RUN_DETAILS;
+
+--------------------------------------------------------------------------------------------------
+-- TERMINARRRR!!!!
+--------------------------------------------------------------------------------------------------
+-------------------------------------------------
+-- TRIGGER LOGS ASISTENCIA
+-------------------------------------------------
+
+CREATE OR REPLACE TRIGGER TRG_ASISTENCIA_LOGS 
+AFTER INSERT OR UPDATE OR DELETE ON ASISTENCIA
+FOR EACH ROW 
+DECLARE
+    v_sentencia VARCHAR2(200);
+BEGIN
+    IF INSERTING THEN
+        DBMS_OUTPUT.put_line('Se insertó una asistencia');
+    ELSIF UPDATING THEN 
+        DBMS_OUTPUT.put_line('Se actualizó una asistencia');
+    ELSIF DELETING THEN
+        DBMS_OUTPUT.put_line('Se eliminó un registro de una tabla');
+    END IF;
+END TRG_ASISTENCIA_LOGS ;
+
+
+--------------------------------------------------------------------------------------------------
+-- TERMINARRRR!!!!
+--------------------------------------------------------------------------------------------------
+-------------------------------------------------
+-- TRIGGER LOGS USUARIO
+-------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_USUARIO_LOGS 
+AFTER INSERT OR UPDATE OR DELETE ON USUARIO
+FOR EACH ROW 
+DECLARE
+    v_sentencia VARCHAR2(200);
+BEGIN
+    IF INSERTING THEN
+        DBMS_OUTPUT.put_line('Se insertó una asistencia');
+    ELSIF UPDATING THEN 
+        DBMS_OUTPUT.put_line('Se actualizó una asistencia');
+    ELSIF DELETING THEN
+        DBMS_OUTPUT.put_line('Se eliminó un registro de una tabla');
+    END IF;
+END TRG_USUARIO_LOGS;
+
+--------------------------------------------------------------------------------------------------
+-- TERMINARRRR!!!! FALTA CREAR LA TABLA AUDITORIA DDL
+--------------------------------------------------------------------------------------------------
+-------------------------------------------------
+-- TRIGGER AUDITORIA DDL 
+-------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDITORIA_DDL 
+AFTER DDL ON SCHEMA
+DECLARE 
+    v_sentenia VARCHAR2(200);
+BEGIN 
+    INSERT INTO AUDITORIA_DDL VALUES (SEQ_AUDITORIA_DDL.nextval, sysdate, SYS_CONTEXT('USERENV','CURRENT_USER'),ora_dict_obj_type, ora_dict_obj_name, ora_sysevent);
+END TRG_AUDITORIA_DDL;
+
+
 -------------------------------------------------
 -- PACKAGE ASISTENCIA
 -------------------------------------------------
@@ -12,26 +95,40 @@ CREATE OR REPLACE PACKAGE  PKG_ASISTENCIA IS
 END PKG_ASISTENCIA;
 
 -------------------------------------------------
+-- PACKAGE ALUMNO
+-------------------------------------------------
+CREATE OR REPLACE PACKAGE  PKG_ALUMNO IS 
+    PROCEDURE SP_LISTAR_ALUMNO(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
+END PKG_ALUMNO;
+
+
+-------------------------------------------------
 -- PACKAGE ERRORES
 -------------------------------------------------
 CREATE OR REPLACE PACKAGE PKG_ERRORES IS 
     reg_errores REGISTRO_ERROR%ROWTYPE;
     v_fecha date DEFAULT sysdate;
     v_hora registro_error.hora%type DEFAULT TO_CHAR(sysdate,'HH24:MI:SS');
-    PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprogrma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type);
+    PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprograma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type);
 END PKG_ERRORES;
+
+
 
 ----------------------------------------------------
 -- PACKAGE BOBY ERRORES
 ----------------------------------------------------
 
 CREATE OR REPLACE PACKAGE BODY PKG_ERRORES IS 
-    PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprogrma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type)
+    PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprograma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type)
     IS
+        v_error VARCHAR2(200);
     BEGIN 
-        INSERT INTO registro_error VALUES (correlativo, p_codigo_error, p_mensaje, p_subprogrma, p_fecha, p_hora);
+        v_error := 'INSERT INTO registro_error VALUES (:correlativo, :p_codigo_error, :p_mensaje, :p_subprograma, :p_fecha, :p_hora)';
+        EXECUTE IMMEDIATE v_error USING correlativo, p_codigo_error, p_mensaje, p_subprograma, p_fecha, p_hora;
     END sp_errores;
 END PKG_ERRORES;
+
+
 ----------------------------------------------------
 -- PACKAGE BOBY ASISTENCIA
 ----------------------------------------------------
@@ -331,10 +428,9 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
 END PKG_ASISTENCIA;
 
 
-CREATE OR REPLACE PACKAGE  PKG_ALUMNO IS 
-    PROCEDURE SP_LISTAR_ALUMNO(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
-END PKG_ALUMNO;
-
+----------------------------------------------------
+-- PACKAGE BOBY ALUMNO
+----------------------------------------------------
 
 CREATE OR REPLACE PACKAGE BODY PKG_ALUMNO IS
     
@@ -395,6 +491,44 @@ CREATE OR REPLACE PACKAGE BODY PKG_ALUMNO IS
 END PKG_ALUMNO;
 
 
+
+
+------------------------------------------------------------------
+
+-- CREAR JOB
+------------------------------------------------------------------
+
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+       JOB_NAME          =>  'Actualizar_fotos_clientes', -- Nombre del JOB 
+       JOB_TYPE            =>  'STORED_PROCEDURE', --  Que ejecuará en este caso un SP
+       JOB_ACTION          =>  'SP_FOTO_CLIENTE', -- Nombre del SP
+       START_DATE          =>  '27-JUL-2021 11:11:00 PM', -- Fecha de Inicio de la ejecución 
+       REPEAT_INTERVAL  =>  'FREQ=MONTHLY', -- Frecuencia de ejecución 
+       ENABLED             =>  TRUE); -- Dejamos el JOB activo
+END;
+
+------------------------------------------------------------------
+
+-- Borrar un JOB 
+------------------------------------------------------------------
+
+BEGIN
+  DBMS_SCHEDULER.DROP_JOB(JOB_NAME => 'Actualizar_fotos_clientes'); 
+END;
+
+
+
+--- EJECUTAR JOB
+EXEC dbms_scheduler.run_job('LIMPIAR_LOGS_LOGIN');
+
+
+
+
+
+
+
+
 -------------------------------------
 -- TEST 
 -------------------------------------
@@ -403,8 +537,20 @@ set SERVEROUTPUT on;
 ---- Probar LISTAR Y BUSCAR
 var cursor_x refcursor
 var v_valida number
-exec pkg_alumno.sp_listar_alumno(:cursor_x, :v_valida);
+exec pkg_asistencia.sp_buscar_asistencia(42,:cursor_x, :v_valida);
 print cursor_x;
 print v_valida;
+
+DECLARE
+    v_valida number;
+BEGIN 
+    PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA(9,v_valida);
+    DBMS_OUTPUT.PUT_LINE('Valida es igual a ' || v_valida);
+END;
+
+
+
+
+
 
 
