@@ -14,7 +14,9 @@ from django.conf import settings
 urlpatterns = [
     # Rutas
     path('', alumnos, name='alumno'),
-    path('alu/',AlumnoView.as_view(), name = "listaAlumnos"),
+    path('alumno/',AlumnoView.as_view(), name = "listaAlumnos"),
+    path('asistencia/',AsistenciaView.as_view(), name = "listaAsistencias"),
+    path('asistencia/<int:id>',AsistenciaView.as_view(), name = "procesoAsistencia"),
     url(r'^apirest/alumno/$',views.AlumnoViewSet.as_view()),
 ]
 
