@@ -31,15 +31,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface', # Personalizar el panel de adminsitración de django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api', #Asignamos nuestra APP en el archivo de configuración del proyecto
+    'api.apps.ApiConfig', #Asignamos nuestra APP en el archivo de configuración del proyecto y además le entrEgamos la Config 
     'rest_framework', # Asignamos en Nuestra APP Django Rest Framework
+    'colorfield', # personalizar thema del panel de administración
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN' # para versiones de django >= 3.0 Admin Interface
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
