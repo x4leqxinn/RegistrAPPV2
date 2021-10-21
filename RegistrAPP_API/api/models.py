@@ -137,6 +137,9 @@ class Persona(models.Model):
     nombre_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='nombre_usuario')
     id_genero = models.ForeignKey(Genero, models.DO_NOTHING, db_column='id_genero')
 
+
+    
+
     class Meta:
         managed = False
         db_table = 'persona'

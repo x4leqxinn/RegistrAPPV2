@@ -134,6 +134,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Creamos una variable MEDIA_URL para indicar la ruta
+#importamos OS
+import os
+
+MEDIA_URL = '/media/' # Nombre de la carpeta
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'media') # su ubicación
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
