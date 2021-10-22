@@ -1,12 +1,13 @@
 -- Generado por Oracle SQL Developer Data Modeler 18.4.0.339.1532
---   en:        2021-10-19 22:28:21 CLST
+--   en:        2021-10-22 00:51:28 CLST
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
 
 
 CREATE TABLE alumno (
-    rut_alumno VARCHAR2(12) NOT NULL
+    rut_alumno   VARCHAR2(12) NOT NULL,
+    id_curso     NUMBER(4) NOT NULL
 );
 
 ALTER TABLE alumno ADD CONSTRAINT alumno_pk PRIMARY KEY ( rut_alumno );
@@ -26,6 +27,18 @@ CREATE TABLE asistencia (
 );
 
 ALTER TABLE asistencia ADD CONSTRAINT asistencia_pk PRIMARY KEY ( id_asistencia );
+
+CREATE TABLE auditoria_ddl (
+    correlativo       NUMBER(4) NOT NULL,
+    usuario           VARCHAR2(30) NOT NULL,
+    objeto_afectado   VARCHAR2(80) NOT NULL,
+    nombre_objeto     VARCHAR2(200) NOT NULL,
+    operacion         VARCHAR2(30) NOT NULL,
+    fecha             DATE NOT NULL,
+    hora              VARCHAR2(10) NOT NULL
+);
+
+ALTER TABLE auditoria_ddl ADD CONSTRAINT auditoria_ddl_pk PRIMARY KEY ( correlativo );
 
 CREATE TABLE clase (
     id_clase        NUMBER(4) NOT NULL,
@@ -54,20 +67,20 @@ CREATE TABLE detalle_asistencia (
 ALTER TABLE detalle_asistencia ADD CONSTRAINT detalle_asistencia_pk PRIMARY KEY ( id_detalle_asist );
 
 CREATE TABLE detalle_clase_alu (
-    id_det_clase_alu   NUMBER(4) NOT NULL,
-    id_clase           NUMBER(4) NOT NULL,
-    rut_alumno         VARCHAR2(12) NOT NULL
+    id_detalle_clase_alu   NUMBER(4) NOT NULL,
+    id_clase               NUMBER(4) NOT NULL,
+    rut_alumno             VARCHAR2(12) NOT NULL
 );
 
-ALTER TABLE detalle_clase_alu ADD CONSTRAINT detalle_clase_alu_pk PRIMARY KEY ( id_det_clase_alu );
+ALTER TABLE detalle_clase_alu ADD CONSTRAINT detalle_clase_alu_pk PRIMARY KEY ( id_detalle_clase_alu );
 
 CREATE TABLE detalle_clase_profe (
-    id_det_clase_profe   NUMBER NOT NULL,
-    id_clase             NUMBER(4) NOT NULL,
-    rut_profesor         VARCHAR2(12) NOT NULL
+    id_detalle_clase_profe   NUMBER NOT NULL,
+    id_clase                 NUMBER(4) NOT NULL,
+    rut_profesor             VARCHAR2(12) NOT NULL
 );
 
-ALTER TABLE detalle_clase_profe ADD CONSTRAINT detalle_clase_profe_pk PRIMARY KEY ( id_det_clase_profe );
+ALTER TABLE detalle_clase_profe ADD CONSTRAINT detalle_clase_profe_pk PRIMARY KEY ( id_detalle_clase_profe );
 
 CREATE TABLE detalle_curso (
     id_detalle_curso   NUMBER(4) NOT NULL,
@@ -136,10 +149,20 @@ CREATE TABLE registro_error (
 
 ALTER TABLE registro_error ADD CONSTRAINT registro_error_pk PRIMARY KEY ( id );
 
+CREATE TABLE registro_logs (
+    correlativo   NUMBER(4) NOT NULL,
+    operacion     VARCHAR2(15) NOT NULL,
+    mensaje       VARCHAR2(100) NOT NULL,
+    fecha         DATE NOT NULL,
+    hora          VARCHAR2(10) NOT NULL
+);
+
+ALTER TABLE registro_logs ADD CONSTRAINT registro_logs_pk PRIMARY KEY ( correlativo );
+
 CREATE TABLE resumen_asistencia (
     id_resumen        NUMBER(5) NOT NULL,
-    rut_alumno        NUMBER(4) NOT NULL,
-    rut_profesor      NUMBER(4) NOT NULL,
+    cod_alumno        NUMBER(4) NOT NULL,
+    cod_profesor      NUMBER(4) NOT NULL,
     profesor          VARCHAR2(150) NOT NULL,
     asignatura        VARCHAR2(40) NOT NULL,
     alumno            VARCHAR2(150) NOT NULL,
@@ -165,6 +188,10 @@ CREATE TABLE usuario (
 ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( nombre_usuario );
 
 ALTER TABLE alumno
+    ADD CONSTRAINT alumno_curso_fk FOREIGN KEY ( id_curso )
+        REFERENCES curso ( id_curso );
+
+ALTER TABLE alumno
     ADD CONSTRAINT alumno_persona_fk FOREIGN KEY ( rut_alumno )
         REFERENCES persona ( rut );
 
@@ -181,7 +208,7 @@ ALTER TABLE detalle_asistencia
         REFERENCES asistencia ( id_asistencia );
 
 ALTER TABLE detalle_asistencia
-    ADD CONSTRAINT det_asistencia_cl_fk FOREIGN KEY ( id_clase )
+    ADD CONSTRAINT det_asistencia_c_fk FOREIGN KEY ( id_clase )
         REFERENCES clase ( id_clase );
 
 ALTER TABLE detalle_clase_alu
@@ -189,11 +216,11 @@ ALTER TABLE detalle_clase_alu
         REFERENCES alumno ( rut_alumno );
 
 ALTER TABLE detalle_clase_alu
-    ADD CONSTRAINT det_clase_alu_cl_fk FOREIGN KEY ( id_clase )
+    ADD CONSTRAINT det_clase_alu_c_fk FOREIGN KEY ( id_clase )
         REFERENCES clase ( id_clase );
 
 ALTER TABLE detalle_clase_profe
-    ADD CONSTRAINT det_clase_profe_cl_fk FOREIGN KEY ( id_clase )
+    ADD CONSTRAINT det_clase_profe_c_fk FOREIGN KEY ( id_clase )
         REFERENCES clase ( id_clase );
 
 ALTER TABLE detalle_clase_profe
@@ -201,11 +228,11 @@ ALTER TABLE detalle_clase_profe
         REFERENCES profesor ( rut_profesor );
 
 ALTER TABLE detalle_curso
-    ADD CONSTRAINT det_curso_cl_fk FOREIGN KEY ( id_clase )
+    ADD CONSTRAINT detalle_curso_clase_fk FOREIGN KEY ( id_clase )
         REFERENCES clase ( id_clase );
 
 ALTER TABLE detalle_curso
-    ADD CONSTRAINT det_curso_cur_fk FOREIGN KEY ( id_curso )
+    ADD CONSTRAINT detalle_curso_curso_fk FOREIGN KEY ( id_curso )
         REFERENCES curso ( id_curso );
 
 ALTER TABLE persona
@@ -221,11 +248,11 @@ ALTER TABLE profesor
         REFERENCES persona ( rut );
 
 ALTER TABLE usuario
-    ADD CONSTRAINT usuario_est_usu_fk FOREIGN KEY ( id_estado )
+    ADD CONSTRAINT usuario_estado_usuario_fk FOREIGN KEY ( id_estado )
         REFERENCES estado_usuario ( id_estado );
 
 ALTER TABLE usuario
-    ADD CONSTRAINT usuario_tp_usu_fk FOREIGN KEY ( id_tipo )
+    ADD CONSTRAINT usuario_tipo_usuario_fk FOREIGN KEY ( id_tipo )
         REFERENCES tipo_usuario ( id_tipo );
 
 CREATE OR REPLACE TRIGGER arc_fkarc_1_profesor BEFORE
@@ -286,9 +313,9 @@ END;
 
 -- Informe de Resumen de Oracle SQL Developer Data Modeler: 
 -- 
--- CREATE TABLE                            18
+-- CREATE TABLE                            20
 -- CREATE INDEX                             1
--- ALTER TABLE                             34
+-- ALTER TABLE                             37
 -- CREATE VIEW                              0
 -- ALTER VIEW                               0
 -- CREATE PACKAGE                           0

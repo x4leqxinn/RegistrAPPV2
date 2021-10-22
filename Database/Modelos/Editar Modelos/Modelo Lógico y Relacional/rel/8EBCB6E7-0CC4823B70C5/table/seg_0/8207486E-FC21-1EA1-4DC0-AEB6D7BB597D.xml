@@ -1,0 +1,91 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="8207486E-FC21-1EA1-4DC0-AEB6D7BB597D" name="DETALLE_CLASE_PROFE">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>D8841F54-3B5F-AB1C-2E91-9E6E4C83AEC5</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_detalle_clase_profe" id="555256B2-9675-06C2-F04B-D29F1AA04F6F">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>CF3E0457-BB11-8AD9-FA7A-E907BB03BE2C</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_clase" id="2926FBA6-5CB1-050D-22BB-7AC543E30675">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>11C35277-1D9C-C21F-E8A3-4D89BDAADB02</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D67F15CE-86BD-6C74-9524-E6FFE09F57A8" referredColumn="E9FE68A1-D7A1-B166-06C6-304DB72262EF"/>
+</associations>
+</Column>
+<Column name="rut_profesor" id="C1A977E4-8DC8-80F0-2B86-D7B2A0A52C3D">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>6E9D507B-9C91-8BB7-92FC-09C05459A124</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F986BDF0-D691-2A86-BCE6-6F11DB39FD9F" referredColumn="519082DA-EF02-B630-7581-9FD99AF37807"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3D97E0F5-0337-ED97-332D-99FCB16F192F" name="DETALLE_CLASE_PROFE_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>E1E50AF2-2E13-1035-1332-ED3F38183DE3</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="555256B2-9675-06C2-F04B-D29F1AA04F6F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8358D47D-F331-465C-392F-C5220B41399D" name="DET_CLASE_PROFE_C_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>EF960E4C-4312-67B3-E140-DF6D099FDD4B</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2926FBA6-5CB1-050D-22BB-7AC543E30675"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E953F8A0-81B4-55CE-CBDB-FEF95016B5F5" name="DET_CLASE_PROFE_PROFE_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>1138F0D8-51A8-EC95-CC6C-16AFF762D456</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C1A977E4-8DC8-80F0-2B86-D7B2A0A52C3D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

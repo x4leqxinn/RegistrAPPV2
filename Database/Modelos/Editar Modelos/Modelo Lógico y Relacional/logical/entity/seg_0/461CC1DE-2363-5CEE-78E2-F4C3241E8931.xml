@@ -1,0 +1,86 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="461CC1DE-2363-5CEE-78E2-F4C3241E8931" name="ASISTENCIA">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:35:27 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_asistencia" id="0A3233C8-E567-1ACB-515E-E870282DC90A">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:48:31 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha" id="43C93CDE-BDE2-2454-B852-38F39088CFBC">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 02:12:39 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="hora" id="6C27C6D1-DC2A-3076-492A-8D7EC642D368">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 02:13:00 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>8</dataTypeSize>
+<ownDataTypeParameters>8,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_estado" id="1B399B47-8F82-C916-D2AA-55AAFDFC8997">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 03:03:55 UTC</createdTime>
+<generatorID>5BE3FA4E-952C-A118-54AC-D58C9EE3EEA2</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<referedAttribute>3AA940BF-6E53-C6FE-9776-72384299646E</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="AD4E8030-0ECC-6E25-79AB-1CD32E256924" name="ASISTENCIA PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 02:12:36 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>0A3233C8-E567-1ACB-515E-E870282DC90A</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

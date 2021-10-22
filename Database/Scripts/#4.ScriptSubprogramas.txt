@@ -23,64 +23,75 @@ SELECT * FROM ALL_SCHEDULER_JOBS;
 -- Revisar el log de los JOBS
 SELECT * FROM ALL_SCHEDULER_JOB_RUN_DETAILS;
 
---------------------------------------------------------------------------------------------------
--- TERMINARRRR!!!!
---------------------------------------------------------------------------------------------------
 -------------------------------------------------
 -- TRIGGER LOGS ASISTENCIA
 -------------------------------------------------
 
-CREATE OR REPLACE TRIGGER TRG_ASISTENCIA_LOGS 
-AFTER INSERT OR UPDATE OR DELETE ON ASISTENCIA
-FOR EACH ROW 
-DECLARE
-    v_sentencia VARCHAR2(200);
-BEGIN
-    IF INSERTING THEN
-        DBMS_OUTPUT.put_line('Se insertó una asistencia');
-    ELSIF UPDATING THEN 
-        DBMS_OUTPUT.put_line('Se actualizó una asistencia');
-    ELSIF DELETING THEN
-        DBMS_OUTPUT.put_line('Se eliminó un registro de una tabla');
-    END IF;
-END TRG_ASISTENCIA_LOGS ;
-
-
---------------------------------------------------------------------------------------------------
--- TERMINARRRR!!!!
---------------------------------------------------------------------------------------------------
--------------------------------------------------
--- TRIGGER LOGS USUARIO
--------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_USUARIO_LOGS 
+create or replace TRIGGER TRG_USUARIO_LOGS 
 AFTER INSERT OR UPDATE OR DELETE ON USUARIO
 FOR EACH ROW 
 DECLARE
     v_sentencia VARCHAR2(200);
+    reg_logs REGISTRO_LOGS%ROWTYPE;
 BEGIN
+        reg_logs.fecha := sysdate;
+        reg_logs.hora :=  TO_CHAR(sysdate,('HH24:MI:SS'));
     IF INSERTING THEN
-        DBMS_OUTPUT.put_line('Se insertó una asistencia');
+        reg_logs.correlativo := SEQ_LOGS.nextval;
+        reg_logs.operacion := 'INSERT';
+        reg_logs.mensaje := 'Se insertó un registro en la tabla Usuario con el nombre de  ' || :NEW.NOMBRE_USUARIO;
+        INSERT INTO registro_logs VALUES reg_logs;
     ELSIF UPDATING THEN 
-        DBMS_OUTPUT.put_line('Se actualizó una asistencia');
+        reg_logs.correlativo := SEQ_LOGS.nextval;
+        reg_logs.operacion := 'UPDATE';
+        reg_logs.mensaje := 'Se actualizó el usuario ' || :NEW.NOMBRE_USUARIO || ' de la tabla de Usuario.';
+        INSERT INTO registro_logs VALUES reg_logs;
     ELSIF DELETING THEN
-        DBMS_OUTPUT.put_line('Se eliminó un registro de una tabla');
+        reg_logs.correlativo := SEQ_LOGS.nextval;
+        reg_logs.operacion := 'DELETE';
+        reg_logs.mensaje := 'Se eliminó el usuario ' || :OLD.NOMBRE_USUARIO  || ' de la tabla de Usuario.';
+        INSERT INTO registro_logs VALUES reg_logs;
     END IF;
 END TRG_USUARIO_LOGS;
 
---------------------------------------------------------------------------------------------------
--- TERMINARRRR!!!! FALTA CREAR LA TABLA AUDITORIA DDL
---------------------------------------------------------------------------------------------------
+-------------------------------------------------
+-- TRIGGER LOGS USUARIO
+-------------------------------------------------
+create or replace TRIGGER TRG_USUARIO_LOGS 
+AFTER INSERT OR UPDATE OR DELETE ON USUARIO
+FOR EACH ROW 
+DECLARE
+    v_sentencia VARCHAR2(200);
+    reg_logs REGISTRO_LOGS%ROWTYPE;
+BEGIN
+        reg_logs.fecha := sysdate;
+        reg_logs.hora :=  TO_CHAR(sysdate,('HH24:MI:SS'));
+    IF INSERTING THEN
+        reg_logs.correlativo := SEQ_LOGS.nextval;
+        reg_logs.operacion := 'INSERT';
+        reg_logs.mensaje := 'Se insertó un registro en la tabla Usuario con el nombre de  ' || :NEW.NOMBRE_USUARIO;
+        INSERT INTO registro_logs VALUES reg_logs;
+    ELSIF UPDATING THEN 
+        reg_logs.correlativo := SEQ_LOGS.nextval;
+        reg_logs.operacion := 'UPDATE';
+        reg_logs.mensaje := 'Se actualizó el usuario ' || :NEW.NOMBRE_USUARIO || ' de la tabla de Usuario.';
+        INSERT INTO registro_logs VALUES reg_logs;
+    ELSIF DELETING THEN
+        reg_logs.correlativo := SEQ_LOGS.nextval;
+        reg_logs.operacion := 'DELETE';
+        reg_logs.mensaje := 'Se eliminó el usuario ' || :OLD.NOMBRE_USUARIO  || ' de la tabla de Usuario.';
+        INSERT INTO registro_logs VALUES reg_logs;
+    END IF;
+END TRG_USUARIO_LOGS;
 -------------------------------------------------
 -- TRIGGER AUDITORIA DDL 
 -------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_AUDITORIA_DDL 
+create or replace NONEDITIONABLE TRIGGER TRG_AUDITORIA_DDL 
 AFTER DDL ON SCHEMA
 DECLARE 
-    v_sentenia VARCHAR2(200);
 BEGIN 
-    INSERT INTO AUDITORIA_DDL VALUES (SEQ_AUDITORIA_DDL.nextval, sysdate, SYS_CONTEXT('USERENV','CURRENT_USER'),ora_dict_obj_type, ora_dict_obj_name, ora_sysevent);
+    INSERT INTO AUDITORIA_DDL VALUES (SEQ_AUDITORIA_DDL.nextval, SYS_CONTEXT('USERENV','CURRENT_USER'),ora_dict_obj_type, ora_dict_obj_name, ora_sysevent,sysdate,TO_CHAR(sysdate,('HH24:MI:SS')));
 END TRG_AUDITORIA_DDL;
-
 
 -------------------------------------------------
 -- PACKAGE ASISTENCIA

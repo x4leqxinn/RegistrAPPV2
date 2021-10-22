@@ -1,0 +1,188 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="900FB1DA-550E-1F24-7857-613DAE8633C3" name="PERSONA">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>9E701B94-05CB-B5A7-E767-77E692CE2107</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="rut" id="47FFDB86-FFC8-8F50-8FFB-986EF2FCF6D9">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>12,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dv" id="5C907BFF-0740-B048-CA4F-F5632C4A7646">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>0FE9CE59-5612-807B-9B75-84C6827C8CDB</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre" id="C6A25F81-DA05-3CC7-CC2E-9BD2CCD91C27">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>23EE8D27-A243-1689-3DE2-7BA1876AC9ED</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_s" id="74B270A7-2D0F-2173-EBA5-354B3C183668">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>FCB08D2F-8C42-4D67-41F3-1A1B3341CFAF</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_t" id="983E0EAF-4C31-AFB7-28FC-355E2232DD98">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>E32B6D1B-8F0D-965C-DA88-51176A259BB9</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="apellido_p" id="ADDA2F00-6A1E-C953-F2DF-30B0EB8A744B">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>ABEC8584-BA2D-15EE-0FC5-9558CE744624</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="apellido_m" id="3115CD35-12E7-D767-EF02-0C60C5797444">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>5BDC6589-491E-A084-5BAE-6DB4F4B8E215</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="05C993D4-562E-8493-4866-355FE097AB55">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>C942A4D0-2D79-CB1C-DB88-F18292D39DC0</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_usuario" id="59539D37-65B8-AEB2-F9B3-8A14D82BA12B">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>A4A8F9FC-3A5E-BFD5-9161-380B73768F19</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6B387D57-137B-D404-AF4E-6BC5C9FD9F74" referredColumn="86910A80-2ABE-C4EF-4B3F-EC64BDBB4A4C"/>
+</associations>
+</Column>
+<Column name="id_genero" id="3CE8532D-3BA7-AE92-63B6-D0A3938A32D7">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>0056235B-0A22-F62C-1B5F-511D305F91BB</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B9F4CBB7-6507-C21E-3497-5A2B1512D3DB" referredColumn="5125CA36-48C9-7EF0-B029-BFFF4E964C5B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C7D7D15A-B15C-F94B-64B7-D2F43694758A" name="PERSONA_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>B6C083E7-954A-B4F8-B808-E7DAAADF6684</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="47FFDB86-FFC8-8F50-8FFB-986EF2FCF6D9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="62872564-6971-B560-4E18-D0AB14847D68" name="PERSONA__IDX">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>2FF6182E-EEAA-CAF0-1022-795048F4A61E</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="59539D37-65B8-AEB2-F9B3-8A14D82BA12B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A6030256-23FF-0425-BA47-49321D5ED3D3" name="PERSONA_GENERO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>1F3000F9-8CA1-0441-8825-6A7C49672E80</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3CE8532D-3BA7-AE92-63B6-D0A3938A32D7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D20AF9EF-5324-98BE-5FBD-9F69193DA020" name="PERSONA_USUARIO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>2FF6182E-EEAA-CAF0-1022-795048F4A61E</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="59539D37-65B8-AEB2-F9B3-8A14D82BA12B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

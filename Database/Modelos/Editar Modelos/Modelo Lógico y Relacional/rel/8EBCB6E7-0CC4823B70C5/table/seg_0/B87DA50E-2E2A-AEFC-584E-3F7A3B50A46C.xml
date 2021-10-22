@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B87DA50E-2E2A-AEFC-584E-3F7A3B50A46C" name="ALUMNO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>68B6D59F-3499-C946-85F3-6A6C49C81CD8</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="rut_alumno" id="88257C47-EF70-D819-D97C-217149B46A0E">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3B61954F-24B8-5C13-1E6C-6E81C0B77DA6" referredColumn="47FFDB86-FFC8-8F50-8FFB-986EF2FCF6D9"/>
+</associations>
+</Column>
+<Column name="id_curso" id="E4041C2D-C2B0-09C2-D641-EA0ED4495208">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>93C6363D-35AB-648B-EEE4-19F621C1755E</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5A968815-40E8-EE44-59DB-C9D4279DFE6E" referredColumn="32C21345-653E-BA05-1569-48B8652C6AA6"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FEC12AAC-7A16-9002-AAEE-0AFE7B891AB9" name="ALUMNO_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>B6C083E7-954A-B4F8-B808-E7DAAADF6684</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="88257C47-EF70-D819-D97C-217149B46A0E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="03B6B8AF-06FF-53B4-37F3-834FB13FF10F" name="ALUMNO_PERSONA_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>A719B625-FFB9-7E7F-7E0B-3524BCA52902</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="88257C47-EF70-D819-D97C-217149B46A0E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="50F78C22-6D69-9D04-4C8B-D70F36F44D6B" name="ALUMNO_CURSO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>41DC0BA7-05D0-F042-FCD2-CC7A3FF8395A</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E4041C2D-C2B0-09C2-D641-EA0ED4495208"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

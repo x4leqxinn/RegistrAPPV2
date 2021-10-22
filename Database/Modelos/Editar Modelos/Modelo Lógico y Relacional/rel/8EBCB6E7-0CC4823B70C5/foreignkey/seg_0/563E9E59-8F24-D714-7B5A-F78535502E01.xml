@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="563E9E59-8F24-D714-7B5A-F78535502E01" containerWithKeyObject="FFCE99E3-2371-4296-F088-63998E22A249" localFKIndex="C112A8A1-A937-B584-ED55-2426FC1A98E6" name="DET_ASISTENCIA_ASIST_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>A7A11A23-F8B8-2868-E846-DD911AB34888</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<referredTableLongName>ASISTENCIA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>486BCAAF-9DBF-E1D7-B5AE-3EA66AA0F201</referredTableID>
+<keyObject>FDD2E735-23FC-DEF5-648E-4CB27375FAB3</keyObject>
+<referredKeyID>FDD2E735-23FC-DEF5-648E-4CB27375FAB3</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_asistencia</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CA678DF1-1591-4FD1-FEC5-02DE8F3422DD" name="CURSO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:35:34 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_curso" id="15C69D00-5FB9-EB4A-6CEF-639E31C47281">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 02:13:33 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="descripcion" id="C125B082-73D0-484C-DA49-C880BE2A91E5">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 02:14:11 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="48A7D62A-09F1-D60C-F745-64CF8668A7DB" name="CURSO PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 02:14:07 UTC</createdTime>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<engineerTo>
+<item key="8EBCB6E7-DA31-A3B8-07C9-0CC4823B70C5" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>15C69D00-5FB9-EB4A-6CEF-639E31C47281</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

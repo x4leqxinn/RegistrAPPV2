@@ -105,9 +105,9 @@ INSERT INTO PERSONA VALUES ('12647021','5','FREDDY','MAURICIO', null , 'CAMPOS',
 -----------------------------------------------------
 -- ALUMNO
 -----------------------------------------------------
-insert INTO ALUMNO VALUES ('20281676');
-insert INTO ALUMNO VALUES ('19317764');
-insert INTO ALUMNO VALUES ('19708456');
+insert INTO ALUMNO VALUES ('20281676',10);
+insert INTO ALUMNO VALUES ('19317764',10);
+insert INTO ALUMNO VALUES ('19708456',10);
 -----------------------------------------------------
 -- PROFESOR
 -----------------------------------------------------

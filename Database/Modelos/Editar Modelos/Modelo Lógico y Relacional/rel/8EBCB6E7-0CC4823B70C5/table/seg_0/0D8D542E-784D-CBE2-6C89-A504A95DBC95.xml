@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0D8D542E-784D-CBE2-6C89-A504A95DBC95" name="CURSO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>CA678DF1-1591-4FD1-FEC5-02DE8F3422DD</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_curso" id="32C21345-653E-BA05-1569-48B8652C6AA6">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>15C69D00-5FB9-EB4A-6CEF-639E31C47281</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descripcion" id="E145F7CD-EDA8-3FDF-7337-063E93716F82">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>C125B082-73D0-484C-DA49-C880BE2A91E5</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FF3FAB0C-4057-4B53-490B-E800FA4AD356" name="CURSO_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 02:58:54 UTC</createdTime>
+<generatorID>48A7D62A-09F1-D60C-F745-64CF8668A7DB</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="32C21345-653E-BA05-1569-48B8652C6AA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
