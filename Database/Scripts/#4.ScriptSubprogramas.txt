@@ -1,7 +1,28 @@
 
+------------------------------------------------------------------------------
+-- TRIGGER LOGIN SESSION 
+------------------------------------------------------------------------------
 
+-- Se dispara al ingresar a la BDD
+
+CREATE OR REPLACE TRIGGER TRG_LOGIN_SESSION
+AFTER LOGON ON DATABASE
+BEGIN
 ------------------------------------------------------------------------------
 -- FORMATO ZONA HORARIA SANTIAGO CHILE
+------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''YYYY-MM-DD''';
+    -- Indicamos el lenguaje
+    execute immediate 'ALTER SESSION SET  NLS_DATE_LANGUAGE=''SPANISH''';
+    -- Indicamos la zona horaria America
+    execute immediate 'ALTER SESSION SET NLS_TERRITORY = "AMERICA"';
+END TRG_LOGIN_SESSION;
+
+
+
+
+------------------------------------------------------------------------------
+-- FORMATO ZONA HORARIA 
 ------------------------------------------------------------------------------
 
 -- Alteramos el formato fecha de la sesión para que muestre la hora, los minutos y los segundos
@@ -10,17 +31,15 @@ ALTER SESSION SET  NLS_DATE_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
 -- Indicamos el lenguaje
 ALTER SESSION SET  NLS_DATE_LANGUAGE='SPANISH';
 
-SELECT SYSDATE FROM DUAL;
-
 -- Indicamos la zona horaria America
 ALTER SESSION SET NLS_TERRITORY = "AMERICA";
 
-
+SELECT * FROM NLS_SESSION_PARAMETERS;
 
 -- Revisamos la Zona Horaria de America/Santiago
-
 SELECT SYSTIMESTAMP AT TIME ZONE CAST( 'America/Santiago' AS VARCHAR2(80)) FROM DUAL;
 
+SELECT SYSDATE FROM DUAL;
 
 -- Verificamos los JOBS creados
 SELECT * FROM ALL_SCHEDULER_JOBS;
@@ -124,6 +143,29 @@ BEGIN
         END IF;
 END TRG_HORARIO_LABORAL;
 
+
+-------------------------------------------------
+-- FUNCIÓN ALMACENADA TRUNCA TABLAS 
+-------------------------------------------------
+CREATE OR REPLACE FUNCTION FN_TRUNCAR_TABLA (p_nombre_tabla IN VARCHAR2) RETURN  NUMBER is
+    v_valida NUMBER DEFAULT 0;
+BEGIN
+    EXECUTE IMMEDIATE 'TRUNCATE TABLE '||p_nombre_tabla;  
+    v_valida:=1;
+    COMMIT;
+    RETURN v_valida;
+EXCEPTION 
+    WHEN OTHERS THEN
+        PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+        PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+        PKG_ERRORES.reg_errores.mensaje_error := 'La tabla con el nombre '||p_nombre_tabla||' no existe.';
+        PKG_ERRORES.reg_errores.SUBPROGRAMA := 'FN_TRUNCAR_TABLA';
+        PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+        PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+        PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        return v_valida;
+END;
+
 -------------------------------------------------
 -- PACKAGE ASISTENCIA
 -------------------------------------------------
@@ -175,6 +217,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ERRORES IS
     BEGIN 
         v_error := 'INSERT INTO registro_error VALUES (:correlativo, :p_codigo_error, :p_mensaje, :p_subprograma, :p_fecha, :p_hora)';
         EXECUTE IMMEDIATE v_error USING correlativo, p_codigo_error, p_mensaje, p_subprograma, p_fecha, p_hora;
+        COMMIT;
     END sp_errores;
 END PKG_ERRORES;
 
@@ -344,7 +387,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
     PROCEDURE SP_BUSCAR_ASISTENCIA(asistenciaID IN asistencia.id_asistencia%type, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER) IS
         v_cantidad NUMBER default 0;
     BEGIN 
-            valida := 0;
+        valida := 0;
         SELECT COUNT(*) INTO v_cantidad FROM asistencia where id_asistencia = asistenciaID;
         IF v_cantidad > 0 THEN 
             OPEN entidad FOR SELECT a.id_asistencia,asig.descripcion, c.fecha, c.hora_inicio, c.hora_termino,e.descripcion, a.fecha,a.hora,alu.rut,  
@@ -414,22 +457,26 @@ CREATE OR REPLACE PACKAGE BODY PKG_ASISTENCIA IS
         valida := 0;
         SELECT COUNT(*) INTO v_cantidad FROM asistencia;
         IF v_cantidad > 0 THEN 
-        OPEN lista FOR SELECT a.id_asistencia,asig.descripcion, c.fecha, c.hora_inicio, c.hora_termino,e.descripcion, a.fecha,a.hora,alu.rut,  
-                                                        alu.nombre || ' '|| alu.nombre_s ||' '|| alu.nombre_t ||' '|| alu.apellido_p||' '|| alu.apellido_m as nombre
-                                                        FROM ASISTENCIA a
-                                                        INNER JOIN DETALLE_ASISTENCIA det_a
-                                                        ON a.id_asistencia = det_a.id_asistencia
-                                                        INNER JOIN CLASE c
-                                                        ON det_a.id_clase = c.id_clase
-                                                        INNER JOIN detalle_CLASE_ALU det_c
-                                                        ON c.id_clase = det_c.id_clase
-                                                        INNER JOIN PERSONA alu
-                                                        ON det_c.rut_alumno = alu.rut
-                                                        INNER JOIN ASIGNATURA asig
-                                                        ON c.id_asignatura = asig.id_asignatura
-                                                        INNER JOIN ESTADO_ASISTENCIA e
-                                                        ON a.id_estado = e.id_estado
-                                                        order by asig.descripcion asc, c.fecha asc;
+        OPEN lista FOR SELECT  a.id_asistencia,asig.descripcion, c.fecha, c.hora_inicio, c.hora_termino,e.descripcion, a.fecha,a.hora,pe.rut, 
+                                                pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m as nombre , cur.descripcion
+                                                FROM ASISTENCIA a
+                                                INNER JOIN DETALLE_ASISTENCIA det_a
+                                                ON a.id_asistencia = det_a.id_asistencia
+                                                INNER JOIN CLASE c
+                                                ON det_a.id_clase = c.id_clase
+                                                INNER JOIN DETALLE_CURSO det_c
+                                                ON det_c.id_clase = c.id_clase
+                                                INNER JOIN CURSO cur
+                                                ON cur.id_curso = det_c.id_curso
+                                                INNER JOIN alumno alu
+                                                ON cur.id_curso = alu.id_curso
+                                                INNER JOIN PERSONA pe
+                                                ON alu.rut_alumno = pe.rut
+                                                INNER JOIN ASIGNATURA asig
+                                                ON c.id_asignatura = asig.id_asignatura
+                                                INNER JOIN ESTADO_ASISTENCIA e
+                                                ON a.id_estado = e.id_estado
+                                                order by asig.descripcion asc, c.fecha asc;
         valida := 1;
         END IF;
     EXCEPTION
@@ -603,7 +650,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_USUARIO IS
     BEGIN 
         p_valida := 0;
         select nombre_usuario into v_registro
-        from persona where email = 'jorgealequinn@gmail.com';
+        from persona where email = p_correo;
         UPDATE USUARIO SET contrasenia = p_nueva_pass WHERE nombre_usuario = v_registro;
         IF sql%rowcount > 0 THEN
             p_valida := 1;
@@ -711,16 +758,127 @@ END;
 -- PROCEDURE LEER QR QUE BUSQUE EL CÓDIGO QR GENERADO e INSERTE LA ASISTENCIA AL LEERLO
 
 
+-------------------------------------------------
+-- PACKAGE CODIGO QR
+-------------------------------------------------
 
-insert into detalle_clase_alu VALUES (SEQ_DETALLE_CLASE_ALU.nextval, );
+CREATE OR REPLACE PACKAGE PKG_CODIGO_QR IS
+    -- Procedure que hace un UPDATE en la tabla CLASE
+    PROCEDURE SP_GENERAR_CODIGO(claseID IN CLASE.id_clase%TYPE, p_qr IN CLASE.CODIGO_QR%TYPE, p_valida OUT NUMBER);
+    -- Procedure que verifica si el código QR leído coincide con el código generado por el profesor 
+    PROCEDURE SP_ESCANEAR_CODIGO(claseID IN CLASE.id_clase%TYPE, p_qr IN CLASE.CODIGO_QR%TYPE, p_valida OUT NUMBER);
+END PKG_CODIGO_QR;
 
--- TODAS LAS QUE QUIERA
 
--- DETALLE CLASE ALU PARA VINCULAR TODAS LAS CLASES CON EL ALUMNO
+CREATE OR REPLACE PACKAGE BODY PKG_CODIGO_QR IS
+    PROCEDURE SP_GENERAR_CODIGO(claseID IN CLASE.id_clase%TYPE, p_qr IN CLASE.CODIGO_QR%TYPE, p_valida OUT NUMBER) IS
+    BEGIN 
+        p_valida := 0;
+        UPDATE CLASE SET codigo_qr = p_qr WHERE id_clase = claseid;
+        IF sql%rowcount > 0 THEN
+            p_valida := 1;
+        END IF;
+        COMMIT;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.PKG_CODIGO_QR';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.PKG_CODIGO_QR';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.PKG_CODIGO_QR';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.PKG_CODIGO_QR';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.PKG_CODIGO_QR';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+
+    END SP_GENERAR_CODIGO;
+    
+    PROCEDURE SP_ESCANEAR_CODIGO(claseID IN CLASE.id_clase%TYPE, p_qr IN CLASE.CODIGO_QR%TYPE, p_valida OUT NUMBER) IS
+        v_codigo CLASE.CODIGO_QR%TYPE;
+    BEGIN 
+            p_valida := 0;
+            SELECT codigo_qr INTO v_codigo
+            FROM CLASE WHERE id_clase = claseid;
+        IF v_codigo = p_qr THEN 
+            p_valida := 1;
+        END IF;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.SP_ESCANEAR_CODIGO';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.SP_ESCANEAR_CODIGO';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.SP_ESCANEAR_CODIGO';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.SP_ESCANEAR_CODIGO';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_CODIGO_QR.SP_ESCANEAR_CODIGO';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+
+    END SP_ESCANEAR_CODIGO;
+    
+END PKG_CODIGO_QR;
 
 -- DETALLE ASISTENCIA Y ASISTENCIA PARA PODER REGISTRAR UNA ASISTENCIA Y ASOCIARLA A UN ALUMNO
-
-
 
 
 
