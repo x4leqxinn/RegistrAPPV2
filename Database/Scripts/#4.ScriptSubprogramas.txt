@@ -123,6 +123,14 @@ CREATE OR REPLACE PACKAGE PKG_ERRORES IS
     PROCEDURE sp_errores(correlativo IN registro_error.id%type, p_codigo_error IN registro_error.codigo_error%type, p_mensaje IN REGISTRO_ERROR.MENSAJE_ERROR%TYPE, p_subprograma registro_error.subprograma%type, p_fecha  IN registro_error.fecha%type, p_hora IN registro_error.hora%type);
 END PKG_ERRORES;
 
+-------------------------------------------------
+-- PACKAGE USUARIO
+-------------------------------------------------
+
+CREATE OR REPLACE PACKAGE PKG_USUARIO IS 
+    PROCEDURE SP_LOGIN(p_usuario IN USUARIO.nombre_usuario%type, p_contrasenia IN USUARIO.contrasenia%type, p_tipo_usuario OUT NUMBER, p_nombre OUT persona.nombre%type);
+    PROCEDURE SP_CAMBIAR_CONTRASENIA(p_correo IN  persona.email%type, p_nueva_pass IN USUARIO.contrasenia%type, p_valida OUT NUMBER );
+END PKG_USUARIO;
 
 
 ----------------------------------------------------
@@ -501,7 +509,118 @@ CREATE OR REPLACE PACKAGE BODY PKG_ALUMNO IS
     
 END PKG_ALUMNO;
 
-
+-------------------------------------------------
+-- PACKAGE BODY USUARIO
+-------------------------------------------------
+CREATE OR REPLACE PACKAGE BODY PKG_USUARIO IS
+    PROCEDURE SP_LOGIN(p_usuario IN USUARIO.nombre_usuario%type, p_contrasenia IN USUARIO.contrasenia%type, p_tipo_usuario OUT NUMBER, p_nombre OUT persona.nombre%type) IS
+    BEGIN 
+        p_tipo_usuario := 0;
+        p_nombre := '';
+        SELECT p.nombre, u.id_tipo into p_nombre, p_tipo_usuario
+        FROM USUARIO u
+        INNER JOIN PERSONA p
+        ON u.nombre_usuario = p.nombre_usuario
+        where u.nombre_usuario = p_usuario AND 
+        u.contrasenia = p_contrasenia 
+        and u.id_estado = 1;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_LOGIN';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_LOGIN';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_LOGIN';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_LOGIN';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_LOGIN';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+    END SP_LOGIN;
+    
+    PROCEDURE SP_CAMBIAR_CONTRASENIA(p_correo IN  persona.email%type, p_nueva_pass IN USUARIO.contrasenia%type, p_valida OUT NUMBER ) IS
+        v_registro PERSONA.rut%type;
+    BEGIN 
+        p_valida := 0;
+        select nombre_usuario into v_registro
+        from persona where email = p_correo;
+        UPDATE USUARIO SET contrasenia = p_nueva_pass WHERE nombre_usuario = v_registro;
+        IF sql%rowcount > 0 THEN
+            p_valida := 1;
+        END IF;
+        COMMIT;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_CAMBIAR_CONTRASENIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN invalid_number THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_CAMBIAR_CONTRASENIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN no_data_found THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'No se encuentran datos.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_CAMBIAR_CONTRASENIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN zero_divide THEN
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_CAMBIAR_CONTRASENIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+        WHEN OTHERS THEN 
+            PKG_ERRORES.reg_errores.id := seq_errores.NEXTVAL;
+            PKG_ERRORES.reg_errores.codigo_error := SQLCODE;
+            PKG_ERRORES.reg_errores.mensaje_error := sqlerrm;
+            PKG_ERRORES.reg_errores.SUBPROGRAMA := 'PKG_USUARIO.SP_CAMBIAR_CONTRASENIA';
+            PKG_ERRORES.reg_errores.FECHA := PKG_ERRORES.v_fecha;
+            PKG_ERRORES.reg_errores.HORA := PKG_ERRORES.v_hora;
+            PKG_ERRORES.sp_errores (PKG_ERRORES.reg_errores.id , PKG_ERRORES.reg_errores.codigo_error, PKG_ERRORES.reg_errores.mensaje_error, PKG_ERRORES.reg_errores.SUBPROGRAMA, PKG_ERRORES.reg_errores.FECHA, PKG_ERRORES.reg_errores.HORA);
+    END SP_CAMBIAR_CONTRASENIA;
+END PKG_USUARIO;
 
 
 ------------------------------------------------------------------
