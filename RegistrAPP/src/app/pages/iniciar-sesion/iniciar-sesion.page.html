@@ -1,0 +1,130 @@
+<ion-app [fullscreen]="true" >
+
+  <ion-header class="contenedor-header">
+    <ion-toolbar class="toolbar-primaria">
+      <ion-title class="toolbar-primaria__titulo">Iniciar sesión</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="img-background">
+    <!--
+      <div class="background-transparencia"></div>
+      <img class="img-background" src="../../../assets/img/Backgrounds/Login.png" alt="Imagen de fondo login">
+  -->
+    <div class="contenedor">
+
+      <div class="contenedor-header">
+        <h1 class="contenedor-header__titulo fuente-titulo">RegistrAPP</h1>
+        <img class="contenedor-header__logo" src="../../../assets/img/Logos/Logo.png" alt="Logo High School">
+      </div>
+
+      <!-- Se guarde al enviar mediante submit-->
+      <form class="formulario-login" action="#" method="POST" [formGroup]="loginForm"
+        (ngSubmit)="validarIngreso(loginForm.value)">
+        <!-- Etiqueta Flotante -->
+        <!-- inputs de formulario -->
+        <ion-item lines="none" class="formulario-login__item">
+          <ion-input class="formulario-login__input" placeholder="Usuario" formControlName="username">
+            <ion-icon class="formulario-login__icon" *ngIf="username.invalid && (username.dirty || username.touched)"
+              color="danger" size="small" name="warning"></ion-icon>
+            <ion-icon class="formulario-login__icon" *ngIf="username.valid" color="secondary" size="small"
+              name="checkmark-circle"></ion-icon>
+          </ion-input>
+        </ion-item>
+
+        <!-- Alerta Mensaje Error -->
+        <!-- Se activa si la pass es inválida y si no haces nada o ensucias la text box-->
+        <div class="alerta-error" *ngIf="username.invalid && (username.dirty || username.touched)">
+
+          <div class="mensaje-error" *ngIf="username.errors.required">
+            El nombre de usuario es requerido.*
+          </div>
+
+          <div class="mensaje-error" *ngIf="username.errors.minlength">
+            El nombre de usuario debe tener al menos 5 carácteres.*
+          </div>
+
+          <div class="mensaje-error" *ngIf="username.errors.maxlength">
+            El nombre de usuario no debe superar los 10 carácteres.*
+          </div>
+
+          <div class="mensaje-error" *ngIf="username.errors.pattern">
+            Nombre de usuario inválido.*
+          </div>
+
+        </div>
+
+        <ion-item lines="none" class="formulario-login__item">
+          <ion-input class="formulario-login__input" type="password" placeholder="Contraseña"
+            formControlName="password">
+            <ion-icon class="formulario-login__icon" *ngIf="password.invalid && (password.dirty || password.touched)"
+              color="danger" size="small" name="warning"></ion-icon>
+            <ion-icon class="formulario-login__icon" *ngIf="password.valid" color="secondary" size="small"
+              name="checkmark-circle"></ion-icon>
+          </ion-input>
+        </ion-item>
+
+        <!-- Alerta Mensaje Error -->
+        <!-- Se activa si la pass es inválida y si no haces nada o ensucias la text box-->
+        <div class="alerta-error" *ngIf="password.invalid && (password.dirty || password.touched)">
+
+          <div class="mensaje-error" *ngIf="password.errors.required">
+            La contraseña es requerida.*
+          </div>
+
+          <div class="mensaje-error" *ngIf="password.errors.minlength">
+            La contraseña debe tener al menos 8 carácteres.*
+          </div>
+
+          <div class="mensaje-error" *ngIf="password.errors.maxlength">
+            La contraseña no debe superar los 20 carácteres.*
+          </div>
+
+          <div class="mensaje-error" *ngIf="password.errors.pattern">
+            Contraseña inválida.*
+          </div>
+
+        </div>
+
+        <div class="linea-blanca"></div>
+        <!-- Botones de formulario -->
+        <ion-button class="boton-primario" icon-left type="submit" [disabled]="!loginForm.valid">
+          <!---->
+          Ingresar
+        </ion-button>
+      </form>
+
+      <!-- Sección olvidó su pass -->
+      <div>
+        <ion-button class="boton-terciario" fill="clear" (click)="recuperarCuenta()">
+          ¿Olvidaste tu contraseña?
+        </ion-button>
+      </div>
+    </div>
+        <!-- FOOTER -->
+    <!-- Redes Sociales y Créditos -->
+        <div class="redes-sociales">
+  
+          <ion-button class="redes-sociales__btn" fill="clear">
+            <ion-icon class="redes-sociales__icon" slot="icon-only" name="logo-twitter"></ion-icon>
+          </ion-button>
+  
+          <ion-button class="redes-sociales__btn" fill="clear">
+            <ion-icon class="redes-sociales__icon" slot="icon-only" name="logo-youtube"></ion-icon>
+          </ion-button>
+  
+          <ion-button class="redes-sociales__btn" fill="clear">
+            <ion-icon class="redes-sociales__icon" slot="icon-only" name="logo-instagram"></ion-icon>
+          </ion-button>
+  
+        </div>
+  
+        <div class="creditos">
+          <ion-label>
+            Cyber-Life todos los derechos reservados.
+          </ion-label>
+        </div>
+
+  </ion-content>
+
+</ion-app>

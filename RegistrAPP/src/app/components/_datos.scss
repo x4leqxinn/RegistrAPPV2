@@ -1,0 +1,17 @@
+// Variables con SCSS
+$number: 1;
+$number2: 10px;
+$string: 'Jorge';
+$color: red;
+$list: primary, secondary, tertiary;
+$boolean: true;
+$map:(
+    primary: red,
+    secondary: green,
+    tertiary: blue
+);
+
+body {
+    @debug $number; // Entrega la variable
+    @debug type-of($number); // Tipo de dato
+}

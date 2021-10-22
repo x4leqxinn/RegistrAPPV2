@@ -1,0 +1,100 @@
+// SASS es un preprocesador de CSS 100% compatible
+//1. styles.css -> styles.scss
+//2. Modulariza -> Divide tu Hoja de estilos en varios archivos
+//3. importa desde in archivo principal
+//4. Compila
+
+@import "../../components/mixins";
+@import "../../../theme/style.css";
+
+
+  // Imagen de fondo de la APP
+  .img-background{
+    --background: url(../../../assets/img/Backgrounds/Login.png) 0 0/100% 100% no-repeat;
+  }
+
+// Zona de header
+.toolbar-primaria__titulo{
+  text-align: center;
+}
+
+ .contenedor{
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .contenedor-header__titulo{
+    color: var(--ion-color-blanco);
+    padding: 250x;
+    font-size: 50px;
+  }
+
+  .contenedor-header__logo{
+    width: 40%;
+  }
+
+  .formulario-login__item{
+    @include form-label-primario;
+    margin-top: 30px;
+  }
+
+
+  .formulario-login__icon{
+    position: absolute;
+  }
+
+  .boton-primario{
+    @include btn-terciario;
+    margin-top: 15px;
+  }
+
+  .boton-terciario{
+    @include btn-terciario;
+    margin-top: 15px;
+  }
+
+  .linea-blanca{
+    margin: auto;
+    margin-top: 20px;
+    border-bottom: 1px solid var(--ion-color-blanco);
+    width: 50%;
+  }
+
+
+  // Errores de formulario
+  .alerta-error{
+    color: var(--ion-color-blanco);
+    font-size: 10px;
+    width: 100%;
+    position: absolute;
+  }
+
+  .mensaje-error{
+    margin: auto;
+  }
+
+
+
+  // Zona de footer
+  .creditos{
+    text-align: center;
+    margin-top: 20px;
+    color: var(--ion-color-secundario);
+  }
+
+  .redes-sociales{
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin: auto;
+  }
+
+  .redes-sociales__btn{
+    --color: var(--ion-color-blanco);
+  }
+
+  .toolbar-primaria{
+    --background: var(--ion-color-primario);
+  }

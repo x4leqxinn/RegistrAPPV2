@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>codigoQR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="img-background">
+  <div class="instrucciones">
+    <ion-label class="instrucciones__label">Genere un código QR <br> para registrar las asistencias.</ion-label>
+    <ion-button class="instrucciones__btn" fill="clear" (click)="asistente()">
+      <ion-icon class="instrucciones__icon" slot="icon-only" name="play"></ion-icon>
+    </ion-button>
+  </div>
+  <!-- Textbox para ingresar datos del Código QR -->
+  <ion-item lines="none" class="generar-codigo__label">
+    <ion-input type="text" placeholder="Ingrese datos" [(ngModel)]="qrData"></ion-input>
+  </ion-item>
+
+  <div class="contenedor-btn">
+    <!-- Botón para generar un código QR -->
+    <ion-button class="btn-generar" full (click)="crearCodigo()">
+      <ion-icon name="barcode"></ion-icon>
+      Generar
+    </ion-button>
+  </div>
+
+  <!-- Sección Crear código -->
+  <ion-card *ngIf="codigoCreado" class="contenedor-qr">
+    <div class="contenedor-qr__item">
+      <ngx-qrcode [elementType]='elementType' [value]="codigoCreado"></ngx-qrcode>
+      <ion-card-content>
+        <p>Código generado para :</p>
+        <p>{{ codigoCreado }}</p>
+      </ion-card-content>
+    </div>
+  </ion-card>
+
+  <ion-card *ngIf="codigoScaneado">
+    <ion-card-content>
+      Scan Exitoso : {{ codigoScaneado }}
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

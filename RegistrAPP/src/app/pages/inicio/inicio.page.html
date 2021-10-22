@@ -1,0 +1,30 @@
+<ion-app [fullscreen]="true">
+
+  <ion-header class="contenedor-header">
+    <ion-toolbar class="toolbar-primaria">
+      <ion-title class="toolbar-primaria__titulo">Inicio</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-content class="img-background">
+    <div class="contenedor">
+      <div class="contenedor-header">
+        <img class="contenedor-header__logo" src="../../../assets/img/Logos/Logo.png" alt="Logo High School">
+        <div class="contenedor-boton-bienvenido">
+
+
+          <ion-item lines="none" class="bienvenida" [disabled]>
+            <ion-label class="formulario-login__input">
+              ¡Bienvenido (a) {{username}} !
+            </ion-label>
+          </ion-item>
+
+        </div>
+      </div>
+      <div class="comentario">
+        <ion-label class="comentario__label">Registra y revisa el estado de las asistencias.</ion-label>
+      </div>
+    </div>
+  </ion-content>
+</ion-app>

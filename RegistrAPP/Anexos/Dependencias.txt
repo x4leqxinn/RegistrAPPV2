@@ -1,0 +1,203 @@
+------------------------
+Descargar nodejs -- Interprete
+------------------------
+
+-- IDE Visual Studio Code
+
+
+Plugins para ionic 
+
+
+
+----------------------------
+-- Comandos
+----------------------------
+
+// Ejecutamos el instalador de node version manager
+nvm setup 
+
+// Nos aseguramos que esté instalado node
+node --version
+
+// Nos aseguramos que esté instalado npm
+npm --version
+
+// Nos aseguramos de la version de nvm
+nvm version
+
+// Instalamos una versión de nvm especifica
+nvm install 14.17.0
+
+// indicamos que usaremos esa versión
+nvm use 14.17.0
+
+// Instalamos las dependencias del framework de ionic
+npm install -g ionic
+
+//Instalamos las dependencias de cordova
+npm install -g cordova
+
+// Instala todas las dependencias de node modules
+npm install
+
+// Información del framework de ionic
+ionic info
+
+// Iniciar Proyecto en ionic
+
+ionic start
+
+// Para iniciar un proyecto con angular y como capa intermedia cordova
+ionic start nombre_proyecto blank --type=angular --cordova
+
+// Correr servidor de ionic 
+ionic serve
+
+// Para ver como se vería en un mobile ANDROID y uno IOS
+ionic lab
+
+
+------------------------------------------------------------
+
+// Generar páginas  puedes usar (g o generate) 
+ionic g page pages/pagina1
+
+// Para entrar en una interfaz y generar automáticamente componentes/ paginas etc 
+ionic generate 
+
+//Mover la Carpeta Home a la Sección de Pages y reemplazar la ruta de donde se encuentra dicho archivo
+
+// Crear un módulo global sin carpeta para importaciones
+// Módulo básico
+ionic g module app_module --flat 
+
+-------------------------------------------------------------
+
+// Instalar capacitor
+
+// integramos capacitor como una dependencia al proyecto
+
+npm install --save @capacitor/core @capacitor/cli --save-exact
+
+// verificamos la version de capacitor instalada
+
+npx cap --version
+
+// Iniciamos capacitor
+
+npx cap init
+
+// Nos solicitará el nombre del proyecto y un ID para identificarlo en las tiendas
+com.RegistrAPP.app
+
+
+// Generamos la carpeta www
+ionic build
+
+// instalamos el soporte de capacitor a android
+npm install @capacitor/android
+
+// Agregamos el sistema operativo que vamos a usar en este caso ANDROID
+npx cap add android
+
+// Abre Android studio con nuestra app
+npx cap open android
+
+
+--------------------------------------
+
+// Sincronzar los cambios realizados
+
+// debemos copiar todo lo hecho en la carpeta www (Usarlo al agregar plugins, cosas externas de www)
+ionic build
+
+// Luego debemos sincronizar
+npx cap sync
+npx cap update 
+
+// si solo modificamos html, css y js es más rápido que el sync y el update
+npx cap copy 
+
+// 2 en uno
+ionic build && npx cap sync
+
+
+
+
+
+
+////////////////////////////////////
+/// SPLASH SCREEN e ICONO
+///////////////////////////////////
+
+// Crea la carpeta www
+ionic cordova platform add android
+
+// genera la apk
+ionic cordova build android
+
+// Instalar native-run globaly 
+npm i -g native-run
+
+// Corre la apk en android studio
+ionic cordova run android
+
+// Instalar la dependencia cordova-res
+npm install -g cordova-res
+
+// crea todos los iconos y splash para diferentes resoluciones para Android y IOS
+ionic cordova resources (Todo)
+ionic cordova resources --icon
+ionic cordova resources --splash
+
+// Cargamos los archivos de nuevo al apk
+ionic cordova build android
+
+
+
+-----------------------
+ANIMACIONES
+-----------------------
+------------------
+ANGULAR MATERIAL
+-----------------
+
+-- Instalar ng
+npm install -g @angular/cli
+
+-- Instalar Angular Material
+ng add @angular/material
+
+-- Configuramos los paquetes
+
+
+// Generamos un archivo para modulos globales y hacer importaciones
+ionic g module app_module --flat
+
+
+
+
+
+///////////////////////////
+// API GOOGLE MAPS
+///////////////////////////
+
+npm install @agm/core
+
+npm install @types/googlemaps
+
+npm i @types/googlemaps@3.39.13
+
+https://developers.google.com/maps/documentation/javascript/get-api-key
+
+
+
+
+////////////////////////////////////////
+// Plugins TTS para texto a voz
+///////////////////////////////////////
+
+ionic cordova plugin add cordova-plugin-tts
+npm install @ionic-native/text-to-speech
+
+ionic g s services/tts --skipTests

@@ -1,0 +1,69 @@
+
+// Configurar GitHub en tu equipo
+git config --global user.email “email" 
+git config –-global user.name “username”
+
+// Revisamos si está configurado en el equipo
+git config --list
+
+// Iniciar y o borrar un repositorio en Git (Debemos estar en la carpeta del proyecto)
+git init
+rm -rf .git
+
+//Agregar archivos al repositorio 
+git add .
+
+//Ver el estado de los archivos
+git status
+
+// Hacer una confirmación de los archivos subidos con un mensaje
+git commit -m "Version 1"
+
+// Elimina los cambios
+git clean -d -f
+
+//
+git pull
+
+// Subir los cambios al repositorio remoto
+git push origin master
+
+// Ver los commits de una rama 
+
+git log --oneline
+
+//////////////////////////////////////////
+////////////// BRANCH
+/////////////////////////////////////////
+
+// Crear una ramificación
+git branch nombreRama
+
+// Borrar ramaificación
+git branch -d nombreRama
+
+// Ver el listado de ramificaciones
+git branch
+
+// Cambiar de ramificación 
+git checkout nombreRama
+
+
+////////////////
+// MERGE
+///////////////
+
+// Unificamos los commits desde la rama master / main
+git merge nombreRama
+
+// Corregir conflictos de git
+// Debemos elegir con que cambios quedarnos entre las 2 ramas 
+// Abrimos el archivo con conflicto y resolvemos
+
+// Ver la unión con conflictos 
+git status -s
+
+// Luego de eso hacemos un commit con los conflictos resueltos
+
+// Clonar repositorio remoto a tu pc
+git clone https://github.com/4lequinn/app_mobile.git

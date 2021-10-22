@@ -1,0 +1,30 @@
+<!-- Menú Toolbar para cerrar sesión -->
+<ion-toolbar>
+  <ion-buttons slot="primary">
+    <ion-button [routerLink]="['/iniciar-sesion']">
+      <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>Portal Alumnos</ion-title>
+</ion-toolbar>
+
+<ion-tabs class="tabs-alumno">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="asistencia">
+      <ion-icon name="stats-chart"></ion-icon>
+      <ion-label>asistencia</ion-label>
+      <ion-badge>6</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="inicio">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>inicio</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="about">
+      <ion-icon name="school-sharp"></ion-icon>
+      <ion-label>Notas</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>
