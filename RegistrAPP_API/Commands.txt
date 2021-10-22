@@ -8,7 +8,7 @@ django startproject RegistrAPP_API
 django startapp api
 // Crea los modelos a partir de mi Base de datos
 python manage.py inspectdb > api/models.py 
-// Exportamos las tablas de autenticación de usuarios
+// Exportamos las tablas de autenticación de usuarios y la interfaz de administración
 python manage.py migrate
 // Creamos un super usuario para el adminsitrador de Django
 python manage.py createsuperuser
