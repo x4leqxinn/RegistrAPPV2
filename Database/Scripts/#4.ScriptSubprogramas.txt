@@ -7,10 +7,15 @@
 -- Alteramos el formato fecha de la sesión para que muestre la hora, los minutos y los segundos
 ALTER SESSION SET  NLS_DATE_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
 
+-- Indicamos el lenguaje
+ALTER SESSION SET  NLS_DATE_LANGUAGE='SPANISH';
+
 SELECT SYSDATE FROM DUAL;
 
 -- Indicamos la zona horaria America
 ALTER SESSION SET NLS_TERRITORY = "AMERICA";
+
+
 
 -- Revisamos la Zona Horaria de America/Santiago
 
@@ -22,6 +27,8 @@ SELECT * FROM ALL_SCHEDULER_JOBS;
 
 -- Revisar el log de los JOBS
 SELECT * FROM ALL_SCHEDULER_JOB_RUN_DETAILS;
+
+COMMIT;
 
 -------------------------------------------------
 -- TRIGGER LOGS ASISTENCIA
@@ -83,15 +90,39 @@ BEGIN
         INSERT INTO registro_logs VALUES reg_logs;
     END IF;
 END TRG_USUARIO_LOGS;
+
 -------------------------------------------------
 -- TRIGGER AUDITORIA DDL 
 -------------------------------------------------
-create or replace NONEDITIONABLE TRIGGER TRG_AUDITORIA_DDL 
+create or replace TRIGGER TRG_AUDITORIA_DDL 
 AFTER DDL ON SCHEMA
 DECLARE 
 BEGIN 
     INSERT INTO AUDITORIA_DDL VALUES (SEQ_AUDITORIA_DDL.nextval, SYS_CONTEXT('USERENV','CURRENT_USER'),ora_dict_obj_type, ora_dict_obj_name, ora_sysevent,sysdate,TO_CHAR(sysdate,('HH24:MI:SS')));
 END TRG_AUDITORIA_DDL;
+
+-------------------------------------------------
+-- TRIGGER HORARIO LABORAL 
+-------------------------------------------------
+
+CREATE OR REPLACE TRIGGER TRG_HORARIO_LABORAL 
+BEFORE INSERT OR UPDATE OR DELETE ON ASISTENCIA
+declare 
+    v_hora NUMBER DEFAULT TO_CHAR(sysdate,('HH24'));
+    v_dia VARCHAR2(15) DEFAULT TRIM(UPPER(to_char(sysdate, 'DAY','NLS_DATE_LANGUAGE=SPANISH')));
+BEGIN
+        -- Valida que sólo se pueda hacer operaciones en la semana laboral 
+        IF v_dia not in ('SÁBADO','DOMINGO') THEN
+            -- Valida que solo se pueda Agregar, Actualizar o Eliminar una Asistencia entre las 8:00 AM y las 18:00 PM
+            IF  v_hora BETWEEN 8 AND 18 THEN
+                                DBMS_OUTPUT.PUT_LINE('REALIZÓ LA OPERACIÓN');
+            ELSE
+                RAISE_APPLICATION_ERROR(-20010,'No se puede realizar la operación fuera del horario laboral.');
+            END IF;
+        ELSE
+            RAISE_APPLICATION_ERROR(-20011,'No se puede realizar la operación fuera de la jornada de trabajo.');
+        END IF;
+END TRG_HORARIO_LABORAL;
 
 -------------------------------------------------
 -- PACKAGE ASISTENCIA
@@ -572,7 +603,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_USUARIO IS
     BEGIN 
         p_valida := 0;
         select nombre_usuario into v_registro
-        from persona where email = p_correo;
+        from persona where email = 'jorgealequinn@gmail.com';
         UPDATE USUARIO SET contrasenia = p_nueva_pass WHERE nombre_usuario = v_registro;
         IF sql%rowcount > 0 THEN
             p_valida := 1;
@@ -654,11 +685,6 @@ EXEC dbms_scheduler.run_job('LIMPIAR_LOGS_LOGIN');
 
 
 
-
-
-
-
-
 -------------------------------------
 -- TEST 
 -------------------------------------
@@ -672,15 +698,30 @@ print cursor_x;
 print v_valida;
 
 DECLARE
-    v_valida number;
+    v_tipo number;
+    v_nombre varchar2(200);
 BEGIN 
-    PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA(9,v_valida);
-    DBMS_OUTPUT.PUT_LINE('Valida es igual a ' || v_valida);
+    PKG_USUARIO.SP_CAMBIAR_CONTRASENIA('jorgealequinn@gmail.com','admin123',v_tipo);
+    DBMS_OUTPUT.PUT_LINE('Valida es ' || v_tipo );
 END;
 
 
 
+-- PROCEDURE GENERAR QR, QE ACTUALICE LA TABLA CLASE
+-- PROCEDURE LEER QR QUE BUSQUE EL CÓDIGO QR GENERADO e INSERTE LA ASISTENCIA AL LEERLO
+
+
+
+insert into detalle_clase_alu VALUES (SEQ_DETALLE_CLASE_ALU.nextval, );
+
+-- TODAS LAS QUE QUIERA
+
+-- DETALLE CLASE ALU PARA VINCULAR TODAS LAS CLASES CON EL ALUMNO
+
+-- DETALLE ASISTENCIA Y ASISTENCIA PARA PODER REGISTRAR UNA ASISTENCIA Y ASOCIARLA A UN ALUMNO
 
 
 
 
+
+COMMIT;
