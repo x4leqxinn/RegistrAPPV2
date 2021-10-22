@@ -23,7 +23,7 @@ import json
 
 # Aquí realizamos los métodos para el Backend
 def alumnos(request):
-    print(listarAsistencia()) 
+    print(listarAlumnos()) 
     data = {
         'alumnos':listarAlumnos()
     }
@@ -174,8 +174,11 @@ class AsistenciaView(View):
     
     def post(self,request):        
         jsonData = json.loads(request.body)
-        agregarAsistencia(jsonData["estadoID"])
-        datos={'mensaje':'Success'} # Falta validar
+        valida = agregarAsistencia(jsonData["estadoID"])
+        if valida == 1:
+            datos={'mensaje':'Success'}
+        else:
+            datos={'mensaje':'No se pudo ingresar'}
         return JsonResponse(datos)
     
     def put(self,request,id):
