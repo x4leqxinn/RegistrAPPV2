@@ -39,7 +39,7 @@ BEGIN
     -- Indicamos el lenguaje
     EXECUTE IMMEDIATE 'ALTER SESSION SET  NLS_DATE_LANGUAGE=''SPANISH''';
     -- Indicamos la zona horaria America
-    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_TERRITORY = "AMERICA"';
+    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_TERRITORY = "CHILE"';
 END trg_login_session;
 
 
@@ -56,7 +56,7 @@ ALTER SESSION SET  nls_date_format = 'dd-mm-yyyy hh24:mi:ss';
 ALTER SESSION SET  nls_date_language='SPANISH';
 
 -- Indicamos la zona horaria America
-ALTER SESSION SET nls_territory = "america";
+ALTER SESSION SET nls_territory = "CHILE";
 
 SELECT * FROM nls_session_parameters;
 
@@ -64,14 +64,6 @@ SELECT * FROM nls_session_parameters;
 SELECT systimestamp AT TIME ZONE CAST( 'America/Santiago' AS VARCHAR2(80)) FROM dual;
 
 SELECT sysdate FROM dual;
-
--- Verificamos los JOBS creados
-SELECT * FROM all_scheduler_jobs;
-
--- Revisar el log de los JOBS
-SELECT * FROM all_scheduler_job_run_details;
-
-COMMIT;
 
 -------------------------------------------------
 -- TRIGGER LOGS ASISTENCIA
@@ -189,6 +181,93 @@ EXCEPTION
         RETURN v_valida;
 END;
 
+
+-------------------------------------------------
+-- FUNCIÓN ALMACENADA OBTENER NOMBRE PROFESOR
+-------------------------------------------------
+CREATE OR REPLACE FUNCTION FN_OBTENER_NOMBRE_PROFESOR(P_RUT IN profesor.rut_profesor%TYPE) RETURN VARCHAR2 IS
+    v_nombre varchar2(150);
+BEGIN
+    SELECT pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m into v_nombre
+    from persona pe
+    where rut = P_RUT;
+    RETURN v_nombre;
+EXCEPTION
+    WHEN OTHERS THEN
+        pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+        pkg_errores.reg_errores.codigo_error := SQLCODE;
+        pkg_errores.reg_errores.mensaje_error := sqlerrm;
+        pkg_errores.reg_errores.subprograma := 'FN_OBTENER_NOMBRE_PROFESOR';
+        pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+        pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+        pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);        
+        RETURN 'N/A';
+END FN_OBTENER_NOMBRE_PROFESOR;
+
+-------------------------------------------------
+-- PROCEDIMIENTO ALMACENDO RESUMEN ASISTENCIA 
+-------------------------------------------------
+CREATE OR REPLACE PROCEDURE SP_RESUMEN_ASISTENCIA IS
+    v_valida NUMBER(1);
+    reg_resumen RESUMEN_ASISTENCIA%ROWTYPE;
+    cursor cur_resumen IS 
+                SELECT  alu.rut_alumno, det_cp.rut_profesor, asig.descripcion, pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS "nombre_completo" , COUNT(a.id_asistencia)
+                                                    FROM asistencia A
+                                                    INNER JOIN detalle_asistencia det_a
+                                                    ON A.id_asistencia = det_a.id_asistencia
+                                                    INNER JOIN estado_asistencia E
+                                                    ON A.id_estado = E.id_estado
+                                                    INNER JOIN clase C
+                                                    ON det_a.id_clase = C.id_clase
+                                                    INNER JOIN persona pe
+                                                    ON det_a.rut_alumno = pe.rut
+                                                    INNER JOIN alumno alu
+                                                    ON det_a.rut_alumno = alu.rut_alumno
+                                                    INNER JOIN curso cur
+                                                    ON cur.id_curso = alu.id_curso
+                                                    INNER JOIN asignatura asig
+                                                    ON C.id_asignatura = asig.id_asignatura
+                                                    INNER JOIN DETALLE_CLASE_PROFE det_cp
+                                                    ON det_cp.id_clase = c.id_clase
+                                                    GROUP BY  alu.rut_alumno, det_cp.rut_profesor, asig.descripcion, 
+                                                    pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m;
+BEGIN
+    -- TRUNCAR LA TABLA DE RESUMEN ANTES DE INSERTAR DATOS
+    v_valida := FN_TRUNCAR_TABLA('RESUMEN_ASISTENCIA');
+    IF v_valida = 1 THEN 
+        OPEN cur_resumen;
+        LOOP 
+            BEGIN
+                FETCH cur_resumen INTO reg_resumen.RUT_ALUMNO, reg_resumen.RUT_profesor, reg_resumen.asignatura, reg_resumen.alumno, reg_resumen.cant_asistencia;
+                reg_resumen.id_resumen := SEQ_RESUMEN_ASISTENCIA.NEXTVAL;
+                reg_resumen.profesor := FN_OBTENER_NOMBRE_PROFESOR(reg_resumen.RUT_profesor);
+                exit when cur_resumen%NOTFOUND;
+                    
+                INSERT INTO RESUMEN_ASISTENCIA VALUES reg_resumen;
+            EXCEPTION
+                WHEN OTHERS THEN
+                    pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+                    pkg_errores.reg_errores.codigo_error := SQLCODE;
+                    pkg_errores.reg_errores.mensaje_error := sqlerrm;
+                    pkg_errores.reg_errores.subprograma := 'SP_RESUMEN_ASISTENCIA';
+                    pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+                    pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+                    pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);        
+            END;
+        END LOOP;
+        CLOSE cur_resumen;
+    END IF;
+EXCEPTION
+    WHEN OTHERS THEN
+        pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+        pkg_errores.reg_errores.codigo_error := SQLCODE;
+        pkg_errores.reg_errores.mensaje_error := sqlerrm;
+        pkg_errores.reg_errores.subprograma := 'SP_RESUMEN_ASISTENCIA';
+        pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+        pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+        pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);        
+END SP_RESUMEN_ASISTENCIA;
+
 -------------------------------------------------
 -- PACKAGE ASISTENCIA
 -------------------------------------------------
@@ -220,16 +299,6 @@ CREATE OR REPLACE PACKAGE pkg_codigo_qr IS
     PROCEDURE sp_escanear_codigo(claseid IN clase.id_clase%TYPE, p_qr IN clase.codigo_qr%TYPE, p_valida OUT NUMBER);
 END pkg_codigo_qr;
 
-
--------------------------------------------------
--- PACKAGE ERRORES
--------------------------------------------------
-CREATE OR REPLACE PACKAGE pkg_errores IS 
-    reg_errores registro_error%rowtype;
-    v_fecha DATE DEFAULT sysdate;
-    v_hora registro_error.hora%TYPE DEFAULT to_char(sysdate,'HH24:MI:SS');
-    PROCEDURE sp_errores(correlativo IN registro_error.ID%TYPE, p_codigo_error IN registro_error.codigo_error%TYPE, p_mensaje IN registro_error.mensaje_error%TYPE, p_subprograma registro_error.subprograma%TYPE, p_fecha  IN registro_error.fecha%TYPE, p_hora IN registro_error.hora%TYPE);
-END pkg_errores;
 
 -------------------------------------------------
 -- PACKAGE USUARIO
@@ -841,13 +910,21 @@ END pkg_codigo_qr;
 
 BEGIN
     dbms_scheduler.create_job (
-       job_name          =>  'Actualizar_fotos_clientes', -- Nombre del JOB 
+       job_name          =>  'JOB_RESUMEN_ASISTENCIA_DIARIA', -- Nombre del JOB 
        job_type            =>  'STORED_PROCEDURE', --  Que ejecuará en este caso un SP
-       job_action          =>  'SP_FOTO_CLIENTE', -- Nombre del SP
-       start_date          =>  '27-JUL-2021 11:11:00 PM', -- Fecha de Inicio de la ejecución 
-       repeat_interval  =>  'FREQ=MONTHLY', -- Frecuencia de ejecución 
+       job_action          =>  'SP_RESUMEN_ASISTENCIA', -- Nombre del SP
+       start_date          =>  NULL, -- Fecha de Inicio de la ejecución 
+       repeat_interval  => 'FREQ=DAILY; BYHOUR=03', -- Frecuencia de ejecución 3AM
        enabled             =>  TRUE); -- Dejamos el JOB activo
 END;
+
+-- Verificamos los JOBS creados
+SELECT * FROM all_scheduler_jobs;
+
+-- Revisar el log de los JOBS
+SELECT * FROM all_scheduler_job_run_details;
+
+COMMIT;
 
 ------------------------------------------------------------------
 
@@ -855,15 +932,11 @@ END;
 ------------------------------------------------------------------
 
 BEGIN
-  dbms_scheduler.drop_job(job_name => 'Actualizar_fotos_clientes'); 
+  dbms_scheduler.drop_job(job_name => 'JOB_RESUMEN_ASISTENCIA_DIARIA'); 
 END;
 
-
-
 --- EJECUTAR JOB
-EXEC dbms_scheduler.run_job('LIMPIAR_LOGS_LOGIN');
-
-
+EXEC dbms_scheduler.run_job('JOB_RESUMEN_ASISTENCIA_DIARIA');
 
 -------------------------------------
 -- TEST 
@@ -885,9 +958,3 @@ BEGIN
     dbms_output.put_line('Valida es ' || v_tipo );
 END;
 
-
--- DETALLE ASISTENCIA Y ASISTENCIA PARA PODER REGISTRAR UNA ASISTENCIA Y ASOCIARLA A UN ALUMNO
-
-
-
-COMMIT;
