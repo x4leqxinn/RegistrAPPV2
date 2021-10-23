@@ -159,27 +159,36 @@ BEGIN
 END trg_horario_laboral;
 
 -------------------------------------------------
+-- FUNCIÓN ALMACENADA VALIDA ASISTENCIA
+-------------------------------------------------
+CREATE OR REPLACE FUNCTION FN_VALIDAR_ASISTENCIA(p_claseid in number, p_rutalumno alumno.rut_alumno%type) RETURN number IS
+    v_id number;
+BEGIN
+        SELECT id_clase into v_id 
+        FROM DETALLE_ASISTENCIA 
+        where rut_Alumno = p_rutalumno AND id_clase = p_claseid;
+    RETURN 1;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN 0;
+END FN_VALIDAR_ASISTENCIA ;
+
+-------------------------------------------------
 -- TRIGGER VALIDA ASISTENCIA
 -------------------------------------------------
 create or replace TRIGGER TRG_VALIDAR_ASISTENCIA 
 before INSERT ON DETALLE_ASISTENCIA
 FOR EACH ROW 
-DECLARE
-    v_id number;
-    v_asistenciaid number;
-    v_rut varchar2(12);
+declare 
+    v_valida number default 0;
 BEGIN
     -- OJO CREAR UN PROCEDURE QUE BUSQUE Y QUE TENGA UN BLOQUE EXCEPTION SI NO ENCUENTRA
     -- PROBAR
-    SELECT id_asistencia, id_clase, rut_alumno into v_asistenciaid,v_id, v_rut
-	  
-    FROM DETALLE_ASISTENCIA 
-    where rut_Alumno = :NEW.rut_alumno AND id_clase = :NEW.id_clase;
-    IF v_id = :new.id_clase and v_rut = :new.rut_alumno then
-            raise_application_error(-20012,'Se intentó registrar la asistencia del alumno con el rut '||v_rut||' en la clase con el identificador ' || v_id||' repetidas veces.' );
+    v_valida := FN_VALIDAR_ASISTENCIA(:new.id_clase,  :new.rut_alumno );
+    IF v_valida = 1 then
+            raise_application_error(-20012,'Se intentó registrar la asistencia del alumno con el rut '||:new.rut_alumno||' en la clase con el identificador ' || :new.id_clase||' repetidas veces.' );
     END IF; 
 END TRG_VALIDAR_ASISTENCIA;
-
 
 -------------------------------------------------
 -- FUNCIÓN ALMACENADA TRUNCA TABLAS 
@@ -952,6 +961,7 @@ EXEC pkg_asistencia.sp_buscar_asistencia(42,:cursor_x, :v_valida);
 PRINT cursor_x;
 PRINT v_valida;
 
+
 DECLARE
     v_tipo NUMBER;
     v_nombre VARCHAR2(200);
@@ -959,4 +969,9 @@ BEGIN
     pkg_asistencia.sp_insertar_asistencia(2, 4,'20281676',v_tipo);
     dbms_output.put_line('Valida es ' || v_tipo );
 END;
+
+
+TRUNCATE TABLE ASISTENCIA;
+TRUNCATE TABLE DETALLE_ASISTENCIA;
+
     PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) ;
