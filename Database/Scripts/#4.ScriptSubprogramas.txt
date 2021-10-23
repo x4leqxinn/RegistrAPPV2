@@ -56,7 +56,7 @@ ALTER SESSION SET  nls_date_format = 'dd-mm-yyyy hh24:mi:ss';
 ALTER SESSION SET  nls_date_language='SPANISH';
 
 -- Indicamos la zona horaria America
-ALTER SESSION SET nls_territory = "CHILE";
+ALTER SESSION SET nls_territory = "chile";
 
 SELECT * FROM nls_session_parameters;
 
@@ -69,8 +69,8 @@ SELECT sysdate FROM dual;
 -- TRIGGER LOGS ASISTENCIA
 -------------------------------------------------
 
-CREATE OR REPLACE TRIGGER trg_ASISTENCIA_logs 
-AFTER INSERT OR UPDATE OR DELETE ON ASISTENCIA
+CREATE OR REPLACE TRIGGER trg_asistencia_logs 
+AFTER INSERT OR UPDATE OR DELETE ON asistencia
 FOR EACH ROW 
 DECLARE
     reg_logs registro_logs%rowtype;
@@ -80,20 +80,20 @@ BEGIN
     IF inserting THEN
         reg_logs.correlativo := seq_logs.NEXTVAL;
         reg_logs.operacion := 'INSERT';
-        reg_logs.mensaje := 'Se insertó un registro en la tabla ASISTENCIA con el ID  ' || :NEW.ID_ASISTENCIA;
+        reg_logs.mensaje := 'Se insertó un registro en la tabla ASISTENCIA con el ID  ' || :NEW.id_asistencia;
         INSERT INTO registro_logs VALUES reg_logs;
     ELSIF updating THEN 
         reg_logs.correlativo := seq_logs.NEXTVAL;
         reg_logs.operacion := 'UPDATE';
-        reg_logs.mensaje := 'Se actualizó la asistencia con el ID ' || :NEW.ID_ASISTENCIA || ' de la tabla de ASISTENCIA..';
+        reg_logs.mensaje := 'Se actualizó la asistencia con el ID ' || :NEW.id_asistencia || ' de la tabla de ASISTENCIA..';
         INSERT INTO registro_logs VALUES reg_logs;
     ELSIF deleting THEN
         reg_logs.correlativo := seq_logs.NEXTVAL;
         reg_logs.operacion := 'DELETE';
-        reg_logs.mensaje := 'Se eliminó la asistencia con el ID ' || :OLD.ID_ASISTENCIA  || ' de la tabla de ASISTENCIA.';
+        reg_logs.mensaje := 'Se eliminó la asistencia con el ID ' || :OLD.id_asistencia  || ' de la tabla de ASISTENCIA.';
         INSERT INTO registro_logs VALUES reg_logs;
     END IF;
-END trg_ASISTENCIA_logs;
+END trg_asistencia_logs;
 
 -------------------------------------------------
 -- TRIGGER LOGS USUARIO
@@ -161,34 +161,34 @@ END trg_horario_laboral;
 -------------------------------------------------
 -- FUNCIÓN ALMACENADA VALIDA ASISTENCIA
 -------------------------------------------------
-CREATE OR REPLACE FUNCTION FN_VALIDAR_ASISTENCIA(p_claseid in number, p_rutalumno alumno.rut_alumno%type) RETURN number IS
-    v_id number;
+CREATE OR REPLACE FUNCTION fn_validar_asistencia(p_claseid IN NUMBER, p_rutalumno alumno.rut_alumno%TYPE) RETURN NUMBER IS
+    v_id NUMBER;
 BEGIN
-        SELECT id_clase into v_id 
-        FROM DETALLE_ASISTENCIA 
-        where rut_Alumno = p_rutalumno AND id_clase = p_claseid;
+        SELECT id_clase INTO v_id 
+        FROM detalle_asistencia 
+        WHERE rut_alumno = p_rutalumno AND id_clase = p_claseid;
     RETURN 1;
 EXCEPTION
     WHEN OTHERS THEN
         RETURN 0;
-END FN_VALIDAR_ASISTENCIA ;
+END fn_validar_asistencia ;
 
 -------------------------------------------------
 -- TRIGGER VALIDA ASISTENCIA
 -------------------------------------------------
-create or replace TRIGGER TRG_VALIDAR_ASISTENCIA 
-before INSERT ON DETALLE_ASISTENCIA
+CREATE OR REPLACE TRIGGER trg_validar_asistencia 
+BEFORE INSERT ON detalle_asistencia
 FOR EACH ROW 
-declare 
-    v_valida number default 0;
+DECLARE 
+    v_valida NUMBER DEFAULT 0;
 BEGIN
     -- OJO CREAR UN PROCEDURE QUE BUSQUE Y QUE TENGA UN BLOQUE EXCEPTION SI NO ENCUENTRA
     -- PROBAR
-    v_valida := FN_VALIDAR_ASISTENCIA(:new.id_clase,  :new.rut_alumno );
-    IF v_valida = 1 then
-            raise_application_error(-20012,'Se intentó registrar la asistencia del alumno con el rut '||:new.rut_alumno||' en la clase con el identificador ' || :new.id_clase||' repetidas veces.' );
+    v_valida := fn_validar_asistencia(:NEW.id_clase,  :NEW.rut_alumno );
+    IF v_valida = 1 THEN
+            raise_application_error(-20012,'Se intentó registrar la asistencia del alumno con el rut '||:NEW.rut_alumno||' en la clase con el identificador ' || :NEW.id_clase||' repetidas veces.' );
     END IF; 
-END TRG_VALIDAR_ASISTENCIA;
+END trg_validar_asistencia;
 
 -------------------------------------------------
 -- FUNCIÓN ALMACENADA TRUNCA TABLAS 
@@ -216,12 +216,12 @@ END;
 -------------------------------------------------
 -- FUNCIÓN ALMACENADA OBTENER NOMBRE PROFESOR
 -------------------------------------------------
-CREATE OR REPLACE FUNCTION FN_OBTENER_NOMBRE_PROFESOR(P_RUT IN profesor.rut_profesor%TYPE) RETURN VARCHAR2 IS
-    v_nombre varchar2(150);
+CREATE OR REPLACE FUNCTION fn_obtener_nombre_profesor(p_rut IN profesor.rut_profesor%TYPE) RETURN VARCHAR2 IS
+    v_nombre VARCHAR2(150);
 BEGIN
-    SELECT pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m into v_nombre
-    from persona pe
-    where rut = P_RUT;
+    SELECT pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m INTO v_nombre
+    FROM persona pe
+    WHERE rut = p_rut;
     RETURN v_nombre;
 EXCEPTION
     WHEN OTHERS THEN
@@ -233,16 +233,16 @@ EXCEPTION
         pkg_errores.reg_errores.hora := pkg_errores.v_hora;
         pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);        
         RETURN 'N/A';
-END FN_OBTENER_NOMBRE_PROFESOR;
+END fn_obtener_nombre_profesor;
 
 -------------------------------------------------
 -- PROCEDIMIENTO ALMACENDO RESUMEN ASISTENCIA 
 -------------------------------------------------
-CREATE OR REPLACE PROCEDURE SP_RESUMEN_ASISTENCIA IS
+CREATE OR REPLACE PROCEDURE sp_resumen_asistencia IS
     v_valida NUMBER(1);
-    reg_resumen RESUMEN_ASISTENCIA%ROWTYPE;
-    cursor cur_resumen IS 
-                SELECT  alu.rut_alumno, det_cp.rut_profesor, asig.descripcion, pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS "nombre_completo" , COUNT(a.id_asistencia)
+    reg_resumen resumen_asistencia%rowtype;
+    CURSOR cur_resumen IS 
+                SELECT  alu.rut_alumno, det_cp.rut_profesor, asig.descripcion, pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS "nombre_completo" , COUNT(A.id_asistencia)
                                                     FROM asistencia A
                                                     INNER JOIN detalle_asistencia det_a
                                                     ON A.id_asistencia = det_a.id_asistencia
@@ -258,23 +258,23 @@ CREATE OR REPLACE PROCEDURE SP_RESUMEN_ASISTENCIA IS
                                                     ON cur.id_curso = alu.id_curso
                                                     INNER JOIN asignatura asig
                                                     ON C.id_asignatura = asig.id_asignatura
-                                                    INNER JOIN DETALLE_CLASE_PROFE det_cp
-                                                    ON det_cp.id_clase = c.id_clase
+                                                    INNER JOIN detalle_clase_profe det_cp
+                                                    ON det_cp.id_clase = C.id_clase
                                                     GROUP BY  alu.rut_alumno, det_cp.rut_profesor, asig.descripcion, 
                                                     pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m;
 BEGIN
     -- TRUNCAR LA TABLA DE RESUMEN ANTES DE INSERTAR DATOS
-    v_valida := FN_TRUNCAR_TABLA('RESUMEN_ASISTENCIA');
+    v_valida := fn_truncar_tabla('RESUMEN_ASISTENCIA');
     IF v_valida = 1 THEN 
         OPEN cur_resumen;
         LOOP 
             BEGIN
-                FETCH cur_resumen INTO reg_resumen.RUT_ALUMNO, reg_resumen.RUT_profesor, reg_resumen.asignatura, reg_resumen.alumno, reg_resumen.cant_asistencia;
-                reg_resumen.id_resumen := SEQ_RESUMEN_ASISTENCIA.NEXTVAL;
-                reg_resumen.profesor := FN_OBTENER_NOMBRE_PROFESOR(reg_resumen.RUT_profesor);
-                exit when cur_resumen%NOTFOUND;
+                FETCH cur_resumen INTO reg_resumen.rut_alumno, reg_resumen.rut_profesor, reg_resumen.asignatura, reg_resumen.alumno, reg_resumen.cant_asistencia;
+                reg_resumen.id_resumen := seq_resumen_asistencia.NEXTVAL;
+                reg_resumen.profesor := fn_obtener_nombre_profesor(reg_resumen.rut_profesor);
+                EXIT WHEN cur_resumen%notfound;
                     
-                INSERT INTO RESUMEN_ASISTENCIA VALUES reg_resumen;
+                INSERT INTO resumen_asistencia VALUES reg_resumen;
             EXCEPTION
                 WHEN OTHERS THEN
                     pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
@@ -297,14 +297,14 @@ EXCEPTION
         pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
         pkg_errores.reg_errores.hora := pkg_errores.v_hora;
         pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);        
-END SP_RESUMEN_ASISTENCIA;
+END sp_resumen_asistencia;
 
 -------------------------------------------------
 -- PACKAGE ASISTENCIA
 -------------------------------------------------
 
 CREATE OR REPLACE PACKAGE  pkg_asistencia IS 
-    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) ;
+    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseid IN detalle_asistencia.id_clase%TYPE, rut_alumno IN detalle_asistencia.rut_alumno%TYPE,valida OUT NUMBER) ;
     PROCEDURE sp_modificar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, estadoid IN asistencia.id_estado%TYPE, valida OUT NUMBER);
     PROCEDURE sp_eliminar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, valida OUT NUMBER);
     PROCEDURE sp_buscar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER);
@@ -346,7 +346,7 @@ END pkg_usuario;
 ----------------------------------------------------
 
 CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
-    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) IS
+    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseid IN detalle_asistencia.id_clase%TYPE, rut_alumno IN detalle_asistencia.rut_alumno%TYPE,valida OUT NUMBER) IS
     reg_asistencia asistencia%rowtype;
     reg_detalle_asistencia detalle_asistencia%rowtype;
     BEGIN 
@@ -356,20 +356,20 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
         reg_asistencia.hora :=  to_char(sysdate,('HH24:MI:SS'));--- TILT
         reg_asistencia.id_estado:= estadoid;
 
-        reg_detalle_asistencia.id_detalle_asist := seq_detalle_asistencia.nextval;
+        reg_detalle_asistencia.id_detalle_asist := seq_detalle_asistencia.NEXTVAL;
         reg_detalle_asistencia.id_asistencia := reg_asistencia.id_asistencia;
-        reg_detalle_asistencia.id_clase := claseID;
+        reg_detalle_asistencia.id_clase := claseid;
         reg_detalle_asistencia.rut_alumno := rut_alumno;
 
         INSERT INTO asistencia VALUES reg_asistencia;
-        commit;
-        INSERT INTO DETALLE_ASISTENCIA VALUES reg_detalle_asistencia;
+        COMMIT;
+        INSERT INTO detalle_asistencia VALUES reg_detalle_asistencia;
         valida := 1;
         COMMIT;
     EXCEPTION
          WHEN OTHERS THEN 
             -- Validación
-            delete from asistencia where id_asistencia = reg_asistencia.id_asistencia;
+            DELETE FROM asistencia WHERE id_asistencia = reg_asistencia.id_asistencia;
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := sqlerrm;
@@ -507,7 +507,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
                                                 INNER JOIN asignatura asig
                                                 ON C.id_asignatura = asig.id_asignatura
                                                 WHERE A.id_asistencia = asistenciaid
-                                                ORDER BY asig.descripcion ASC, C.fecha ASC, "nombre_completo" asc;
+                                                ORDER BY asig.descripcion ASC, C.fecha ASC, "nombre_completo" ASC;
             valida := 1;
         END IF;
             EXCEPTION
@@ -577,7 +577,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
                                                     ON cur.id_curso = alu.id_curso
                                                     INNER JOIN asignatura asig
                                                     ON C.id_asignatura = asig.id_asignatura
-                                                    ORDER BY asig.descripcion ASC, C.fecha ASC, "nombre_completo" asc;
+                                                    ORDER BY asig.descripcion ASC, C.fecha ASC, "nombre_completo" ASC;
             valida := 1;
         END IF;
     EXCEPTION
@@ -971,7 +971,3 @@ BEGIN
 END;
 
 
-TRUNCATE TABLE ASISTENCIA;
-TRUNCATE TABLE DETALLE_ASISTENCIA;
-
-    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) ;
