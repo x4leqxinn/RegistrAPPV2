@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="287C4C6F-A236-6645-2398-FE5F8E45E370" containerWithKeyObject="30DE82C7-131E-296A-A60B-D044BF20DB62" localFKIndex="50BEE4C7-BF39-50C8-2DAB-F3308E8217A3" name="ALUMNO_PERSONA_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>A719B625-FFB9-7E7F-7E0B-3524BCA52902</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<referredTableLongName>PERSONA</referredTableLongName>
+<arc>A5EF4CCE-2384-8862-3293-C85D2CB19759</arc>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>69DC95E5-F63B-DB06-E671-D93A6A2D93EA</referredTableID>
+<keyObject>964329F9-4D8E-C94F-D87D-AFD7A78C7D48</keyObject>
+<referredKeyID>964329F9-4D8E-C94F-D87D-AFD7A78C7D48</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>rut</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<discriminatorValue>1</discriminatorValue>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

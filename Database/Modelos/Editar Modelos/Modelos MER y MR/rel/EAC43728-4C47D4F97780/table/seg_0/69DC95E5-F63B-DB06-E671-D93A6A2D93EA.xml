@@ -1,0 +1,188 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="69DC95E5-F63B-DB06-E671-D93A6A2D93EA" name="PERSONA">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>9E701B94-05CB-B5A7-E767-77E692CE2107</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="rut" id="8DD33CF6-5579-6343-8A76-74345D8750BF">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>12,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dv" id="C6EFF31E-A2BF-5EEF-8D47-4B268321CFE7">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>0FE9CE59-5612-807B-9B75-84C6827C8CDB</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre" id="59E23107-78FF-2CFC-048C-82537AB57713">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>23EE8D27-A243-1689-3DE2-7BA1876AC9ED</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_s" id="75E3869F-66EF-3852-F681-FBD0BBD75661">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>FCB08D2F-8C42-4D67-41F3-1A1B3341CFAF</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_t" id="3BC04A93-945B-A8DF-67A0-366A383E5CED">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>E32B6D1B-8F0D-965C-DA88-51176A259BB9</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="apellido_p" id="1C1D9DD3-E46C-A8CB-A67F-C6E2272F170D">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>ABEC8584-BA2D-15EE-0FC5-9558CE744624</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="apellido_m" id="D577388D-0C17-786E-DCA6-08BA8C9880A2">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>5BDC6589-491E-A084-5BAE-6DB4F4B8E215</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="F93F1174-068C-1F1A-CBD8-9803CAC0CDE5">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>C942A4D0-2D79-CB1C-DB88-F18292D39DC0</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_usuario" id="455CD759-0D85-419A-94D0-181DED96D09B">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>A4A8F9FC-3A5E-BFD5-9161-380B73768F19</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8CBE69C3-31A5-9026-86DA-8B52EA6A2FA8" referredColumn="92D6167F-9E5A-B35C-3253-9932BC9F8FE1"/>
+</associations>
+</Column>
+<Column name="id_genero" id="DE59D22E-6FCE-A1D7-15B9-6BED6B8CAA0C">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>0056235B-0A22-F62C-1B5F-511D305F91BB</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3165F369-B9F3-9CC8-4BEF-FA866D6C8B9F" referredColumn="1136EB43-B81F-1D64-60F2-BBEBD15053E0"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="964329F9-4D8E-C94F-D87D-AFD7A78C7D48" name="PERSONA_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>B6C083E7-954A-B4F8-B808-E7DAAADF6684</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8DD33CF6-5579-6343-8A76-74345D8750BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="15A0828C-B138-1559-6F17-B1C4E3356F05" name="PERSONA__IDX">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>2FF6182E-EEAA-CAF0-1022-795048F4A61E</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="455CD759-0D85-419A-94D0-181DED96D09B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="156F9262-CE6B-C2CA-865B-93C3EBD40847" name="PERSONA_GENERO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>1F3000F9-8CA1-0441-8825-6A7C49672E80</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DE59D22E-6FCE-A1D7-15B9-6BED6B8CAA0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="38441141-DAA2-6F87-528D-F100F334FCF3" name="PERSONA_USUARIO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>2FF6182E-EEAA-CAF0-1022-795048F4A61E</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="455CD759-0D85-419A-94D0-181DED96D09B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

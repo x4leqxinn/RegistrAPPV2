@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="40DF723C-8093-86FA-21C3-247A07DBC19A" containerWithKeyObject="EF9ECA21-81E2-B4B5-383C-22C6CFA1D45A" localFKIndex="0860EC2D-D47F-A9D6-221F-A5A68C8DCA0C" name="DET_CURSO_CUR_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>F8E9B2D7-356D-F562-3327-86F6BC3DD2D4</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<referredTableLongName>CURSO</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>C0CE8B01-4044-B13F-28F5-42ABFC2E5E49</referredTableID>
+<keyObject>3EE941B6-0839-B60E-93D2-C259DA5CEB81</keyObject>
+<referredKeyID>3EE941B6-0839-B60E-93D2-C259DA5CEB81</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_curso</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

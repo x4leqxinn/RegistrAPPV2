@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Modelos MER y MR" id="2E70DEB1-4385-8F75-DBCF-F95F07E12394" version="3.5">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:29:02 UTC</createdTime>
+<ownerDesignName>Modelo Logico - RegistrAPP</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>2E70DEB1-4385-8F75-DBCF-F95F07E12394</designId>
+</OSDM_Design>

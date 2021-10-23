@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C9F53C4C-FEDA-EF72-23ED-5C32104A08C4" name="DETALLE_CLASE">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>750A54F6-54AE-654C-335F-AFFD98A38E0C</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_detalle_clase" id="5CB357E3-151D-3FB9-4B60-A632D9528D24">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>33380FC0-2A63-E602-8EC1-C3AD16F1FD4B</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_curso" id="7B0333DF-F3BE-A1BC-ECF6-F5A95D69BE42">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>6585C43A-B0B3-470E-A5C7-D4BB45D497DC</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F68FA542-EDF6-19C6-D541-3BBEBC1A5FBC" referredColumn="CD3D70B7-9846-12AB-6A11-C97FAEB30F39"/>
+</associations>
+</Column>
+<Column name="id_clase" id="22C7F3FB-2F42-3B34-02E1-B723A3D1981A">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>CA4134FC-5A01-1F21-63D1-7837C6FDE44A</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DEA799B0-D73B-AAF3-FB2B-59869D3E4E3B" referredColumn="14D1E1C5-0E8B-8043-0DB0-103C5005347A"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E87D6EBB-406B-3C7C-5C24-ECBCE96D7F14" name="DETALLE_CLASE_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>946F758D-FCA6-BC2D-C17C-53FA83D3CE3F</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5CB357E3-151D-3FB9-4B60-A632D9528D24"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F0032D46-FE65-7ED0-D545-49C5A4D90706" name="DETALLE_CLASE_CURSO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>51B60141-3988-0FA9-5B3C-543C7F8B4438</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7B0333DF-F3BE-A1BC-ECF6-F5A95D69BE42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1E2D7652-931E-3AD5-3AF4-EE84B1269149" name="DETALLE_CLASE_CLASE_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-22 21:00:33 UTC</createdTime>
+<generatorID>B6FB7A70-0435-C7A9-EE17-35AE0139EF08</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="22C7F3FB-2F42-3B34-02E1-B723A3D1981A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
