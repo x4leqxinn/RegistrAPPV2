@@ -12,7 +12,6 @@ END pkg_errores;
 ----------------------------------------------------
 -- PACKAGE BOBY ERRORES
 ----------------------------------------------------
-
 CREATE OR REPLACE PACKAGE BODY pkg_errores IS 
     PROCEDURE sp_errores(correlativo IN registro_error.ID%TYPE, p_codigo_error IN registro_error.codigo_error%TYPE, p_mensaje IN registro_error.mensaje_error%TYPE, p_subprograma registro_error.subprograma%TYPE, p_fecha  IN registro_error.fecha%TYPE, p_hora IN registro_error.hora%TYPE)
     IS
@@ -36,7 +35,7 @@ BEGIN
 ------------------------------------------------------------------------------
 -- FORMATO ZONA HORARIA SANTIAGO CHILE
 ------------------------------------------------------------------------------
-    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''YYYY-MM-DD''';
+    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''DD-MM-YYYY''';
     -- Indicamos el lenguaje
     EXECUTE IMMEDIATE 'ALTER SESSION SET  NLS_DATE_LANGUAGE=''SPANISH''';
     -- Indicamos la zona horaria America
@@ -78,11 +77,10 @@ COMMIT;
 -- TRIGGER LOGS ASISTENCIA
 -------------------------------------------------
 
-CREATE OR REPLACE TRIGGER trg_usuario_logs 
-AFTER INSERT OR UPDATE OR DELETE ON usuario
+CREATE OR REPLACE TRIGGER trg_ASISTENCIA_logs 
+AFTER INSERT OR UPDATE OR DELETE ON ASISTENCIA
 FOR EACH ROW 
 DECLARE
-    v_sentencia VARCHAR2(200);
     reg_logs registro_logs%rowtype;
 BEGIN
         reg_logs.fecha := sysdate;
@@ -90,20 +88,20 @@ BEGIN
     IF inserting THEN
         reg_logs.correlativo := seq_logs.NEXTVAL;
         reg_logs.operacion := 'INSERT';
-        reg_logs.mensaje := 'Se insertó un registro en la tabla Usuario con el nombre de  ' || :NEW.nombre_usuario;
+        reg_logs.mensaje := 'Se insertó un registro en la tabla ASISTENCIA con el ID  ' || :NEW.ID_ASISTENCIA;
         INSERT INTO registro_logs VALUES reg_logs;
     ELSIF updating THEN 
         reg_logs.correlativo := seq_logs.NEXTVAL;
         reg_logs.operacion := 'UPDATE';
-        reg_logs.mensaje := 'Se actualizó el usuario ' || :NEW.nombre_usuario || ' de la tabla de Usuario.';
+        reg_logs.mensaje := 'Se actualizó la asistencia con el ID ' || :NEW.ID_ASISTENCIA || ' de la tabla de ASISTENCIA..';
         INSERT INTO registro_logs VALUES reg_logs;
     ELSIF deleting THEN
         reg_logs.correlativo := seq_logs.NEXTVAL;
         reg_logs.operacion := 'DELETE';
-        reg_logs.mensaje := 'Se eliminó el usuario ' || :OLD.nombre_usuario  || ' de la tabla de Usuario.';
+        reg_logs.mensaje := 'Se eliminó la asistencia con el ID ' || :OLD.ID_ASISTENCIA  || ' de la tabla de ASISTENCIA.';
         INSERT INTO registro_logs VALUES reg_logs;
     END IF;
-END trg_usuario_logs;
+END trg_ASISTENCIA_logs;
 
 -------------------------------------------------
 -- TRIGGER LOGS USUARIO
@@ -411,22 +409,26 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
         valida := 0;
         SELECT COUNT(*) INTO v_cantidad FROM asistencia WHERE id_asistencia = asistenciaid;
         IF v_cantidad > 0 THEN 
-            OPEN entidad FOR SELECT A.id_asistencia,asig.descripcion, C.fecha, C.hora_inicio, C.hora_termino,E.descripcion, A.fecha,A.hora,alu.rut,  
-                                                        alu.nombre || ' '|| alu.nombre_s ||' '|| alu.nombre_t ||' '|| alu.apellido_p||' '|| alu.apellido_m AS nombre
-                                                        FROM asistencia A
-                                                        INNER JOIN detalle_asistencia det_a
-                                                        ON A.id_asistencia = det_a.id_asistencia
-                                                        INNER JOIN clase C
-                                                        ON det_a.id_clase = C.id_clase
-                                                        INNER JOIN detalle_clase_alu det_c
-                                                        ON C.id_clase = det_c.id_clase
-                                                        INNER JOIN persona alu
-                                                        ON det_c.rut_alumno = alu.rut
-                                                        INNER JOIN asignatura asig
-                                                        ON C.id_asignatura = asig.id_asignatura
-                                                        INNER JOIN estado_asistencia E
-                                                        ON A.id_estado = E.id_estado
-                                                        WHERE A.id_asistencia = asistenciaid;
+            OPEN entidad FOR 
+                    SELECT  A.id_asistencia,asig.descripcion, C.fecha, C.hora_inicio, C.hora_termino,E.descripcion, A.fecha,A.hora,pe.rut, 
+                                                pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS "nombre_completo" , cur.descripcion
+                                                FROM asistencia A
+                                                INNER JOIN detalle_asistencia det_a
+                                                ON A.id_asistencia = det_a.id_asistencia
+                                                INNER JOIN estado_asistencia E
+                                                ON A.id_estado = E.id_estado
+                                                INNER JOIN clase C
+                                                ON det_a.id_clase = C.id_clase
+                                                INNER JOIN persona pe
+                                                ON det_a.rut_alumno = pe.rut
+                                                INNER JOIN alumno alu
+                                                ON det_a.rut_alumno = alu.rut_alumno
+                                                INNER JOIN curso cur
+                                                ON cur.id_curso = alu.id_curso
+                                                INNER JOIN asignatura asig
+                                                ON C.id_asignatura = asig.id_asignatura
+                                                WHERE A.id_asistencia = asistenciaid
+                                                ORDER BY asig.descripcion ASC, C.fecha ASC, "nombre_completo" asc;
             valida := 1;
         END IF;
             EXCEPTION
@@ -478,27 +480,26 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
         valida := 0;
         SELECT COUNT(*) INTO v_cantidad FROM asistencia;
         IF v_cantidad > 0 THEN 
-        OPEN lista FOR SELECT  A.id_asistencia,asig.descripcion, C.fecha, C.hora_inicio, C.hora_termino,E.descripcion, A.fecha,A.hora,pe.rut, 
-                                                pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS nombre , cur.descripcion
-                                                FROM asistencia A
-                                                INNER JOIN detalle_asistencia det_a
-                                                ON A.id_asistencia = det_a.id_asistencia
-                                                INNER JOIN clase C
-                                                ON det_a.id_clase = C.id_clase
-                                                INNER JOIN detalle_curso det_c
-                                                ON det_c.id_clase = C.id_clase
-                                                INNER JOIN curso cur
-                                                ON cur.id_curso = det_c.id_curso
-                                                INNER JOIN alumno alu
-                                                ON cur.id_curso = alu.id_curso
-                                                INNER JOIN persona pe
-                                                ON alu.rut_alumno = pe.rut
-                                                INNER JOIN asignatura asig
-                                                ON C.id_asignatura = asig.id_asignatura
-                                                INNER JOIN estado_asistencia E
-                                                ON A.id_estado = E.id_estado
-                                                ORDER BY asig.descripcion ASC, C.fecha ASC;
-        valida := 1;
+            OPEN lista FOR 
+            SELECT  A.id_asistencia,asig.descripcion, C.fecha, C.hora_inicio, C.hora_termino,E.descripcion, A.fecha,A.hora,pe.rut, 
+                                                    pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS "nombre_completo" , cur.descripcion
+                                                    FROM asistencia A
+                                                    INNER JOIN detalle_asistencia det_a
+                                                    ON A.id_asistencia = det_a.id_asistencia
+                                                    INNER JOIN estado_asistencia E
+                                                    ON A.id_estado = E.id_estado
+                                                    INNER JOIN clase C
+                                                    ON det_a.id_clase = C.id_clase
+                                                    INNER JOIN persona pe
+                                                    ON det_a.rut_alumno = pe.rut
+                                                    INNER JOIN alumno alu
+                                                    ON det_a.rut_alumno = alu.rut_alumno
+                                                    INNER JOIN curso cur
+                                                    ON cur.id_curso = alu.id_curso
+                                                    INNER JOIN asignatura asig
+                                                    ON C.id_asignatura = asig.id_asignatura
+                                                    ORDER BY asig.descripcion ASC, C.fecha ASC, "nombre_completo" asc;
+            valida := 1;
         END IF;
     EXCEPTION
         WHEN too_many_rows THEN
@@ -835,7 +836,6 @@ END pkg_codigo_qr;
 
 
 ------------------------------------------------------------------
-
 -- CREAR JOB
 ------------------------------------------------------------------
 
@@ -885,10 +885,6 @@ BEGIN
     dbms_output.put_line('Valida es ' || v_tipo );
 END;
 
-
-
--- PROCEDURE GENERAR QR, QE ACTUALICE LA TABLA CLASE
--- PROCEDURE LEER QR QUE BUSQUE EL CÓDIGO QR GENERADO e INSERTE LA ASISTENCIA AL LEERLO
 
 -- DETALLE ASISTENCIA Y ASISTENCIA PARA PODER REGISTRAR UNA ASISTENCIA Y ASOCIARLA A UN ALUMNO
 
