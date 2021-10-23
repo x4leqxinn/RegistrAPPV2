@@ -158,6 +158,28 @@ BEGIN
         END IF;
 END trg_horario_laboral;
 
+-------------------------------------------------
+-- TRIGGER VALIDA ASISTENCIA
+-------------------------------------------------
+create or replace TRIGGER TRG_VALIDAR_ASISTENCIA 
+before INSERT ON DETALLE_ASISTENCIA
+FOR EACH ROW 
+DECLARE
+    v_id number;
+    v_asistenciaid number;
+    v_rut varchar2(12);
+BEGIN
+    -- OJO CREAR UN PROCEDURE QUE BUSQUE Y QUE TENGA UN BLOQUE EXCEPTION SI NO ENCUENTRA
+    -- PROBAR
+    SELECT id_asistencia, id_clase, rut_alumno into v_asistenciaid,v_id, v_rut
+	  
+    FROM DETALLE_ASISTENCIA 
+    where rut_Alumno = :NEW.rut_alumno AND id_clase = :NEW.id_clase;
+    IF v_id = :new.id_clase and v_rut = :new.rut_alumno then
+            raise_application_error(-20012,'Se intentó registrar la asistencia del alumno con el rut '||v_rut||' en la clase con el identificador ' || v_id||' repetidas veces.' );
+    END IF; 
+END TRG_VALIDAR_ASISTENCIA;
+
 
 -------------------------------------------------
 -- FUNCIÓN ALMACENADA TRUNCA TABLAS 
@@ -273,7 +295,7 @@ END SP_RESUMEN_ASISTENCIA;
 -------------------------------------------------
 
 CREATE OR REPLACE PACKAGE  pkg_asistencia IS 
-    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, valida OUT NUMBER);
+    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) ;
     PROCEDURE sp_modificar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, estadoid IN asistencia.id_estado%TYPE, valida OUT NUMBER);
     PROCEDURE sp_eliminar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, valida OUT NUMBER);
     PROCEDURE sp_buscar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, entidad OUT SYS_REFCURSOR ,valida OUT NUMBER);
@@ -315,51 +337,30 @@ END pkg_usuario;
 ----------------------------------------------------
 
 CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
-    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, valida OUT NUMBER) IS
+    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) IS
     reg_asistencia asistencia%rowtype;
+    reg_detalle_asistencia detalle_asistencia%rowtype;
     BEGIN 
         valida := 0;
         reg_asistencia.id_asistencia := seq_asistencia.NEXTVAL;
         reg_asistencia.fecha := sysdate;
-        reg_asistencia.hora :=  to_char(sysdate,('HH24:MI:SS'));
+        reg_asistencia.hora :=  to_char(sysdate,('HH24:MI:SS'));--- TILT
         reg_asistencia.id_estado:= estadoid;
+
+        reg_detalle_asistencia.id_detalle_asist := seq_detalle_asistencia.nextval;
+        reg_detalle_asistencia.id_asistencia := reg_asistencia.id_asistencia;
+        reg_detalle_asistencia.id_clase := claseID;
+        reg_detalle_asistencia.rut_alumno := rut_alumno;
+
         INSERT INTO asistencia VALUES reg_asistencia;
+        commit;
+        INSERT INTO DETALLE_ASISTENCIA VALUES reg_detalle_asistencia;
         valida := 1;
         COMMIT;
     EXCEPTION
-        WHEN too_many_rows THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN invalid_number THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-      pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN no_data_found THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN zero_divide THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN OTHERS THEN 
+         WHEN OTHERS THEN 
+            -- Validación
+            delete from asistencia where id_asistencia = reg_asistencia.id_asistencia;
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := sqlerrm;
@@ -942,6 +943,7 @@ EXEC dbms_scheduler.run_job('JOB_RESUMEN_ASISTENCIA_DIARIA');
 -- TEST 
 -------------------------------------
 
+
 SET SERVEROUTPUT ON;
 ---- Probar LISTAR Y BUSCAR
 VAR cursor_x refcursor
@@ -954,7 +956,7 @@ DECLARE
     v_tipo NUMBER;
     v_nombre VARCHAR2(200);
 BEGIN 
-    pkg_usuario.sp_cambiar_contrasenia('jorgealequinn@gmail.com','admin123',v_tipo);
+    pkg_asistencia.sp_insertar_asistencia(2, 4,'20281676',v_tipo);
     dbms_output.put_line('Valida es ' || v_tipo );
 END;
-
+    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseID IN DETALLE_ASISTENCIA.ID_CLASE%TYPE, rut_alumno IN DETALLE_ASISTENCIA.RUT_ALUMNO%TYPE,valida OUT NUMBER) ;
