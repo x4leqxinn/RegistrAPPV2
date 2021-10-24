@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C6291DB4-454C-3BBC-BD86-07420FED84C4" name="PROFESOR">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>A41A0521-CB05-C8C6-4B6F-E8940AC0FE89</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="rut_profesor" id="16F9C9B9-4BF6-94D9-CF66-3A380EBE2F73">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E699D71F-AD54-B303-B6E5-AC0092031AED" referredColumn="1A001B41-5AE4-2707-6B98-D8B7D629CDB4"/>
+</associations>
+</Column>
+<Column name="sueldo" id="2ADD966B-BE71-2B50-A623-704AC99088EC">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>EA7A1CB3-6188-9BBD-FC3A-BC9944A52127</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,7,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="59D3BB89-88EE-011C-A2C8-D76B27BD99F6" name="PROFESOR_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>B6C083E7-954A-B4F8-B808-E7DAAADF6684</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="16F9C9B9-4BF6-94D9-CF66-3A380EBE2F73"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3144F52B-4326-427B-5D8D-81E4B0698FF4" name="PROFESOR_PERSONA_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>988A1E9B-C9B5-6CCF-AD0F-FFF0121E53E2</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="16F9C9B9-4BF6-94D9-CF66-3A380EBE2F73"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

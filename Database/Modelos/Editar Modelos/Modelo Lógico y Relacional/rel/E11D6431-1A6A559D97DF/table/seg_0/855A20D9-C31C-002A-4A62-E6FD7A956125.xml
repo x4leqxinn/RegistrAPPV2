@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="855A20D9-C31C-002A-4A62-E6FD7A956125" name="REGISTRO_ERROR">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>F374DD6F-4FFD-7F35-48B8-928695275331</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="DD81691D-0F61-3238-037E-0FD4327B6F39">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>9D46AB4B-51D6-DC6F-5968-3629D4543D59</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="codigo_error" id="172256FE-65AF-6E10-0BCE-E2BFD4CD877D">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>6EAB97AD-DD9B-5C24-2982-0C1ED270E2A4</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="mensaje_error" id="E4CF0241-05D2-D6A8-8835-00927E613197">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>0040F48A-4D5C-9754-7E02-41E9DFA35F0C</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>300</dataTypeSize>
+<ownDataTypeParameters>300,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="subprograma" id="D0ED1916-2202-28F1-A6A6-83855BCA953F">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>555780B4-BC04-54A5-E7F6-3B7D22AAD057</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>80</dataTypeSize>
+<ownDataTypeParameters>80,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="715BCDFE-2475-4993-96C8-C0458117F203">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>C83D2C91-002D-726B-1AC7-EC3C7493916A</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="hora" id="CE1516F6-16FE-5662-D650-3654DFBF43B8">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>744F829E-2BF1-BF7C-B703-0D8CCD5B090C</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B46F33D5-07BA-FDBF-A08D-9A90CBE87822" name="REGISTRO_ERROR_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>68F33D85-4381-A238-1610-59A19420AFFA</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DD81691D-0F61-3238-037E-0FD4327B6F39"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

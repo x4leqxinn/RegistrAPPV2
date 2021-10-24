@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<InheritanceRelation class="oracle.dbtools.crest.model.design.logical.InheritanceRelation" name="Hierarchy_4" directorySegmentName="seg_0" id="988A1E9B-C9B5-6CCF-AD0F-FFF0121E53E2">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-19 01:45:39 UTC</createdTime>
+<ownerDesignName>Modelo Logico - RegistrAPP</ownerDesignName>
+<engineerTo>
+<item key="E11D6431-3AE3-CF02-C3F5-1A6A559D97DF" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<nameOnSource>Super Type</nameOnSource>
+<nameOnTarget>Sub Type</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceEntity>9E701B94-05CB-B5A7-E767-77E692CE2107</sourceEntity>
+<targetEntity>A41A0521-CB05-C8C6-4B6F-E8940AC0FE89</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</InheritanceRelation>

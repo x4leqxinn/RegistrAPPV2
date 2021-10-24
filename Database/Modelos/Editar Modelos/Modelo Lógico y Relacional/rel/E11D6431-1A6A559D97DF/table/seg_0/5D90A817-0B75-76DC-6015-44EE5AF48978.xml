@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5D90A817-0B75-76DC-6015-44EE5AF48978" name="DETALLE_CURSO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>68DBF956-62E2-2569-0AE0-DF95BCB43F11</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_detalle_curso" id="DAD405DE-501C-F8FA-9BC9-E37C52113407">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>614EE1C7-F7C8-DFAC-E737-3EFCDFDBA793</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="rut_profesor" id="C2D1DCBE-4030-2D79-EA7D-5E6BC41E80D2">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>447E12C2-0315-7B37-A54B-1C382F6A1F09</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B9D31ABE-F8E0-10EF-E725-19A055C4C223" referredColumn="16F9C9B9-4BF6-94D9-CF66-3A380EBE2F73"/>
+</associations>
+</Column>
+<Column name="id_curso" id="6B89E1FD-CE44-C494-46C3-384ABC1B835C">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>78F0F80D-F9BF-AA4D-317D-45B399C738CC</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D9B603AF-7BDB-EE2A-5E4C-880279B3EE1D" referredColumn="B21B3A12-6B7D-097E-E019-1E460F80EF2D"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3EC8AD95-58E5-65F0-089C-90B1F9DABB71" name="DETALLE_CURSO_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>C68C6A65-CEA4-781D-E334-E6A02D2AA559</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DAD405DE-501C-F8FA-9BC9-E37C52113407"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2DA2721D-6524-FB4E-48EE-76E72E1CFC58" name="DETALLE_CURSO_PROFE_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>0F12AA66-CA1C-1241-43EF-D1988E2A60CA</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C2D1DCBE-4030-2D79-EA7D-5E6BC41E80D2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="979ED16C-AB32-DFB7-2E23-7AFCC53C5AAE" name="DETALLE_CURSO_CURSO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>F8E9B2D7-356D-F562-3327-86F6BC3DD2D4</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6B89E1FD-CE44-C494-46C3-384ABC1B835C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="28EA76FA-EEDB-10E8-1743-A8A6F3650CCB" name="AUDITORIA_DDL">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>E792FCBC-78E8-6520-1A9E-3E294E257B59</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="correlativo" id="10875C1C-87F1-6FDE-C623-839D8FBCCA79">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>40B4D8BF-414D-4129-DFC6-688275C1FC00</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="usuario" id="8AFBD0B2-D3D0-FE20-3408-939DB88F1A27">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>F78A7ABB-8AA6-227C-9132-42C1BEC9C52E</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="objeto_afectado" id="8AE61F42-EF9B-2747-9A07-4477F7A10338">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>085D0FD2-B3ED-AC1C-75D1-5268D1F0450F</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>80</dataTypeSize>
+<ownDataTypeParameters>80,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_objeto" id="33746DBF-7EA1-B19B-1319-96935D54037A">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>CBE6F6EC-A91A-AA11-EC66-4E3109F736C3</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="operacion" id="21932A47-24CA-60B8-93F8-E6774A78F822">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>4D58A53E-F93A-536D-CCE6-891C50429FC8</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="E54CF16E-55D4-0ABF-094D-ADE6DCBDC54C">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>64D9F06F-F155-DE6E-0877-351E0BDB98D9</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="hora" id="151D8165-21DD-D47D-AF37-CA15467B0136">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>5ADAA24E-7100-6E33-5EAA-24E5A4AB7291</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="91DBABBC-E99B-8A8C-79F7-7D13754305F2" name="AUDITORIA_DDL_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>595463F1-EDF0-F7E3-8788-58557971B151</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="10875C1C-87F1-6FDE-C623-839D8FBCCA79"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5D432758-E7F6-902A-D151-3690E5B4367D" name="USUARIO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>31452606-455F-DC33-5FEA-3951CB407AE6</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="nombre_usuario" id="62D77DBF-D6C0-70D8-E42F-C1D0023E41C1">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>B065AAEA-4B0D-4A17-CF91-2AA7AEF1455F</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="contrasenia" id="34C2A683-CE73-5CAD-5906-66C72CF4056B">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>2716577F-F16B-5B95-45ED-6754CC9383F9</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25</dataTypeSize>
+<ownDataTypeParameters>25,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_estado" id="D32F33A9-838D-75D4-F15A-F846E0370D88">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>6CA9E1D4-70E5-A9B9-DEDB-3584FD29B4C9</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="10118908-99C2-5B12-4D5E-99B21F4FDBC6" referredColumn="4B25CC63-81B3-FED2-B3AD-A7FA1237B7D4"/>
+</associations>
+</Column>
+<Column name="id_tipo" id="EE4860C8-A393-855E-7E90-CC21F0AD3813">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>E04F088D-1499-1F59-A78C-BB71AE8F59A8</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="655447AA-A3D3-6BA6-3976-C10FC2B4B3AC" referredColumn="99F85558-2FDF-CB11-8F36-1933C8AB9FA0"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EDCBBD1C-0A0E-C6CB-9F92-84FE345F513D" name="USUARIO_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>6C6E67F1-31CB-2DB0-DCCA-5EA33F263F55</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="62D77DBF-D6C0-70D8-E42F-C1D0023E41C1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4E0AC147-82F8-751D-3D0B-F80D863E613C" name="USUARIO_ESTADO_USUARIO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>F680B4AE-FB9C-E451-C51D-118F2488F846</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D32F33A9-838D-75D4-F15A-F846E0370D88"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E1CA1A3C-1E09-BEE4-C1A9-3542C4B37CD6" name="USUARIO_TIPO_USUARIO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>D1190C3A-1963-0374-1680-F49A471089DA</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EE4860C8-A393-855E-7E90-CC21F0AD3813"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

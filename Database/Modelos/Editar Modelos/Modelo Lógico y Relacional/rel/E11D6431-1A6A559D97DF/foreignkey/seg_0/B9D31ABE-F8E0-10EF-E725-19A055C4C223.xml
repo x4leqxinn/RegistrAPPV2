@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="B9D31ABE-F8E0-10EF-E725-19A055C4C223" containerWithKeyObject="5D90A817-0B75-76DC-6015-44EE5AF48978" localFKIndex="2DA2721D-6524-FB4E-48EE-76E72E1CFC58" name="DETALLE_CURSO_PROFE_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>0F12AA66-CA1C-1241-43EF-D1988E2A60CA</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<referredTableLongName>PROFESOR</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>C6291DB4-454C-3BBC-BD86-07420FED84C4</referredTableID>
+<keyObject>59D3BB89-88EE-011C-A2C8-D76B27BD99F6</keyObject>
+<referredKeyID>59D3BB89-88EE-011C-A2C8-D76B27BD99F6</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>rut_profesor</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

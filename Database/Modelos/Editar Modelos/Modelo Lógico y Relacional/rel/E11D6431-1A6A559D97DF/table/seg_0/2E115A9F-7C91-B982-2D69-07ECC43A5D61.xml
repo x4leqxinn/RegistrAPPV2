@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="2E115A9F-7C91-B982-2D69-07ECC43A5D61" name="DETALLE_ASIGNATURA">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>B88927FE-4224-3945-EDF0-5ACBDAFC2A1F</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_detalle_asignatura" id="AC157564-3E2F-B3BE-365D-3967960641DC">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>2E268CE2-B5B4-5030-BB97-944484BC9DF8</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="rut_profesor" id="9AB1A1E3-B05A-2C83-F743-CBE8B897F732">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>9E1B5E38-DDC3-3D5B-9978-712663E4E276</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A82B869D-DA83-D1DA-95DA-C5CABFA97C06" referredColumn="16F9C9B9-4BF6-94D9-CF66-3A380EBE2F73"/>
+</associations>
+</Column>
+<Column name="id_asignatura" id="09115B19-A61A-A868-3F45-B87126D51517">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>F1ED652A-46E0-1671-F354-EBF1E4BB734B</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D2718ECF-A6E2-683D-2EC3-73601FC04D0F" referredColumn="4E53C338-94F0-AFA2-E857-F9A318D02BD6"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C925CEDE-5F84-0D55-5F7B-248CCE4C87B5" name="DETALLE_ASIGNATURA_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:46 UTC</createdTime>
+<generatorID>68BC4DBC-3A9C-812D-BEA3-8DBB874F6DF1</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AC157564-3E2F-B3BE-365D-3967960641DC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3B097C04-F8EA-D531-C469-EC1543A76452" name="DETALLE_ASIGNATURA_PROFESOR_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>4AC914C4-EB93-E6B2-DE5D-7269FFA1B0E9</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9AB1A1E3-B05A-2C83-F743-CBE8B897F732"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="563E9651-D750-5781-D044-89793D7BC4F7" name="DETALLE_ASIGNATURA_ASIG_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 06:48:47 UTC</createdTime>
+<generatorID>952F7AAA-08B2-B1B1-CBC9-953D4E77A131</generatorID>
+<ownerDesignName>Modelo Lógico y Relacional</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="09115B19-A61A-A868-3F45-B87126D51517"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
