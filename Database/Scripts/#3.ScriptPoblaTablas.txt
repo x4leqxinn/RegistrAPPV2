@@ -1,92 +1,73 @@
 -----------------------------------------------------
 -- SECUENCIAS
 -----------------------------------------------------
-DROP SEQUENCE SEQ_CURSO;
-DROP SEQUENCE SEQ_RESUMEN_ASISTENCIA;
-DROP SEQUENCE SEQ_ASIGNATURA;
-DROP SEQUENCE SEQ_DETALLE_ASISTENCIA;
-DROP SEQUENCE SEQ_DETALLE_CLASE_ALU;
-DROP SEQUENCE SEQ_DETALLE_CLASE_PROFE;
-DROP SEQUENCE SEQ_DETALLE_CURSO;
-DROP SEQUENCE SEQ_DETALLE_CLASE;
-DROP SEQUENCE SEQ_ERRORES;
-DROP SEQUENCE SEQ_ASISTENCIA;
-DROP SEQUENCE SEQ_LOGS;
-DROP SEQUENCE SEQ_AUDITORIA_DDL;
-DROP SEQUENCE SEQ_CLASE;
-DROP SEQUENCE SEQ_DETALLE_ASIGNATURA;
+DROP SEQUENCE seq_curso;
+DROP SEQUENCE seq_resumen_asistencia;
+DROP SEQUENCE seq_asignatura;
+DROP SEQUENCE seq_detalle_asistencia;
+DROP SEQUENCE seq_detalle_curso;
+DROP SEQUENCE seq_detalle_clase;
+DROP SEQUENCE seq_errores;
+DROP SEQUENCE seq_asistencia;
+DROP SEQUENCE seq_logs;
+DROP SEQUENCE seq_auditoria_ddl;
+DROP SEQUENCE seq_clase;
+DROP SEQUENCE seq_detalle_asignatura;
 
-CREATE SEQUENCE SEQ_DETALLE_ASIGNATURA;
-CREATE SEQUENCE SEQ_DETALLE_CLASE;
-CREATE SEQUENCE SEQ_CLASE;
-CREATE SEQUENCE SEQ_AUDITORIA_DDL;
-CREATE SEQUENCE SEQ_LOGS;
-create SEQUENCE SEQ_ASISTENCIA;
-CREATE SEQUENCE SEQ_CURSO;
-CREATE SEQUENCE SEQ_RESUMEN_ASISTENCIA;
-CREATE SEQUENCE SEQ_ASIGNATURA;
-CREATE SEQUENCE SEQ_DETALLE_ASISTENCIA;
-CREATE SEQUENCE SEQ_DETALLE_CLASE_ALU;
-CREATE SEQUENCE SEQ_DETALLE_CLASE_PROFE;
-CREATE SEQUENCE SEQ_DETALLE_CURSO;
-CREATE SEQUENCE SEQ_ERRORES;
+CREATE SEQUENCE seq_detalle_asignatura;
+CREATE SEQUENCE seq_detalle_clase;
+CREATE SEQUENCE seq_clase;
+CREATE SEQUENCE seq_auditoria_ddl;
+CREATE SEQUENCE seq_logs;
+CREATE SEQUENCE seq_asistencia;
+CREATE SEQUENCE seq_curso;
+CREATE SEQUENCE seq_resumen_asistencia;
+CREATE SEQUENCE seq_asignatura;
+CREATE SEQUENCE seq_detalle_asistencia;
+CREATE SEQUENCE seq_detalle_curso;
+CREATE SEQUENCE seq_errores;
 
 -----------------------------------------------------
 -- TIPO USUARIO
 -----------------------------------------------------
-INSERT INTO TIPO_USUARIO VALUES (1,'PROFESOR');
-INSERT INTO TIPO_USUARIO VALUES (2, 'ALUMNO');
+INSERT INTO tipo_usuario VALUES (1,'PROFESOR');
+INSERT INTO tipo_usuario VALUES (2, 'ALUMNO');
 
 -----------------------------------------------------
 -- ESTADO USUARIO
 -----------------------------------------------------
-INSERT INTO ESTADO_USUARIO VALUES (1, 'ACTIVO');
-INSERT INTO ESTADO_USUARIO VALUES(2, 'INACTIVO');
+INSERT INTO estado_usuario VALUES (1, 'ACTIVO');
+INSERT INTO estado_usuario VALUES(2, 'INACTIVO');
 
 -----------------------------------------------------
 -- GENERO
 -----------------------------------------------------
-INSERT INTO GENERO VALUES(1, 'MASCULINO');
-INSERT INTO GENERO VALUES(2, 'FEMENINO');
+INSERT INTO genero VALUES(1, 'MASCULINO');
+INSERT INTO genero VALUES(2, 'FEMENINO');
 
------------------------------------------------------
--- CURSO
------------------------------------------------------
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'PRIMERO MEDIO A');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'PRIMERO MEDIO B');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'PRIMERO MEDIO C');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'SEGUNDO MEDIO A');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'SEGUNDO MEDIO B');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'SEGUNDO MEDIO C');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'TERCERO MEDIO A');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'TERCERO MEDIO B');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'TERCERO MEDIO C');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'CUARTO MEDIO A');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'CUARTO MEDIO B');
-INSERT INTO CURSO VALUES(SEQ_CURSO.NEXTVAL, 'CUARTO MEDIO C');
 
 -----------------------------------------------------
 -- ASIGNATURA
 -----------------------------------------------------
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'MATEMÁTICAS');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'BIOLOGÍA');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'QUIMÍCA');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'FÍSICA');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'ED. FÍSICA');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'LENGUAJE Y COMUNICACIÓN');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'INGLÉS');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'ARTES VISUALES');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'MÚSICA');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'FILOSOFÍA Y PSICOLOGÍA');
-INSERT INTO asignatura VALUES (SEQ_ASIGNATURA.NEXTVAL, 'HISTORIA Y GEOGRAFÍA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'MATEMÁTICAS');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'BIOLOGÍA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'QUIMÍCA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'FÍSICA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'ED. FÍSICA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'LENGUAJE Y COMUNICACIÓN');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'INGLÉS');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'ARTES VISUALES');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'MÚSICA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'FILOSOFÍA Y PSICOLOGÍA');
+INSERT INTO asignatura VALUES (seq_asignatura.NEXTVAL, 'HISTORIA Y GEOGRAFÍA');
 
 -----------------------------------------------------
 -- ESTADO ASISTENCIA
 -----------------------------------------------------
 
-INSERT INTO ESTADO_ASISTENCIA VALUES (1, 'PRESENTE');
-INSERT INTO ESTADO_ASISTENCIA VALUES (2, 'AUSENTE');
-INSERT INTO ESTADO_ASISTENCIA VALUES (3, 'JUSTIFICADO');
+INSERT INTO estado_asistencia VALUES (1, 'PRESENTE');
+INSERT INTO estado_asistencia VALUES (2, 'AUSENTE');
+INSERT INTO estado_asistencia VALUES (3, 'JUSTIFICADO');
 
 -----------------------------------------------------
 -- USUARIO
@@ -94,108 +75,141 @@ INSERT INTO ESTADO_ASISTENCIA VALUES (3, 'JUSTIFICADO');
 
 -- Alumnos
 
-INSERT INTO USUARIO VALUES ('x4leqxinn', 'admin123',1,2);
-INSERT INTO USUARIO VALUES ('ratitalizz', 'admin123',1,2);
-INSERT INTO USUARIO VALUES ('matt69', 'admin123',1,2);
+INSERT INTO usuario VALUES ('x4leqxinn', 'admin123',1,2);
+INSERT INTO usuario VALUES ('ratitalizz', 'admin123',1,2);
+INSERT INTO usuario VALUES ('matt69', 'admin123',1,2);
 
 -- Profesores
-INSERT INTO USUARIO VALUES ('fre.camposo', 'admin123',1,1);
+INSERT INTO usuario VALUES ('fre.camposo', 'admin123',1,1);
+INSERT INTO usuario VALUES ('panshoots', 'admin123',1,1);
+INSERT INTO usuario VALUES ('je.leonelli', 'admin123',1,1);
+INSERT INTO usuario VALUES ('alambrito', 'admin123',1,1);
+INSERT INTO usuario VALUES ('elizeus', 'admin123',1,1);
+INSERT INTO usuario VALUES ('pavesito', 'admin123',1,1);
+INSERT INTO usuario VALUES ('hackerman', 'admin123',1,1);
+INSERT INTO usuario VALUES ('lu.millao', 'admin123',1,1);
+INSERT INTO usuario VALUES ('v.vasquez', 'admin123',1,1);
+INSERT INTO usuario VALUES ('fab.bravoa', 'admin123',1,1);
+INSERT INTO usuario VALUES ('jul.tapiaa', 'admin123',1,1);
+INSERT INTO usuario VALUES ('f.cordovez', 'admin123',1,1);
+
 -----------------------------------------------------
 -- PERSONA
 -----------------------------------------------------
-INSERT INTO PERSONA VALUES ('20281676','2','JORGE','ALEJANDRO', null , 'QUINTUI','VERGARA','jorgealequinn@gmail.com','x4leqxinn',1);
-INSERT INTO PERSONA VALUES ('19317764','6','BARBARA','ELIZABETH', null , 'AROCA','ESPINOZA','ba.aroca@gmail.com','ratitalizz',2);
-INSERT INTO PERSONA VALUES ('19708456','1','MATIAS','IGNACIO', null , 'AMION','ARANEDA','mat.amion@gmail.com','matt69',1);
-INSERT INTO PERSONA VALUES ('12647021','5','FREDDY','MAURICIO', null , 'CAMPOS','ORELLANA','fre.camposo@profesor.duoc.cl ','fre.camposo',1);
+-- PROFESORES
+INSERT INTO persona VALUES ('12647021','5','FREDDY','MAURICIO', NULL , 'CAMPOS','ORELLANA','fre.camposo@profesor.duoc.cl ','fre.camposo',1);
+INSERT INTO persona VALUES ('17268410','6','FRANCISCO','JAVIER', NULL , 'JUILLET','FERJ','fr.juillet@profesor.duoc.cl ','panshoots',1);
+INSERT INTO persona VALUES ('15986610','6','JEANETTE','HERMINIA', NULL , 'LEONELLI','RIFFO','je.leonelli@profesor.duoc.cl ','je.leonelli',2);
+INSERT INTO persona VALUES ('17543330','9','ALAN','MARCELO', NULL , 'GAJARDO','MEDINA','alan.gajardo@profesor.duoc.cl ','alambrito',1);
+INSERT INTO persona VALUES ('17924636','8','ELISEO','JACOB', NULL , 'CONCHA','PINO','elis.concha@profesor.duoc.cl ','elizeus',1);
+INSERT INTO persona VALUES ('17416901','2','PAVEL','NICOLA', NULL , 'MORALES','BUSTAMANTE','pave.morales@profesor.duoc.cl','pavesito',1);
+INSERT INTO persona VALUES ('12881029','3','LUIS','ANDRES', NULL , 'DIAZ','GIRAL','lui.diaz@profesor.duoc.cl','hackerman',1);
+INSERT INTO persona VALUES ('12667404','K','LUIS','IGNACIO', NULL , 'MILLAO','BECERRA','lu.millao@profesor.duoc.cl','lu.millao',1);
+INSERT INTO persona VALUES ('13285237','5','VICTOR','ARMANDO', NULL , 'VASQUEZ','MUÑOZ','v.vasquezm@profesor.duoc.cl','v.vasquez',1);
+INSERT INTO persona VALUES ('17305533','1','FABRIZIO','ENRIQUE', NULL , 'BRAVO','ARENAS','fab.bravoa@profesor.duoc.cl','fab.bravoa',1);
+INSERT INTO persona VALUES ('10355891','3','JULIO','MANUEL', NULL , 'TAPIA','ACEVEDO','jul.tapiaa@profesor.duoc.cl','jul.tapiaa',1);
+INSERT INTO persona VALUES ('17022139','7','FABIAN','ANDRES', NULL , 'CORDOVEZ','ARRIAGADA','f.cordovez@profesor.duoc.cl','f.cordovez',1);
+
+-- PROFESORES
+-----------------------------------------------------
+INSERT INTO profesor VALUES ('12647021',5000000);
+INSERT INTO profesor VALUES ('17268410',5000000);
+INSERT INTO profesor VALUES ('15986610',5000000);
+INSERT INTO profesor VALUES ('17543330',5000000);
+INSERT INTO profesor VALUES ('17924636',5000000);
+INSERT INTO profesor VALUES ('17416901',5000000);
+INSERT INTO profesor VALUES ('12881029',5000000);
+INSERT INTO profesor VALUES ('12667404',5000000);
+INSERT INTO profesor VALUES ('13285237',5000000);
+INSERT INTO profesor VALUES ('17305533',5000000);
+INSERT INTO profesor VALUES ('10355891',5000000);
+INSERT INTO profesor VALUES ('17022139',5000000);
+
+-----------------------------------------------------
+-- CURSO
+-----------------------------------------------------
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'PRIMERO MEDIO A','17268410');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'PRIMERO MEDIO B','15986610');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'PRIMERO MEDIO C','17543330');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'SEGUNDO MEDIO A','17924636');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'SEGUNDO MEDIO B','17416901');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'SEGUNDO MEDIO C','12881029');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'TERCERO MEDIO A','12667404');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'TERCERO MEDIO B','13285237');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'TERCERO MEDIO C','17305533');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'CUARTO MEDIO A','10355891');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'CUARTO MEDIO B','17022139');
+INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'CUARTO MEDIO C','12647021');
+
+-----------------------------------------------------
+-- PERSONA
+-----------------------------------------------------
+-- ALUMNOS
+INSERT INTO persona VALUES ('20281676','2','JORGE','ALEJANDRO', NULL , 'QUINTUI','VERGARA','jorgealequinn@gmail.com','x4leqxinn',1);
+INSERT INTO persona VALUES ('19317764','6','BARBARA','ELIZABETH', NULL , 'AROCA','ESPINOZA','ba.aroca@gmail.com','ratitalizz',2);
+INSERT INTO persona VALUES ('19708456','1','MATIAS','IGNACIO', NULL , 'AMION','ARANEDA','mat.amion@gmail.com','matt69',1);
 
 -----------------------------------------------------
 -- ALUMNO
 -----------------------------------------------------
-insert INTO ALUMNO VALUES ('20281676',10);
-insert INTO ALUMNO VALUES ('19317764',10);
-insert INTO ALUMNO VALUES ('19708456',10);
+INSERT INTO alumno VALUES ('20281676',10);
+INSERT INTO alumno VALUES ('19317764',10);
+INSERT INTO alumno VALUES ('19708456',10);
 -----------------------------------------------------
--- PROFESOR
------------------------------------------------------
-INSERT INTO PROFESOR VALUES ('12647021',5000000);
 
 -----------------------------------------------------
 -- CLASE
 -----------------------------------------------------
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','08:00','09:30',11,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','08:00','09:30',10,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','08:00','09:30',8,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','08:00','09:30',9,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','08:00','09:30',3,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','08:00','09:30',6,NULL);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','08:00','09:30',10,NULL,'17268410',7);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','08:00','09:30',1,NULL,'12647021',10); -- CLASE DE MATE POR EL PROFE FREDDY AL CURSO DE 4TO MEDIO A
 
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','09:45','11:15',1,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','09:45','11:15',7,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','09:45','11:15',4,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','09:45','11:15',2,NULL);
 
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','11:30','13:00',8,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','11:30','13:00',9,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','11:30','13:00',3,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','11:30','13:00',6,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'5/11/2021','11:30','13:00',1,NULL);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','09:45','11:15',1,NULL,'12647021',7);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','09:45','11:15',4,NULL,'13285237',10); -- CLASE DE FÍSICA POR EL PROFE VICTOR AL CURSO DE 4TO MEDIO A
 
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','08:00','09:30',5,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','08:00','09:30',2,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','08:00','09:30',3,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','08:00','09:30',9,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','08:00','09:30',7,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','08:00','09:30',4,NULL);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','11:30','13:00',10,NULL,'17268410',10); -- CLASE DE FILOSOFÍA POR EL PROFE JUILLET AL CURSO 4TO MEDIO A
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','11:30','13:00',4,NULL,'13285237',7);
 
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','09:45','11:15',5,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','09:45','11:15',4,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','09:45','11:15',11,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','09:45','11:15',6,NULL);
 
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','11:30','13:00',3,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','11:30','13:00',10,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','11:30','13:00',9,NULL);
-INSERT INTO CLASE VALUES (SEQ_CLASE.nextval,'6/11/2021','11:30','13:00',2,NULL);
 
------------------------------------------------------
--- DETALLE_CLASE
------------------------------------------------------
--- Día 5/11/2021
-INSERT INTO DETALLE_CLASE VALUES (SEQ_DETALLE_CLASE.nextval,10,2);
-INSERT INTO DETALLE_CLASE VALUES (SEQ_DETALLE_CLASE.nextval,10,9);
-INSERT INTO DETALLE_CLASE VALUES (SEQ_DETALLE_CLASE.nextval,10,13);
-
--- Día 6/11/2021
-INSERT INTO DETALLE_CLASE VALUES (SEQ_DETALLE_CLASE.nextval,10,15);
-INSERT INTO DETALLE_CLASE VALUES (SEQ_DETALLE_CLASE.nextval,10,24);
-INSERT INTO DETALLE_CLASE VALUES (SEQ_DETALLE_CLASE.nextval,10,28);
 
 -----------------------------------------------------
 -- DETALLE_ASIGNATURA
 -----------------------------------------------------
--- PROFESOR DE MATEMÁTICAS, FÍSICA Y FILOSOFÍA
-INSERT INTO DETALLE_ASIGNATURA VALUES (SEQ_DETALLE_ASIGNATURA.nextval,'12647021',1);
-INSERT INTO DETALLE_ASIGNATURA VALUES (SEQ_DETALLE_ASIGNATURA.NEXTVAL,'12647021',4);
-INSERT INTO DETALLE_ASIGNATURA VALUES (SEQ_DETALLE_ASIGNATURA.NEXTVAL,'12647021',10);
+-- PROFESOR DE MATEMÁTICAS (FREDDY)
+INSERT INTO detalle_asignatura VALUES (seq_detalle_asignatura.NEXTVAL,'12647021',1);
+-- FÍSICA  (VICTOR)
+INSERT INTO detalle_asignatura VALUES (seq_detalle_asignatura.NEXTVAL,'13285237',4);
+-- FILOSOFÍA (JUILLET)
+INSERT INTO detalle_asignatura VALUES (seq_detalle_asignatura.NEXTVAL,'17268410',10);
 
 
 -----------------------------------------------------
 -- DETALLE_CURSO
 -----------------------------------------------------
 -- TERCERO MEDIO Y CUARTO MEDIO 
-INSERT INTO DETALLE_CURSO VALUES (SEQ_DETALLE_CURSO.nextval,'12647021',7);
-INSERT INTO DETALLE_CURSO VALUES (SEQ_DETALLE_CURSO.nextval,'12647021',8);
-INSERT INTO DETALLE_CURSO VALUES (SEQ_DETALLE_CURSO.nextval,'12647021',9);
-INSERT INTO DETALLE_CURSO VALUES (SEQ_DETALLE_CURSO.nextval,'12647021',10);
-INSERT INTO DETALLE_CURSO VALUES (SEQ_DETALLE_CURSO.nextval,'12647021',11);
-INSERT INTO DETALLE_CURSO VALUES (SEQ_DETALLE_CURSO.nextval,'12647021',12);
 
------------------------------------------------------
--- DETALLE_CLASE_PROFE
------------------------------------------------------
--- Clases que realiza
-INSERT INTO DETALLE_CLASE_PROFE VALUES (SEQ_DETALLE_CLASE_PROFE.NEXTVAL,2,'12647021'); -- 8:00 AM  CLASE DE FILOSOFÍA
-INSERT INTO DETALLE_CLASE_PROFE VALUES (SEQ_DETALLE_CLASE_PROFE.NEXTVAL,9,'12647021'); -- 09:45 AM CLASE DE FÍSICA
-INSERT INTO DETALLE_CLASE_PROFE VALUES (SEQ_DETALLE_CLASE_PROFE.NEXTVAL,15,'12647021'); -- 11:30 AM CLASE DE MATEMÁTICA
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'12647021',7);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'12647021',8);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'12647021',9);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'12647021',10);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'12647021',11);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'12647021',12);
+
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'13285237',7);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'13285237',8);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'13285237',9);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'13285237',10);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'13285237',11);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'13285237',12);
+
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'17268410',7);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'17268410',8);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'17268410',9);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'17268410',10);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'17268410',11);
+INSERT INTO detalle_curso VALUES (seq_detalle_curso.NEXTVAL,'17268410',12);
+
 
 COMMIT;
+
