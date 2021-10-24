@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F9FE2A2D-B683-145F-10C3-A2211C90732F" name="PROFESOR">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>A41A0521-CB05-C8C6-4B6F-E8940AC0FE89</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="rut_profesor" id="FB45F7CE-7580-123F-782F-168B0FDCEF62">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C7FBA1CA-01C9-B5FF-88E8-6BC439FC89D3" referredColumn="00FA3050-6EF1-6DA5-6032-F2ED7E558C98"/>
+</associations>
+</Column>
+<Column name="sueldo" id="34BBF2E0-E245-4AF5-DE7A-F4F5C3F84901">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>EA7A1CB3-6188-9BBD-FC3A-BC9944A52127</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,7,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B8D1DC90-B05F-6B20-C175-D188DAD1624D" name="PROFESOR_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>B6C083E7-954A-B4F8-B808-E7DAAADF6684</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FB45F7CE-7580-123F-782F-168B0FDCEF62"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FD39820-1A41-DE7E-49BE-49D6D6886EB2" name="PROFESOR_PERSONA_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>988A1E9B-C9B5-6CCF-AD0F-FFF0121E53E2</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FB45F7CE-7580-123F-782F-168B0FDCEF62"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="3B5681A8-8D03-56A0-1465-B3497F6F392E" name="USUARIO">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>31452606-455F-DC33-5FEA-3951CB407AE6</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="nombre_usuario" id="94FC648D-62AB-C685-BB52-6BE523C07238">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>B065AAEA-4B0D-4A17-CF91-2AA7AEF1455F</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40</dataTypeSize>
+<ownDataTypeParameters>40,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="contrasenia" id="3F803B90-E2D4-153A-727D-1A6AD0DE431D">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>2716577F-F16B-5B95-45ED-6754CC9383F9</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25</dataTypeSize>
+<ownDataTypeParameters>25,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_estado" id="72400B8D-3B59-7B69-F650-6CCE032AC471">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>6CA9E1D4-70E5-A9B9-DEDB-3584FD29B4C9</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4841B870-2B01-247B-FCBA-1923877E83E9" referredColumn="072B15AD-52F6-7E85-0D02-AF6E3B2B2F66"/>
+</associations>
+</Column>
+<Column name="id_tipo" id="ACE2BFD6-B08B-5E03-3973-E13C4FB45488">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>E04F088D-1499-1F59-A78C-BB71AE8F59A8</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0BD5FF54-70D4-8203-7689-042CBAF91D92" referredColumn="D6F8C35F-E96F-CEB9-B966-CC37AF84B14C"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0F14CCD5-8FC5-05DC-1FDA-2E859E85BE7B" name="USUARIO_PK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>6C6E67F1-31CB-2DB0-DCCA-5EA33F263F55</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="94FC648D-62AB-C685-BB52-6BE523C07238"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="227DCA94-6B6A-1DAA-AD30-88A8829B0581" name="USUARIO_ESTADO_USUARIO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>F680B4AE-FB9C-E451-C51D-118F2488F846</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="72400B8D-3B59-7B69-F650-6CCE032AC471"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C5545061-8A46-D6EA-9892-AF69AAF4AFD1" name="USUARIO_TIPO_USUARIO_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:16:59 UTC</createdTime>
+<generatorID>D1190C3A-1963-0374-1680-F49A471089DA</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ACE2BFD6-B08B-5E03-3973-E13C4FB45488"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

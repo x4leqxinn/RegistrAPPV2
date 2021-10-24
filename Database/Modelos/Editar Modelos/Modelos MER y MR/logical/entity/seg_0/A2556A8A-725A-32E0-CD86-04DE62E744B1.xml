@@ -95,6 +95,36 @@
 <dataTypeSize>100</dataTypeSize>
 <ownDataTypeParameters>100,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="rut" id="21702DBB-5AED-8664-2410-8E932AAB2060">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:10:40 UTC</createdTime>
+<generatorID>DD39555E-1F1C-C7BF-6489-E9571C3CA764</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<engineerTo>
+<item key="EAC43728-84E3-84EC-597B-4C47D4F97780" value="true"/>
+</engineerTo>
+<referedAttribute>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_curso" id="2997D3A1-96C4-1226-D27C-34665F5E8D4B">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:12:08 UTC</createdTime>
+<generatorID>22F70CD5-40DD-8684-4CD8-F03BBD313DB9</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<engineerTo>
+<item key="EAC43728-84E3-84EC-597B-4C47D4F97780" value="true"/>
+</engineerTo>
+<referedAttribute>15C69D00-5FB9-EB4A-6CEF-639E31C47281</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="2E4A23C4-34B8-E508-6865-76BB9979BE26" name="ASIGNATURA PK">

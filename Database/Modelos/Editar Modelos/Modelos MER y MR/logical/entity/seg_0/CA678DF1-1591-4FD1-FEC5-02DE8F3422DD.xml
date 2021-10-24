@@ -41,6 +41,21 @@
 <dataTypeSize>50</dataTypeSize>
 <ownDataTypeParameters>50,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="rut" id="324C8C10-3B36-5AB1-DB9C-D277C3E562FA">
+<createdBy>jorge</createdBy>
+<createdTime>2021-10-24 01:14:09 UTC</createdTime>
+<generatorID>981103F6-5B86-87B8-6C8C-7903CDE1EBB7</generatorID>
+<ownerDesignName>Modelos MER y MR</ownerDesignName>
+<engineerTo>
+<item key="EAC43728-84E3-84EC-597B-4C47D4F97780" value="true"/>
+</engineerTo>
+<referedAttribute>82D29984-3BCC-EEA7-673D-A771CCA5CD6A</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="48A7D62A-09F1-D60C-F745-64CF8668A7DB" name="CURSO PK">

@@ -1,2 +1,0 @@
-conexión 1 a 1 de profe a curso 
-(con opcionalidad para que el curso tenga un profesor jefe)
