@@ -259,6 +259,7 @@ CREATE OR REPLACE PROCEDURE sp_resumen_asistencia IS
                                                     ON cur.id_curso = alu.id_curso
                                                     INNER JOIN asignatura asig
                                                     ON C.id_asignatura = asig.id_asignatura
+                                                    WHERE e.id_estado = 1
                                                     GROUP BY  alu.rut_alumno, c.rut_profesor, asig.descripcion, 
                                                     pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m;
 BEGIN
@@ -310,7 +311,8 @@ CREATE OR REPLACE PACKAGE  pkg_asistencia IS
     PROCEDURE sp_listar_asistencia(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
     -- Crear SP que liste a todos los alumnos de una clase y curso en especifico
     PROCEDURE SP_LISTAR_ASISTENCIA_CLASE(p_claseid clase.id_clase%type, p_cursoid clase.id_curso%type, lista OUT SYS_REFCURSOR, valida OUT NUMBER);
-    PROCEDURE SP_LISTAR_ASISTENCIA_CLASE2(p_claseid clase.id_clase%type, p_cursoid clase.id_curso%type, lista OUT SYS_REFCURSOR, valida OUT NUMBER);
+   -- CREAR SP GUARDAR ASISTENCIA QUE DEJA AUSENTE A LOS QUE NO ESCANEAN EL CÓDIGO QR
+   PROCEDURE SP_GUARDAR_ASISTENCIA (p_claseid clase.id_clase%type, p_cursoid clase.id_curso%type, p_valida OUT NUMBER);
     -- Crear SP que busque el estado de asistencia de un alumno por su rut y clase
     -- Crear un SP que liste la cantidad de asistencias por asignatura (de un alumno en especifico) 
 END pkg_asistencia;
@@ -634,7 +636,21 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
         SELECT COUNT(*) INTO v_cantidad FROM detalle_asistencia;
         IF v_cantidad > 0 THEN 
             OPEN lista FOR 
-                    SELECT * from alumno;
+                    SELECT alu.rut_alumno, pe.nombre  ||' ' ||pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p ||' '|| pe.apellido_m AS "nombre_completo",
+                 a.fecha,a.hora, e.descripcion ,codigo_qr
+                FROM ALUMNO alu
+                INNER JOIN PERSONA pe
+                ON alu.rut_alumno = pe.rut
+                INNER JOIN DETALLE_ASISTENCIA det_a
+                ON alu.rut_alumno = det_a.rut_alumno
+                INNER join clase c
+                on det_a.id_clase = c.id_clase
+                INNER JOIN ASISTENCIA a
+                ON det_a.id_asistencia = a.id_asistencia
+                INNER JOIN ESTADO_ASISTENCIA e
+                ON a.id_estado = e.id_estado
+                where c.id_clase = p_claseid AND c.id_curso = p_cursoid
+                ORDER BY alu.rut_alumno asc, "nombre_completo" asc, e.descripcion desc;
                     
             valida := 1;
         END IF;
@@ -681,61 +697,43 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
     END SP_LISTAR_ASISTENCIA_CLASE;
     
-    
-    PROCEDURE SP_LISTAR_ASISTENCIA_CLASE2(p_claseid clase.id_clase%type, p_cursoid clase.id_curso%type, lista OUT SYS_REFCURSOR, valida OUT NUMBER) is
-        v_cantidad NUMBER DEFAULT 0;
-    BEGIN
-        valida := 0;
-        SELECT COUNT(*) INTO v_cantidad FROM detalle_asistencia;
-        IF v_cantidad > 0 THEN 
-            OPEN lista FOR 
-                    SELECT * from alumno;
-                    
-            valida := 1;
-        END IF;
-   EXCEPTION
-        WHEN too_many_rows THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN invalid_number THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN no_data_found THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN zero_divide THEN
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-        WHEN OTHERS THEN 
-            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
-            pkg_errores.reg_errores.codigo_error := SQLCODE;
-            pkg_errores.reg_errores.mensaje_error := sqlerrm;
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
-            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
-            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
-            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
-    END SP_LISTAR_ASISTENCIA_CLASE2;
-    
+    PROCEDURE SP_GUARDAR_ASISTENCIA (p_claseid clase.id_clase%type, p_cursoid clase.id_curso%type, p_valida OUT NUMBER) IS
+        v_id number;
+        v_valida number;
+        CURSOR cur_asistencia IS
+            select alu.rut_alumno
+            from alumno alu
+                INNER JOIN PERSONA pe
+                ON alu.rut_alumno = pe.rut
+                INNER JOIN CURSO cur
+                ON alu.id_curso = cur.id_curso
+                INNER JOIN clase c
+                ON cur.id_curso = c.id_curso
+                WHERE c.id_clase = p_claseid and c.id_curso = p_cursoid;
+                
+    BEGIN 
+
+            FOR x IN cur_asistencia
+            LOOP
+                BEGIN 
+                    SELECT id_asistencia INTO v_id
+                    FROM DETALLE_ASISTENCIA 
+                    WHERE rut_alumno = x.rut_alumno;
+                EXCEPTION
+                    when OTHERS THEN 
+                        -- SI CAE EN EXCEPTION NO ESCANEÓ EL CÓDIGO QR
+                        -- INGRESAMOS AL ALUMNO COMO AUSENTE Y DEJAMOS UN REPORTE EN LA TABLA ERRORES
+                        PKG_ASISTENCIA.sp_insertar_asistencia(2, p_claseid, x.rut_alumno,v_valida);
+                        pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+                        pkg_errores.reg_errores.codigo_error := SQLCODE;
+                        pkg_errores.reg_errores.mensaje_error := 'El alumno del curso'||p_cursoid||' con el rut '||x.rut_alumno|| ' NO ESCANEÓ EL CÓDIDO QR DE LA CLASE ' || p_claseid;
+                        pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA';
+                        pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+                        pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+                        pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+                END;
+            END LOOP;
+    END SP_GUARDAR_ASISTENCIA;
 END pkg_asistencia;
 
 
@@ -1080,29 +1078,35 @@ DECLARE
     v_tipo NUMBER;
     v_nombre VARCHAR2(200);
 BEGIN 
-    pkg_asistencia.sp_insertar_asistencia(1, 2,'20281676',v_tipo);
+    --pkg_asistencia.sp_insertar_asistencia(1, 2,'20281676',v_tipo);
+    --pkg_asistencia.SP_GUARDAR_ASISTENCIA(2, 10,v_tipo);
+    pkg_asistencia.sp_modificar_asistencia(4,1,v_tipo);
     dbms_output.put_line('Valida es ' || v_tipo );
 END;
 
 -- TEST
-    PROCEDURE sp_insertar_asistencia(estadoid IN asistencia.id_estado%TYPE, claseid IN detalle_asistencia.id_clase%TYPE, rut_alumno IN detalle_asistencia.rut_alumno%TYPE,valida OUT NUMBER) IS
-    
-                    SELECT alu.rut_alumno, pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m AS "nombre_completo",
+/*
+SELECT alu.rut_alumno, pe.nombre  ' ' pe.nombre_s ' ' pe.nombre_t ' ' pe.apellido_p' ' pe.apellido_m AS "nombre_completo",
                     a.fecha,a.hora, e.descripcion ,codigo_qr
                     FROM DETALLE_CLASE d
-                    FULL JOIN CURSO c
+                    INNER JOIN CURSO c
                     ON d.id_curso = c.id_curso
-                    FULL JOIN ALUMNO alu
+                    INNER JOIN ALUMNO alu
                     ON alu.id_curso = c.id_curso
-                    FULL join PERSONA pe
+                    inner join PERSONA pe
                     ON alu.rut_alumno = pe.rut
-                    FULL JOIN CLASE cla
+                    INNER JOIN CLASE cla
                     ON cla.id_clase = d.id_clase
-                    FULL join detalle_asistencia det_a
-                    ON cla.id_clase= det_a.id_clase                    
-                    FULL JOIN ASISTENCIA a
+                    inner join detalle_asistencia det_a
+                    ON cla.id_clase= det_a.id_clase
+                    inner JOIN ASISTENCIA a
                     ON det_a.id_asistencia = a.id_asistencia 
-                    FULL JOIN ESTADO_ASISTENCIA e
+                    inner JOIN ESTADO_ASISTENCIA e
                     ON e.id_estado = a.id_Estado
-                    where cla.id_clase = 2 AND c.id_curso = 10;
+                    where cla.id_clase = p_claseid AND c.id_curso = p_cursoid;
+*/
+
+    
+
+
 
