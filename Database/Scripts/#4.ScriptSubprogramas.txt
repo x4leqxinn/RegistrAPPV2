@@ -1212,5 +1212,45 @@ END;
 
 
 
+-- LISTAR CURSOS POR PROFESOR
+SELECT c.descripcion
+FROM CURSO c
+INNER JOIN DETALLE_CURSO det
+ON det.id_curso = c.id_curso
+where det.rut_profesor = 17268410;
+
+-- listar ASIGNATURAS POR  profe y curso
+SELECT * FROM ASIGNATURA a
+INNER JOIN DETALLE_ASIGNATURA det_a
+ON a.id_asignatura = det_a.id_asignatura
+INNER JOIN clase c
+ON det_a.id_asignatura = c.id_asignatura
+where det_a.rut_profesor = 12647021 and c.id_curso = 10;
+
+-- LISTAR CLASES POR PROFE al elegir un curso, luego la asignatura 
+SELECT * FROM CLASE 
+WHERE rut_profesor = 12647021 and id_curso = 10 and id_asignatura = 1;
+
+-- LISTAR ASIGNATURAS POR ALUMNO SEGÚN SU CURSO
+SELECT DISTINCT(asig.descripcion)
+FROM ALUMNO a
+INNER JOIN CURSO c
+ON a.id_curso = c.id_curso
+INNER JOIN CLASE cla
+ON cla.id_curso = c.id_curso
+INNER JOIN asignatura asig
+ON cla.id_asignatura = asig.id_asignatura
+where a.rut_alumno = '19317764';
+
+
+-- LISTAR CLASES POR ALUMNO SEGÚN CURSO y asignatura seleccionada
+
+SELECT *
+FROM ALUMNO a
+INNER JOIN CURSO c
+ON a.id_curso = c.id_curso
+INNER JOIN CLASE cla
+ON cla.id_curso = c.id_curso
+where a.rut_alumno = '19317764' and cla.id_asignatura=1;
 
 
