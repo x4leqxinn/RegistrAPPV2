@@ -355,7 +355,20 @@ END pkg_asistencia;
 
 CREATE OR REPLACE PACKAGE  pkg_alumno IS 
     PROCEDURE sp_listar_alumno(lista OUT SYS_REFCURSOR, valida OUT NUMBER);
+    PROCEDURE sp_listar_asignatura(p_rutalumno alumno.rut_alumno%type, lista OUT SYS_REFCURSOR);
+    PROCEDURE sp_listar_clase(p_rutalumno alumno.rut_alumno%type, p_asignaturaid asignatura.id_asignatura%type, lista OUT SYS_REFCURSOR);
 END pkg_alumno;
+
+-------------------------------------------------
+-- PACKAGE PROFESOR
+-------------------------------------------------
+
+CREATE OR REPLACE PACKAGE PKG_PROFESOR IS
+    PROCEDURE SP_LISTAR_CURSO(p_rutprofesor profesor.rut_profesor%type, lista OUT SYS_REFCURSOR);
+    PROCEDURE SP_LISTAR_ASIGNATURA(p_rutprofesor profesor.rut_profesor%type, p_cursoid curso.id_curso%type, lista OUT SYS_REFCURSOR);
+    PROCEDURE SP_LISTAR_CLASE(p_rutprofesor profesor.rut_profesor%type, p_cursoid curso.id_curso%type, p_asignaturaid asignatura.id_asignatura%type, lista OUT SYS_REFCURSOR);
+END;
+
 
 -------------------------------------------------
 -- PACKAGE CODIGO QR
@@ -374,9 +387,10 @@ END pkg_codigo_qr;
 -------------------------------------------------
 
 CREATE OR REPLACE PACKAGE pkg_usuario IS 
-    PROCEDURE sp_login(p_usuario IN usuario.nombre_usuario%TYPE, p_contrasenia IN usuario.contrasenia%TYPE, p_tipo_usuario OUT NUMBER, p_nombre OUT persona.nombre%TYPE);
+    PROCEDURE sp_login(p_usuario IN usuario.nombre_usuario%TYPE, p_contrasenia IN usuario.contrasenia%TYPE, p_tipo_usuario OUT NUMBER, p_bienvenida OUT varchar2, p_rut OUT persona.rut%type);
     PROCEDURE sp_cambiar_contrasenia(p_correo IN  persona.email%TYPE, p_nueva_pass IN usuario.contrasenia%TYPE, p_valida OUT NUMBER );
 END pkg_usuario;
+
 
 
 ----------------------------------------------------
@@ -865,7 +879,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_alumno IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ALUMNO';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -873,7 +887,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_alumno IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ALUMNO';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -881,7 +895,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_alumno IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ALUMNO';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -889,7 +903,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_alumno IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ALUMNO';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -897,29 +911,309 @@ CREATE OR REPLACE PACKAGE BODY pkg_alumno IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := sqlerrm;
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ALUMNO';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
     END sp_listar_alumno;
     
+    PROCEDURE SP_LISTAR_ASIGNATURA(p_rutalumno alumno.rut_alumno%type, lista OUT SYS_REFCURSOR) IS
+    BEGIN 
+    ----------------------------------------
+    -- LISTAR ASIGNATURAS POR ALUMNO SEGÚN SU CURSO
+        OPEN lista FOR 
+            SELECT DISTINCT(asig.id_asignatura), asig.descripcion
+                        FROM ALUMNO a
+                        INNER JOIN CURSO c
+                        ON a.id_curso = c.id_curso
+                        INNER JOIN CLASE cla
+                        ON cla.id_curso = c.id_curso
+                        INNER JOIN asignatura asig
+                        ON cla.id_asignatura = asig.id_asignatura
+                        where a.rut_alumno = p_rutalumno;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END sp_listar_asignatura;
+
+    
+    PROCEDURE SP_LISTAR_CLASE(p_rutalumno alumno.rut_alumno%type, p_asignaturaid asignatura.id_asignatura%type, lista OUT SYS_REFCURSOR) IS 
+    BEGIN 
+        -- LISTAR CLASES POR ALUMNO SEGÚN CURSO y asignatura seleccionada
+        OPEN lista FOR 
+            SELECT cla.id_clase, cla.fecha, cla.hora_inicio, cla.hora_termino, c.descripcion,  pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m , pe.email
+            FROM ALUMNO a
+            INNER JOIN CURSO c
+            ON a.id_curso = c.id_curso
+            INNER JOIN CLASE cla
+            ON cla.id_curso = c.id_curso
+            INNER JOIN persona pe
+            on cla.rut_profesor = pe.rut
+            where a.rut_alumno = p_rutalumno and cla.id_asignatura=p_asignaturaid;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_ALUMNO.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END sp_listar_clase;
+
+
 END pkg_alumno;
+
+-------------------------------------------------
+-- PACKAGE BODY PROFESOR
+-------------------------------------------------
+CREATE OR REPLACE PACKAGE BODY pkg_PROFESOR IS
+    PROCEDURE SP_LISTAR_CURSO(p_rutprofesor profesor.rut_profesor%type, lista OUT SYS_REFCURSOR) IS
+    BEGIN 
+        -- LISTAR CURSOS POR PROFESOR
+        OPEN lista FOR 
+            SELECT c.id_curso,c.descripcion
+            FROM CURSO c
+            INNER JOIN DETALLE_CURSO det
+            ON det.id_curso = c.id_curso
+            where det.rut_profesor = p_rutprofesor;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CURSO';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CURSO';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CURSO';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CURSO';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CURSO';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END SP_LISTAR_CURSO;
+    
+    PROCEDURE SP_LISTAR_ASIGNATURA(p_rutprofesor profesor.rut_profesor%type, p_cursoid curso.id_curso%type, lista OUT SYS_REFCURSOR) IS
+    BEGIN
+    -- listar ASIGNATURAS POR  profe y curso
+        OPEN lista FOR
+            SELECT a.id_asignatura, a.descripcion, c.id_curso
+            FROM ASIGNATURA a
+                INNER JOIN DETALLE_ASIGNATURA det_a
+                ON a.id_asignatura = det_a.id_asignatura
+                INNER JOIN clase c
+                ON det_a.id_asignatura = c.id_asignatura
+                where det_a.rut_profesor = p_rutprofesor and c.id_curso = p_cursoid;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_ASIGNATURA';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END SP_LISTAR_ASIGNATURA;
+    
+    PROCEDURE SP_LISTAR_CLASE(p_rutprofesor profesor.rut_profesor%type, p_cursoid curso.id_curso%type, p_asignaturaid asignatura.id_asignatura%type, lista OUT SYS_REFCURSOR)IS
+    BEGIN
+        -- LISTAR CLASES POR PROFE al elegir un curso, luego la asignatura 
+        OPEN lista FOR
+            SELECT id_clase, fecha, hora_inicio, hora_termino
+            FROM CLASE  WHERE rut_profesor = p_rutprofesor and id_curso = p_cursoid and id_asignatura = p_asignaturaid;
+    EXCEPTION
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_PROFESOR.SP_LISTAR_CLASE';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END SP_LISTAR_CLASE;
+END;
 
 -------------------------------------------------
 -- PACKAGE BODY USUARIO
 -------------------------------------------------
 CREATE OR REPLACE PACKAGE BODY pkg_usuario IS
-    PROCEDURE sp_login(p_usuario IN usuario.nombre_usuario%TYPE, p_contrasenia IN usuario.contrasenia%TYPE, p_tipo_usuario OUT NUMBER, p_nombre OUT persona.nombre%TYPE) IS
+    PROCEDURE sp_login(p_usuario IN usuario.nombre_usuario%TYPE, p_contrasenia IN usuario.contrasenia%TYPE, p_tipo_usuario OUT NUMBER, p_bienvenida OUT varchar2, p_rut OUT persona.rut%type) IS
+        v_genero number(1);
     BEGIN 
         p_tipo_usuario := 0;
-        p_nombre := '';
-        SELECT P.nombre, u.id_tipo INTO p_nombre, p_tipo_usuario
+        SELECT p.rut, P.nombre || ' ' ||p.apellido_p , u.id_tipo, p.id_genero INTO p_rut, p_bienvenida, p_tipo_usuario, v_genero
         FROM usuario u
         INNER JOIN persona P
         ON u.nombre_usuario = P.nombre_usuario
         WHERE u.nombre_usuario = p_usuario AND 
         u.contrasenia = p_contrasenia 
         AND u.id_estado = 1;
+        IF v_genero = 1 THEN
+            p_bienvenida :=  'Bienvenido ' + p_bienvenida;
+        ELSE 
+            p_bienvenida :=  'Bienvenida ' + p_bienvenida;
+        END IF;
     EXCEPTION
         WHEN too_many_rows THEN
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
@@ -1209,48 +1503,5 @@ BEGIN
     pkg_asistencia.sp_buscar_asistencia2('19708456',2,v_tipo);
     dbms_output.put_line('Valida es ' || v_tipo );
 END;
-
-
-
--- LISTAR CURSOS POR PROFESOR
-SELECT c.descripcion
-FROM CURSO c
-INNER JOIN DETALLE_CURSO det
-ON det.id_curso = c.id_curso
-where det.rut_profesor = 17268410;
-
--- listar ASIGNATURAS POR  profe y curso
-SELECT * FROM ASIGNATURA a
-INNER JOIN DETALLE_ASIGNATURA det_a
-ON a.id_asignatura = det_a.id_asignatura
-INNER JOIN clase c
-ON det_a.id_asignatura = c.id_asignatura
-where det_a.rut_profesor = 12647021 and c.id_curso = 10;
-
--- LISTAR CLASES POR PROFE al elegir un curso, luego la asignatura 
-SELECT * FROM CLASE 
-WHERE rut_profesor = 12647021 and id_curso = 10 and id_asignatura = 1;
-
--- LISTAR ASIGNATURAS POR ALUMNO SEGÚN SU CURSO
-SELECT DISTINCT(asig.descripcion)
-FROM ALUMNO a
-INNER JOIN CURSO c
-ON a.id_curso = c.id_curso
-INNER JOIN CLASE cla
-ON cla.id_curso = c.id_curso
-INNER JOIN asignatura asig
-ON cla.id_asignatura = asig.id_asignatura
-where a.rut_alumno = '19317764';
-
-
--- LISTAR CLASES POR ALUMNO SEGÚN CURSO y asignatura seleccionada
-
-SELECT *
-FROM ALUMNO a
-INNER JOIN CURSO c
-ON a.id_curso = c.id_curso
-INNER JOIN CLASE cla
-ON cla.id_curso = c.id_curso
-where a.rut_alumno = '19317764' and cla.id_asignatura=1;
 
 
