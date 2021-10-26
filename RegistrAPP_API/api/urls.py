@@ -17,6 +17,9 @@ urlpatterns = [
     path('alumno/',AlumnoView.as_view(), name = "listaAlumnos"),
     path('asistencia/',AsistenciaView.as_view(), name = "listaAsistencias"),
     path('asistencia/<int:id>',AsistenciaView.as_view(), name = "procesoAsistencia"),
+    path('login/',LoginView.as_view(), name = "Login"),
+    path('guardar-asistencia/',GuardarAsistenciaView.as_view(), name = "guardarAsistencia"),
+    path('codigoqr/',CodigoQR.as_view(), name = "procesoCodigoQR"),
     url(r'^apirest/alumno/$',views.AlumnoViewSet.as_view()),
 ]
 

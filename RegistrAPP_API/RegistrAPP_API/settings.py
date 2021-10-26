@@ -27,7 +27,7 @@ DEBUG = True
 
 #192.168.56.1
 #192.168.43.146
-ALLOWED_HOSTS = ['192.168.43.146'] #Permito acceder desde mi red
+ALLOWED_HOSTS = ['192.168.43.146',"localhost"] #Permito acceder desde mi red
 
 
 # Application definition

@@ -378,7 +378,7 @@ CREATE OR REPLACE PACKAGE pkg_codigo_qr IS
     -- Procedure que hace un UPDATE en la tabla CLASE
     PROCEDURE sp_generar_codigo(claseid IN clase.id_clase%TYPE, p_qr IN clase.codigo_qr%TYPE, p_valida OUT NUMBER);
     -- Procedure que verifica si el código QR leído coincide con el código generado por el profesor 
-    PROCEDURE sp_escanear_codigo(claseid IN clase.id_clase%TYPE, p_qr IN clase.codigo_qr%TYPE, p_valida OUT NUMBER);
+    PROCEDURE SP_ESCANEAR_CODIGO(claseid IN clase.id_clase%TYPE, p_qr IN clase.codigo_qr%TYPE, p_valida OUT NUMBER);
 END pkg_codigo_qr;
 
 
@@ -757,12 +757,13 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
                 ON cur.id_curso = c.id_curso
                 WHERE c.id_clase = p_claseid and c.id_curso = p_cursoid;
     BEGIN 
+            p_valida := 0;
             FOR x IN cur_asistencia
             LOOP
                 BEGIN 
                     SELECT id_asistencia INTO v_id
                     FROM DETALLE_ASISTENCIA 
-                    WHERE rut_alumno = x.rut_alumno;
+                    WHERE rut_alumno = x.rut_alumno and id_clase = p_claseid;
                 EXCEPTION
                     when OTHERS THEN 
                         -- SI CAE EN EXCEPTION NO ESCANEÓ EL CÓDIGO QR
@@ -777,6 +778,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
                         pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
                 END;
             END LOOP;
+            p_valida := 1;
     END SP_GUARDAR_ASISTENCIA;
     
     PROCEDURE sp_buscar_asistencia2(p_rutalumno IN alumno.rut_alumno%type, p_claseid IN CLASE.id_clase%type ,valida OUT NUMBER) IS
@@ -1202,7 +1204,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_usuario IS
         v_genero number(1);
     BEGIN 
         p_tipo_usuario := 0;
-        SELECT p.rut, P.nombre || ' ' ||p.apellido_p , u.id_tipo, p.id_genero INTO p_rut, p_bienvenida, p_tipo_usuario, v_genero
+        SELECT p.rut, initcap(P.nombre) || ' ' || initcap(p.apellido_p) , u.id_tipo, p.id_genero INTO p_rut, p_bienvenida, p_tipo_usuario, v_genero
         FROM usuario u
         INNER JOIN persona P
         ON u.nombre_usuario = P.nombre_usuario
@@ -1210,9 +1212,9 @@ CREATE OR REPLACE PACKAGE BODY pkg_usuario IS
         u.contrasenia = p_contrasenia 
         AND u.id_estado = 1;
         IF v_genero = 1 THEN
-            p_bienvenida :=  'Bienvenido ' + p_bienvenida;
+            p_bienvenida :=  'Bienvenido ' || p_bienvenida;
         ELSE 
-            p_bienvenida :=  'Bienvenida ' + p_bienvenida;
+            p_bienvenida :=  'Bienvenida ' || p_bienvenida;
         END IF;
     EXCEPTION
         WHEN too_many_rows THEN
@@ -1317,8 +1319,8 @@ END pkg_usuario;
 -- PACKAGE BODY CODIGO QR
 -------------------------------------------------
 
-CREATE OR REPLACE PACKAGE BODY pkg_codigo_qr IS
-    PROCEDURE sp_generar_codigo(claseid IN clase.id_clase%TYPE, p_qr IN clase.codigo_qr%TYPE, p_valida OUT NUMBER) IS
+CREATE OR REPLACE PACKAGE BODY PKG_CODIGO_QR IS
+    PROCEDURE SP_GENERAR_CODIGO(claseid IN clase.id_clase%TYPE, p_qr IN clase.codigo_qr%TYPE, p_valida OUT NUMBER) IS
     BEGIN 
         p_valida := 0;
         UPDATE clase SET codigo_qr = p_qr WHERE id_clase = claseid;
@@ -1496,12 +1498,19 @@ PRINT v_valida;
 DECLARE
     v_tipo NUMBER;
     v_nombre VARCHAR2(200);
+    v_rut varchar2(600);
 BEGIN 
     --pkg_asistencia.sp_insertar_asistencia(1, 2,'20281676',v_tipo);
-    --pkg_asistencia.SP_GUARDAR_ASISTENCIA(2, 10,v_tipo);
+    pkg_asistencia.SP_GUARDAR_ASISTENCIA(4, 10,v_tipo);
     --pkg_asistencia.sp_modificar_asistencia(4,1,v_tipo);
-    pkg_asistencia.sp_buscar_asistencia2('19708456',2,v_tipo);
+    --PKG_USUARIO.SP_LOGIN('x4leqxinn','admin123',v_tipo,v_nombre, v_rut);
     dbms_output.put_line('Valida es ' || v_tipo );
+    --dbms_output.put_line('nombre es ' || v_nombre );
+    --dbms_output.put_line('rut  es ' || v_rut );
 END;
 
+TRUNCATE TABLE DETALLE_ASISTENCIA;
+TRUNCATE TABLE ASISTENCIA;
+COMMIT;
 
+commit;

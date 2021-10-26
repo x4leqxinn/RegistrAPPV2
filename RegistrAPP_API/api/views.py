@@ -50,13 +50,13 @@ def listarAlumnos():
     return lista
 
 # Método que me registra la Asistencia
-def agregarAsistencia(estadoID):
+def agregarAsistencia(estadoID,claseID, rutAlumno):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor() 
     #Salida
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA",[estadoID,valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA",[estadoID,claseID,rutAlumno,valida])
         #Retorna 0 o 1
         return valida.getvalue()
     except:
@@ -117,6 +117,58 @@ def listarAsistencia():
         valida = 0
     return lista
 
+def iniciarSesion(usuario, contrasenia):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    valida = cursor.var(cx_Oracle.NUMBER)
+    bienvenida = cursor.var(cx_Oracle.STRING)
+    rut = cursor.var(cx_Oracle.STRING)
+    try:
+        cursor.callproc("PKG_USUARIO.SP_LOGIN",[usuario,contrasenia,valida,bienvenida,rut])
+        return valida.getvalue(), bienvenida.getvalue(), rut.getvalue()
+    except:
+        return 0 , "", ""
+
+def cambiarContrasenia(email, nuevaContrasenia):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    valida = cursor.var(cx_Oracle.NUMBER)
+    try:
+        cursor.callproc("PKG_USUARIO.SP_CAMBIAR_CONTRASENIA",[email,nuevaContrasenia,valida])
+        return valida.getvalue()
+    except:
+        return 0
+
+def guardarAsistencia(claseID, cursoID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    valida = cursor.var(cx_Oracle.NUMBER)
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA",[claseID,cursoID,valida])
+        return valida.getvalue()
+    except:
+        return 0
+
+def generarCodigoQR(claseID,direccionQR):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    valida = cursor.var(cx_Oracle.NUMBER)
+    try:
+        cursor.callproc("PKG_CODIGO_QR.SP_GENERAR_CODIGO",[claseID,direccionQR,valida])
+        return valida.getvalue()
+    except:
+        return 0
+
+def escanearCodigoQR(claseID,direccionQR):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    valida = cursor.var(cx_Oracle.NUMBER)
+    try:
+        cursor.callproc("PKG_CODIGO_QR.SP_ESCANEAR_CODIGO",[claseID,direccionQR,valida])
+        return valida.getvalue()
+    except:
+        return 0  
+
 # Vista de la API
 class AlumnoViewSet(generics.ListAPIView):
     queryset = Persona.objects.all()
@@ -146,7 +198,7 @@ class AlumnoView(View):
     def delete(self,request):
         pass
 
-
+# Método API para Agregar, Modificar, Eliminar, Buscar y Listar (ASISTENCIAS)
 class AsistenciaView(View):
     # Se ejecuta cada vez que queremos realizar una acción 
     @method_decorator(csrf_exempt)
@@ -174,7 +226,7 @@ class AsistenciaView(View):
     
     def post(self,request):        
         jsonData = json.loads(request.body)
-        valida = agregarAsistencia(jsonData["estadoID"])
+        valida = agregarAsistencia(jsonData["estadoID"], jsonData["claseID"], jsonData["rutALumno"])
         if valida == 1:
             datos={'mensaje':'Success'}
         else:
@@ -200,4 +252,77 @@ class AsistenciaView(View):
             datos={'mensaje':'Success'}
         else:
             datos={'mensaje':'No se pudo eliminar'}
+        return JsonResponse(datos)
+
+# Método API para GUARDAR ASISTENCIAS AUSENTES
+class GuardarAsistenciaView(View):
+    # Se ejecuta cada vez que queremos realizar una acción 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self,request):        
+        jsonData = json.loads(request.body)
+        valida = guardarAsistencia(jsonData["claseID"], jsonData["cursoID"])
+        if valida == 1:
+            datos = {'mensaje':'Success'}
+        else:
+            datos={'mensaje':'Error'}
+        return JsonResponse(datos)  
+
+# Método API para iniciar sesión y modificar contraseña de usuario
+class LoginView(View):
+    # Se ejecuta cada vez que queremos realizar una acción 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self,request):        
+        jsonData = json.loads(request.body)
+        valida, bienvenida, rut = iniciarSesion(jsonData["usuario"], jsonData["contrasenia"])
+        if valida >= 1:
+            datos = {
+                        'mensaje':'Success',
+                        'bienvenida': bienvenida,
+                        'tipoUsuario': valida,
+                        'rut' : rut
+                    }
+
+        else:
+            datos={'mensaje':'El nombre de usuario o contraseña incorrectos'}
+        return JsonResponse(datos)
+    
+    def put(self,request):
+        jsonData = json.loads(request.body)
+        valida = cambiarContrasenia(jsonData["email"], jsonData["nuevaContrasenia"])
+        if valida == 1:
+            datos = {'mensaje':'Success'}
+        else:
+            datos ={'mensaje':'No se pudo cambiar la contraseña'}
+        return JsonResponse(datos)
+
+
+# Método API para Modificar código QR y Escanear código QR
+class CodigoQR(View):
+    # Se ejecuta cada vez que queremos realizar una acción 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self,request):        
+        jsonData = json.loads(request.body)
+        valida = escanearCodigoQR(jsonData["claseID"], jsonData["direccionQR"])
+        if valida == 1:
+            datos = {'mensaje':'Success'}
+        else:
+            datos={'mensaje':'Escanea el código de la clase'}
+        return JsonResponse(datos)
+    
+    def put(self,request):
+        jsonData = json.loads(request.body)
+        valida = generarCodigoQR(jsonData["claseID"], jsonData["direccionQR"])
+        if valida == 1:
+            datos = {'mensaje':'Success'}
+        else:
+            datos ={'mensaje':'No se pudo generar el código qr para la clase'}
         return JsonResponse(datos)
