@@ -434,7 +434,8 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
     PROCEDURE sp_eliminar_asistencia(asistenciaid IN asistencia.id_asistencia%TYPE, valida OUT NUMBER) IS
     BEGIN
         valida := 0;
-        DELETE FROM asistencia WHERE id_asistencia = asistenciaid;
+            DELETE FROM detalle_asistencia WHERE id_asistencia = asistenciaid;
+            DELETE FROM asistencia WHERE id_asistencia = asistenciaid;
         IF SQL%rowcount > 0 THEN
             valida := 1;
         END IF;

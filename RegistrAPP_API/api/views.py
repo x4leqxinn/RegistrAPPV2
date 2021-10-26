@@ -169,6 +169,73 @@ def escanearCodigoQR(claseID,direccionQR):
     except:
         return 0  
 
+# Métodos para listar en vista de profe
+def listarCursoProfe(rutProfesor):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CURSO",[rutProfesor, out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista    
+
+def listarAsignaturaProfe(rutProfesor, claseID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_ASIGNATURA",[rutProfesor, claseID, out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista   
+
+def listarClaseProfe(rutProfesor, claseID, asignaturaID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CLASE",[rutProfesor, claseID, asignaturaID, out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista   
+
+# Métodos listar para la vista de Alumno
+def listarAsignaturaAlumno(rutAlumno):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ASIGNATURA",[rutAlumno, out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista    
+
+def listarClaseAlumno(rutAlumno, asignaturaID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor() 
+    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_CLASE",[rutAlumno, asignaturaID, out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista    
+
 # Vista de la API
 class AlumnoViewSet(generics.ListAPIView):
     queryset = Persona.objects.all()
@@ -303,7 +370,7 @@ class LoginView(View):
 
 
 # Método API para Modificar código QR y Escanear código QR
-class CodigoQR(View):
+class CodigoQRView(View):
     # Se ejecuta cada vez que queremos realizar una acción 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -326,3 +393,62 @@ class CodigoQR(View):
         else:
             datos ={'mensaje':'No se pudo generar el código qr para la clase'}
         return JsonResponse(datos)
+
+
+# Falta PACKAGE GET PROFE
+# FALTA PACKAGE GET ALUMNO
+# FALTAN ALGUNOS MÉTODOS EN PACKAGE ASISTENCIA GET
+
+# ZONA DE VISTA IONIC PROFESOR
+
+class ListarCursoProfeView(View):
+
+    def get(self,request, rutProfesor):
+            cursos = listarCursoProfe(rutProfesor)
+            if len(cursos)>0:
+                datos={'mensaje':'Encontrado', 'cursos':cursos}
+            else:
+                datos={'mensaje':'No encontrado'}
+            return JsonResponse(datos)
+
+class ListarAsignaturaProfeView(View):
+
+    def get(self,request, rutProfesor, cursoID):
+            asignaturas = listarAsignaturaProfe(rutProfesor, cursoID)
+            if len(asignaturas)>0:
+                datos={'mensaje':'Encontrado', 'asignaturas':asignaturas}
+            else:
+                datos={'mensaje':'No encontrado'}
+            return JsonResponse(datos)
+
+class ListarClaseProfeView(View):
+
+    def get(self,request, rutProfesor, cursoID, asignaturaID):
+            clases = listarClaseProfe(rutProfesor, cursoID, asignaturaID)
+            if len(clases)>0:
+                datos={'mensaje':'Encontrado', 'clases':clases}
+            else:
+                datos={'mensaje':'No encontrado'}
+            return JsonResponse(datos)
+
+# ZONA DE VISTA IONIC ALUMNO
+
+class ListarAsignaturaAlumnoView(View):
+
+    def get(self,request, rutAlumno):
+            clases = listarAsignaturaAlumno(rutAlumno)
+            if len(clases)>0:
+                datos={'mensaje':'Encontrado', 'asignaturas':clases}
+            else:
+                datos={'mensaje':'No encontrado'}
+            return JsonResponse(datos)
+
+class ListarClaseAlumnoView(View):
+
+    def get(self,request, rutAlumno, asignaturaID):
+            clases = listarClaseAlumno(rutAlumno, asignaturaID)
+            if len(clases)>0:
+                datos={'mensaje':'Encontrado', 'clases':clases}
+            else:
+                datos={'mensaje':'No encontrado'}
+            return JsonResponse(datos)
