@@ -62,6 +62,18 @@ const routes: Routes = [
     path: 'clases-alumno',
     loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
   },
+  {
+    path: 'asistencia-alumno',
+    loadChildren: () => import('./pages/asistencia-alumno/asistencia-alumno.module').then( m => m.AsistenciaAlumnoPageModule)
+  },
+  {
+    path: 'asistencias-profesor',
+    loadChildren: () => import('./pages/asistencias-profesor/asistencias-profesor.module').then( m => m.AsistenciasProfesorPageModule)
+  },
+  {
+    path: 'p404',
+    loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
+  },
 
 
 
