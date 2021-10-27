@@ -15,6 +15,18 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 //Importar TTS
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx'
 
+// Importar AuthenGuard , Authentication y Storage
+import { AuthenticationService } from './services/authentication.service';
+import { AuthenGuardService } from './services/authen-guard.service';
+import { Storage } from '@ionic/storage';
+
+// Importo mis componentes 
+import { AlertasToast } from './components/ts/alertas/toast';
+import { Mensaje } from './components/ts/alertas/mensaje-alerta';
+
+// Importamos el HTTP CLIENT
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,11 +34,17 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx'
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule, 
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule, // HTTP Client para el consumo de APIS
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
    ,BarcodeScanner, Base64ToGallery, // Importamos las librerias de Code QR
    TextToSpeech, // Importamos TTS
+   AuthenGuardService, // AuthenGuard
+   AuthenticationService, // Authentication
+   Storage, // Storage
+   AlertasToast, // Importo de forma global la clase de Alertas Toast
+   Mensaje // Importo de forma global la clase de Mensajes de alerta
   ],
   bootstrap: [AppComponent],
 })

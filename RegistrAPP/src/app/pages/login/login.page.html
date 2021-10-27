@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item *ngIf="usuario">
+      <ion-label>Usuario:</ion-label>
+      <ion-input type="text" [(ngModel)]="usuario.nombre"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="usuario">
+      <ion-label>Contraseña:</ion-label>
+      <ion-input type="password" [(ngModel)]="usuario.pass"></ion-input>
+    </ion-item>
+    <ion-button (click)="loginUser()">Login</ion-button>
+  </ion-list>
+</ion-content>

@@ -394,13 +394,6 @@ class CodigoQRView(View):
             datos ={'mensaje':'No se pudo generar el código qr para la clase'}
         return JsonResponse(datos)
 
-
-# Falta PACKAGE GET PROFE
-# FALTA PACKAGE GET ALUMNO
-# FALTAN ALGUNOS MÉTODOS EN PACKAGE ASISTENCIA GET
-
-# ZONA DE VISTA IONIC PROFESOR
-
 class ListarCursoProfeView(View):
 
     def get(self,request, rutProfesor):
@@ -452,3 +445,6 @@ class ListarClaseAlumnoView(View):
             else:
                 datos={'mensaje':'No encontrado'}
             return JsonResponse(datos)
+
+
+# FALTAN ALGUNOS MÉTODOS EN PACKAGE ASISTENCIA GET

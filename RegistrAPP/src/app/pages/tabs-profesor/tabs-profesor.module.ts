@@ -18,7 +18,7 @@ const routes: Routes = [{
     //Indico las rutas que quiero que se precargen
     {
       path: 'asistencia',
-      loadChildren: () => import('../escanear-qr/asistencia.module').then( m => m.AsistenciaPageModule)
+      loadChildren: () => import('../asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
     },
     {
       path: 'inicio/:username',

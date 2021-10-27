@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+//Importamos al guardián
+import { AuthenGuardService } from './services/authen-guard.service';
+
+// LA PÁGINA DE LOGIN - MENU - INFORMACIÓN SON PÁGINAS DE TEST (SE DEBEN ELIMINAR LUEGO)
 
 const routes: Routes = [
   {
@@ -21,7 +25,7 @@ const routes: Routes = [
   },
   { ///
     path: 'inicio/:username',
-    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
+    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'codigo-qr',
@@ -42,38 +46,28 @@ const routes: Routes = [
   {
     path: 'cambiar-contrasenia/:username',
     loadChildren: () => import('./pages/cambiar-contrasenia/cambiar-contrasenia.module').then( m => m.CambiarContraseniaPageModule)
-  },  {
-    path: 'cursos-profesor',
-    loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule)
+  },
+  /*
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  
+  {
+    path: 'menu',
+    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule), canActivate:[AuthenGuardService]
   },
   {
-    path: 'asignaturas-profesor',
-    loadChildren: () => import('./pages/asignaturas-profesor/asignaturas-profesor.module').then( m => m.AsignaturasProfesorPageModule)
+    path: 'informacion',
+    loadChildren: () => import('./pages/informacion/informacion.module').then( m => m.InformacionPageModule)
   },
+  */
   {
-    path: 'asignaturas-alumno',
-    loadChildren: () => import('./pages/asignaturas-alumno/asignaturas-alumno.module').then( m => m.AsignaturasAlumnoPageModule)
-  },
-  {
-    path: 'clases-profesor',
-    loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule)
-  },
-  {
-    path: 'clases-alumno',
-    loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
-  },
-  {
-    path: 'asistencia-alumno',
-    loadChildren: () => import('./pages/asistencia-alumno/asistencia-alumno.module').then( m => m.AsistenciaAlumnoPageModule)
-  },
-  {
-    path: 'asistencias-profesor',
-    loadChildren: () => import('./pages/asistencias-profesor/asistencias-profesor.module').then( m => m.AsistenciasProfesorPageModule)
-  },
-  {
-    path: 'p404',
+    // Redirecciona todas las direcciones erronéas a esta página
+    path: '**',
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
   },
+
 
 
 

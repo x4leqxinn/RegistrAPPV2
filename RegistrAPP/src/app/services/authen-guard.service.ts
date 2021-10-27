@@ -17,6 +17,7 @@ export class AuthenGuardService {
 
   //Método que me devuelve el estado de la autenticación
   canActivate():boolean{
+    console.log("ESTADO " + this.authenticationService.isAuthenticated());
     return this.authenticationService.isAuthenticated();
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //Implementar librerías
 import { Router } from '@angular/router';
-//import {Storage} from '@ionic/storage';
+import {Storage} from '@ionic/storage';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs'; //permite trabajar con procesos asincronicos
 
@@ -17,18 +17,29 @@ export class AuthenticationService {
     private router: Router,
   ) { }
 
-  login(){
+  // Aquí debemos hacer el proceso de validación del login
+  login(user, password):boolean{
+
+
+    
+
     var objeto = {
-      user_name: 'Jorge',
-      user_pass: 'RegistrAPP69!'
+      user_name: user,
+      user_pass: password
     };
 
-    this.storage.create();
-    this.storage.set('user',objeto).then((resp)=>{
-      console.log(objeto);
-      this.router.navigate(['inicio']);
-      this.authState.next(true);
-    })
+    var valida = false;
+
+    if (user == "WENAA" && password == "RegistrAPP69!"){
+      this.storage.create();
+      this.storage.set('user',objeto).then((resp)=>{
+        console.log(objeto);
+        this.router.navigate(['inicio']);
+        this.authState.next(true);
+      })
+      valida = true;
+    }
+    return valida;
   }
 
   // Nos desconecta de la sesión
