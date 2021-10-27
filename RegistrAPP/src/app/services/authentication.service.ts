@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //Implementar librerías
 import { Router } from '@angular/router';
-import {Storage} from '@ionic/storage';
+//import {Storage} from '@ionic/storage';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs'; //permite trabajar con procesos asincronicos
 
