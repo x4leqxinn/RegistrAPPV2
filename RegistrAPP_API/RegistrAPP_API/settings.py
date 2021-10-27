@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['192.168.43.146',"localhost"] #Permito acceder desde mi red
 
 INSTALLED_APPS = [
     'admin_interface', # Personalizar el panel de adminsitración de django
+    'corsheaders', # Permite habilitar las CORS
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
 X_FRAME_OPTIONS = 'SAMEORIGIN' # para versiones de django >= 3.0 Admin Interface
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", # CorsMiddleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,6 +57,27 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost",
+    #"https://sub.example.com",
+    #"http://localhost:8080",
+    #"http://127.0.0.1:9000",
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost",
+]
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 
 ROOT_URLCONF = 'RegistrAPP_API.urls'
@@ -131,6 +154,7 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -148,3 +172,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media') # su ubicación
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

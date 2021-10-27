@@ -42,7 +42,27 @@ const routes: Routes = [
   {
     path: 'cambiar-contrasenia/:username',
     loadChildren: () => import('./pages/cambiar-contrasenia/cambiar-contrasenia.module').then( m => m.CambiarContraseniaPageModule)
+  },  {
+    path: 'cursos-profesor',
+    loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule)
   },
+  {
+    path: 'asignaturas-profesor',
+    loadChildren: () => import('./pages/asignaturas-profesor/asignaturas-profesor.module').then( m => m.AsignaturasProfesorPageModule)
+  },
+  {
+    path: 'asignaturas-alumno',
+    loadChildren: () => import('./pages/asignaturas-alumno/asignaturas-alumno.module').then( m => m.AsignaturasAlumnoPageModule)
+  },
+  {
+    path: 'clases-profesor',
+    loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule)
+  },
+  {
+    path: 'clases-alumno',
+    loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
+  },
+
 
 
 ];

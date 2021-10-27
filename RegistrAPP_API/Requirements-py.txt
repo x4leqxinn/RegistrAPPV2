@@ -9,3 +9,4 @@ pip install django-admin-interface
 pip install pillow
 djangorestframework
 python -m pip install requests
+python -m pip install django-cors-headers
