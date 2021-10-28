@@ -98,19 +98,19 @@ export class IniciarSesionPage implements OnInit{
       (data) => {
         console.log(data);
         console.log(data.mensaje)
-        console.log(data.tipoUsuario)
         // SI EXISTE EL USUARIO QUE INICIE SESIÓN 
         this.authService.login(credenciales.username, credenciales.password,data.tipoUsuario,data.rut,data.bienvenida);
       },
       (error) => {
         console.log(error);
+        // Aquí podría poner una alerta de que las credenciales son incorrectas
       }
     );
   }
 
 
   recuperarCuenta(){
-    this.router.navigate(['/recuperar-cuenta'])
+    this.router.navigate(['/cambiar-contrasenia'])
     //this.router.navigate(['/codigo-qr'])
   }
 

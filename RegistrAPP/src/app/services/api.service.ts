@@ -41,7 +41,7 @@ export class ApiService {
   direccionGenerarQR = this.direccionHost + "codigoqr/"; // PUT
   direccionEscanearQR = this.direccionHost + "codigoqr/"; // POST
   direccionIniciarSesion = this.direccionHost + "login/"; // POST
-  direccionCambiarContrasenia = this.direccionHost + "login/"; // PUT
+  direccionCambiarContrasenia = this.direccionHost + "cambiar-contrasenia/"; // POST
   direccionGuardarAsistencia = this.direccionHost + "guardar-asistencia/" // POST
   direccionRegistrarAsistencia = this.direccionHost + "asistencia/"; // POST
   direccionModificarAsistencia = this.direccionHost + "asistencia/"; // PUT
@@ -82,5 +82,17 @@ export class ApiService {
   iniciarSesionPOST(usuario):Observable<any>{
     return this.http.post(this.direccionIniciarSesion, usuario, this.httpOptions).pipe(retry(3));
   }
+
+  // Método para cambiar la contraseña del usuario
+  cambiarContraseniaPUT(usuario):Observable<any>{
+    return this.http.put(this.direccionIniciarSesion, usuario, this.httpOptions).pipe(retry(3));
+  }
+
+  /*
+  {
+    "email" : "jorgealequinn@gmail.com",
+    "nuevaContrasenia" : "admin123"
+}
+  */
 
 }

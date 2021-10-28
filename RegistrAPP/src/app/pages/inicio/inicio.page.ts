@@ -12,9 +12,15 @@ import { TtsService } from 'src/app/services/tts.service';
 export class InicioPage implements OnInit {
   //Variable username
   username: any;
+  
+  // Variable rut 
+  rut: any;
 
-  constructor(private _stts:TtsService,
-              private activatedRoute: ActivatedRoute) { }
+  constructor
+  (
+    private _stts:TtsService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   hablar(esp:string){
     this._stts.decir(esp);
@@ -22,6 +28,7 @@ export class InicioPage implements OnInit {
 
   ngOnInit() {
     this.username = this.activatedRoute.snapshot.paramMap.get("username");
+    this.rut = this.activatedRoute.snapshot.paramMap.get("rut");
   }
 
 }

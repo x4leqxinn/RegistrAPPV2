@@ -24,32 +24,31 @@
         <!-- Etiqueta Flotante -->
         <!-- inputs de formulario -->
         <ion-item lines="none" class="formulario-login__item">
-          <ion-input class="formulario-login__input" placeholder="Usuario" formControlName="username">
-            <ion-icon class="formulario-login__icon" *ngIf="username.invalid && (username.dirty || username.touched)"
+          <ion-input class="formulario-login__input" placeholder="Email" formControlName="email">
+            <ion-icon class="formulario-login__icon" *ngIf="email.invalid && (email.dirty || email.touched)"
               color="danger" size="small" name="warning"></ion-icon>
-            <ion-icon class="formulario-login__icon" *ngIf="username.valid" color="secondary" size="small"
+            <ion-icon class="formulario-login__icon" *ngIf="email.valid" color="secondary" size="small"
               name="checkmark-circle"></ion-icon>
           </ion-input>
         </ion-item>
 
         <!-- Alerta Mensaje Error -->
         <!-- Se activa si la pass es inválida y si no haces nada o ensucias la text box-->
-        <div class="alerta-error" *ngIf="username.invalid && (username.dirty || username.touched)">
+        <div class="alerta-error" *ngIf="email.invalid && (email.dirty || email.touched)">
 
-          <div class="mensaje-error" *ngIf="username.errors.required">
-            El nombre de usuario es requerido.*
+          <div class="mensaje-error" *ngIf="email.errors.required">
+            El Email es requerido.*
+          </div>email
+          <div class="mensaje-error" *ngIf="email.errors.minlength">
+            El Email debe tener al menos 10 carácteres.*
           </div>
 
-          <div class="mensaje-error" *ngIf="username.errors.minlength">
-            El nombre de usuario debe tener al menos 5 carácteres.*
+          <div class="mensaje-error" *ngIf="email.errors.maxlength">
+            El Email no debe superar los 80 carácteres.*
           </div>
 
-          <div class="mensaje-error" *ngIf="username.errors.maxlength">
-            El nombre de usuario no debe superar los 10 carácteres.*
-          </div>
-
-          <div class="mensaje-error" *ngIf="username.errors.pattern">
-            Nombre de usuario inválido.*
+          <div class="mensaje-error" *ngIf="email.errors.pattern">
+            Email inválido.*
           </div>
 
         </div>

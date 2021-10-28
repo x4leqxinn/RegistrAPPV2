@@ -20,7 +20,7 @@ const routes: Routes = [{
       loadChildren: () => import('../asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
     },
     {
-      path: 'inicio/:username',
+      path: 'inicio/:username/:rut',
       loadChildren: () => import('../inicio/inicio.module').then( m => m.InicioPageModule)
     }
   ]

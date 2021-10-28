@@ -371,6 +371,21 @@ class LoginView(View):
             datos ={'mensaje':'No se pudo cambiar la contraseña'}
         return JsonResponse(datos)
 
+class CambiarContraseniaView(View):
+    # Se ejecuta cada vez que queremos realizar una acción 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self,request):
+        jsonData = json.loads(request.body)
+        valida = cambiarContrasenia(jsonData["email"], jsonData["nuevaContrasenia"])
+        if valida == 1:
+            datos = {'mensaje':'Success'}
+        else:
+            datos ={'mensaje':'No se pudo cambiar la contraseña'}
+        return JsonResponse(datos)
+
 
 # Método API para Modificar código QR y Escanear código QR
 class CodigoQRView(View):

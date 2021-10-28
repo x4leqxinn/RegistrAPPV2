@@ -18,6 +18,7 @@ urlpatterns = [
     path('asistencia/',AsistenciaView.as_view(), name = "listaAsistencias"),
     path('asistencia/<int:id>',AsistenciaView.as_view(), name = "procesoAsistencia"),
     path('login/',LoginView.as_view(), name = "Login"),
+    path('cambiar-contrasenia/',CambiarContraseniaView.as_view(), name = "cambiarContrasenia"),
     path('guardar-asistencia/',GuardarAsistenciaView.as_view(), name = "guardarAsistencia"),
     path('codigoqr/',CodigoQRView.as_view(), name = "procesoCodigoQR"),
     path('listar-cursos-profesor/<int:rutProfesor>/',ListarCursoProfeView.as_view(), name = "listarCursosProfe"),

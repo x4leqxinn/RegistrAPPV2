@@ -18,7 +18,7 @@ export class AuthenticationService {
   ) { }
 
   // Aquí debemos hacer el proceso de validación del login
-  login(user, password, tipo,rut,bienvenida){
+  login(user, password, tipo, rut, bienvenida){
 
     var usuario = {
       nombre: user,
@@ -32,7 +32,7 @@ export class AuthenticationService {
       this.storage.create();
       this.storage.set('user',usuario).then((resp)=>{
         console.log(usuario);
-        this.router.navigate(['inicio']);
+        this.router.navigate(['/tabs-profesor/inicio/',bienvenida,rut]);
         this.authState.next(true);
       })
 
@@ -40,7 +40,7 @@ export class AuthenticationService {
       this.storage.create();
       this.storage.set('user',usuario).then((resp)=>{
         console.log(usuario);
-        this.router.navigate(['tabs-profesor']);
+        this.router.navigate(['/tabs-alumno/inicio/',bienvenida,rut]);
         this.authState.next(true);
       })
     }

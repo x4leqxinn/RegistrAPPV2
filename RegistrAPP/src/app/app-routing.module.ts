@@ -24,7 +24,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
   { ///
-    path: 'inicio/:username',
+    path: 'inicio/:username/:rut',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[AuthenGuardService]
   },
   {
@@ -44,7 +44,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/mapa/mapa.module').then( m => m.MapaPageModule)
   },
   {
-    path: 'cambiar-contrasenia/:username',
+    path: 'cambiar-contrasenia',
     loadChildren: () => import('./pages/cambiar-contrasenia/cambiar-contrasenia.module').then( m => m.CambiarContraseniaPageModule)
   },
   /*

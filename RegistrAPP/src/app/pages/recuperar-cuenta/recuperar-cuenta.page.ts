@@ -25,13 +25,14 @@ export class RecuperarCuentaPage implements OnInit {
     private toastController: ToastController
   ) { 
     this.recuperarForm = this.formBuilder.group({
+
       // Creamos Controles de Formularios
-      username: new FormControl("",
+      email: new FormControl("",
         Validators.compose([
         Validators.required, // Campo requerido
-        Validators.minLength(5),
-        Validators.maxLength(10),
-        Validators.pattern("^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$") // Expresión Regular para validar el username
+        Validators.minLength(10),
+        Validators.maxLength(80),
+        Validators.pattern("[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})") // Expresión Regular para validar el Email
       ])),
     });
   }
@@ -39,33 +40,18 @@ export class RecuperarCuentaPage implements OnInit {
   ngOnInit() {
   }
 
-  buscarUsuario(username:String){
-    var datos = localStorage.getItem('usuarios');
-    let valida = false;
-    // LISTAR
-    datos = datos.replace('[','');
-    datos = datos.replace(']','');
-    datos = datos.split('},{').join('};{');
-    var arreglo_temp = datos.split(";");
-    for (let index = 0; index < arreglo_temp.length; index++) {
-      var registro = arreglo_temp[index];
-      var usuario = JSON.parse(registro);
-      // Validamos si el usuario coincide con nuestra mini BD
-      if(usuario.nombreUsuario == username){
-        valida = true;
-        console.log('Encontrado!')
-      }
-    }
-    return valida;
+  buscarUsuario(){
   }
 
   validarIngreso(credenciales){
+    /*
     if(this.buscarUsuario(credenciales.username)){
       this.toastAlert('Ingresando...','',1000);
       this.router.navigate(['/cambiar-contrasenia/',credenciales.username]);
     }else{
       this.toastAlert('ERROR', 'No es posible cambiar la contraseña.',2000);
     }
+    */
   }
 
   
@@ -83,6 +69,6 @@ export class RecuperarCuentaPage implements OnInit {
     }
 
     // Agrego métodos get para validar el Formulario
-    get username(){ return this.recuperarForm.get('username'); }
-    get password(){ return this.recuperarForm.get('password'); }
+    get email(){ return this.recuperarForm.get('email'); }
+
 }
