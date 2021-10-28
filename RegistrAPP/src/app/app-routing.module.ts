@@ -16,10 +16,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'recuperar-cuenta',
-    loadChildren: () => import('./pages/recuperar-cuenta/recuperar-cuenta.module').then( m => m.RecuperarCuentaPageModule)
-  },
-  {
     path: 'asistencia',
     loadChildren: () => import('./pages/asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
@@ -47,25 +43,38 @@ const routes: Routes = [
     path: 'cambiar-contrasenia',
     loadChildren: () => import('./pages/cambiar-contrasenia/cambiar-contrasenia.module').then( m => m.CambiarContraseniaPageModule)
   },
-  /*
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  
-  {
-    path: 'menu',
-    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule), canActivate:[AuthenGuardService]
-  },
-  {
-    path: 'informacion',
-    loadChildren: () => import('./pages/informacion/informacion.module').then( m => m.InformacionPageModule)
-  },
-  */
   {
     // Redirecciona todas las direcciones erronéas a esta página
     path: '**',
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
+  },
+  {
+    path: 'cursos-profesor',
+    loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule)
+  },
+  {
+    path: 'asignaturas-profesor',
+    loadChildren: () => import('./pages/asignaturas-profesor/asignaturas-profesor.module').then( m => m.AsignaturasProfesorPageModule)
+  },
+  {
+    path: 'clases-profesor',
+    loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule)
+  },
+  {
+    path: 'asignaturas-alumno',
+    loadChildren: () => import('./pages/asignaturas-alumno/asignaturas-alumno.module').then( m => m.AsignaturasAlumnoPageModule)
+  },
+  {
+    path: 'clases-alumno',
+    loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
+  },
+  {
+    path: 'lista-asistencia-profesor',
+    loadChildren: () => import('./pages/lista-asistencia-profesor/lista-asistencia-profesor.module').then( m => m.ListaAsistenciaProfesorPageModule)
+  },
+  {
+    path: 'buscar-asistencia-alumno',
+    loadChildren: () => import('./pages/buscar-asistencia-alumno/buscar-asistencia-alumno.module').then( m => m.BuscarAsistenciaAlumnoPageModule)
   },
 
 

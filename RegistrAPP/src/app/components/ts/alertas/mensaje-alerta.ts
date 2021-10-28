@@ -49,4 +49,31 @@ export class Mensaje {
         await alert.onDidDismiss();
     }
 
+        // Alerta de eliminación (True, False)
+        async mensajeCerrarSesion(){
+            const alert = await this.alertController.create({
+                header: "Cerrar sesión",
+                message: "¿Estás seguro?",
+                buttons: [
+                    {
+                        text: 'No',
+                        handler: () => {
+                            console.log("Cancelar");
+                            return false;
+                        }
+                    },
+                    {
+                        text: 'Sí',
+                        handler: () => {
+                            console.log("Sesión finalizada");
+                            return true;
+                        }
+                    }
+                ]
+            });
+            await alert.present();
+            //Que se cierre cuando aprete el botón
+            await alert.onDidDismiss();
+        }
+
 }

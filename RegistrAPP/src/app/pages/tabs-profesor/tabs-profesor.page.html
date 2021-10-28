@@ -1,7 +1,7 @@
 <!-- Menú Toolbar para cerrar sesión -->
 <ion-toolbar class="tabs-toolbar">
   <ion-buttons slot="primary">
-    <ion-button [routerLink]="['/iniciar-sesion']">
+    <ion-button (click)="cerrarSesion()">
       <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
     </ion-button>
   </ion-buttons>
