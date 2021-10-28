@@ -29,12 +29,8 @@ export class AppComponent {
     platform.ready().then(()=>{
       // Va a estar a atento en cada momento de lo que ocurra en estado
       authService.authState.subscribe(estado=>{
-        // Cambiar el return de true o false que devuelva el tipo de usuario
         if(estado){
-          ///////////////////////
-          //Falta hacer un filtro por Tipo de Usuario
-          //////////////////////
-          router.navigate(['/tabs-alumno/inicio/Jorge']);
+          // Mientras el estado sea true estaré logeado, si no me devúelve al login
         }else{
           router.navigate(['/iniciar-sesion']);
         }

@@ -93,9 +93,14 @@ export class IniciarSesionPage implements OnInit{
       usuario: credenciales.username,
       contrasenia: credenciales.password,
     };
+
     this.apiService.iniciarSesionPOST(usuario).subscribe(
       (data) => {
         console.log(data);
+        console.log(data.mensaje)
+        console.log(data.tipoUsuario)
+        // SI EXISTE EL USUARIO QUE INICIE SESIÓN 
+        this.authService.login(credenciales.username, credenciales.password,data.tipoUsuario,data.rut,data.bienvenida);
       },
       (error) => {
         console.log(error);
@@ -112,5 +117,88 @@ export class IniciarSesionPage implements OnInit{
   // Agrego métodos get para validar el Formulario
   get username(){ return this.loginForm.get('username'); }
   get password(){ return this.loginForm.get('password'); }
+
+  /*
+    //Lamda
+  recuperarTodo() {
+    this.apiService.getPosts().subscribe(
+      (data) => {
+        console.log(data);
+      }, //Si recupera un dato 
+      (error) => {
+        console.log(error);
+      } // si da un error
+    );
+  }
+
+  recuperarID() {
+    this.apiService.getPost(20).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  recuperarDolar() {
+    this.apiService.getDolar().subscribe(
+      (data) => {
+        console.log(data.serie[0].valor); // Del array que nos devuelve tomamos el item i = 0 y sólo el valor
+      }, //Si recupera un dato 
+      (error) => {
+        console.log(error);
+      } // si da un error
+    );
+  }
+
+  crearPost() {
+    var post = {
+      userId: 1,
+      id: 101,
+      title: 'hola mundo',
+      body: 'hola lindo mundo'
+    };
+    this.apiService.crearPost(post).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  updatePost() {
+    var post = {
+      userId: 1,
+      id: 20,
+      title: 'hola mundo',
+      body: 'hola lindo mundo'
+    };
+    this.apiService.updatePost(20, post).subscribe(
+      (success) => {
+        console.log(success);
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+  }
+
+  deletePost(){
+    this.apiService.deletePost(20).subscribe(
+      (success) => {
+        console.log(success);
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+  }
+
+  
+  */
 
 }

@@ -18,28 +18,33 @@ export class AuthenticationService {
   ) { }
 
   // Aquí debemos hacer el proceso de validación del login
-  login(user, password):boolean{
+  login(user, password, tipo,rut,bienvenida){
 
-
-    
-
-    var objeto = {
-      user_name: user,
-      user_pass: password
+    var usuario = {
+      nombre: user,
+      contrasenia: password,
+      tipo:tipo,
+      rut:rut,
+      bienvenida:bienvenida,
     };
-
-    var valida = false;
-
-    if (user == "WENAA" && password == "RegistrAPP69!"){
+    // FALTA VALIDAR LA NAVEGACIÓN POR TIPO DE USUARIO Y MANDAR PARAMETROS A LAS VENTANAS
+    if(tipo == 1){
       this.storage.create();
-      this.storage.set('user',objeto).then((resp)=>{
-        console.log(objeto);
+      this.storage.set('user',usuario).then((resp)=>{
+        console.log(usuario);
         this.router.navigate(['inicio']);
         this.authState.next(true);
       })
-      valida = true;
+
+    }else if(tipo == 2){
+      this.storage.create();
+      this.storage.set('user',usuario).then((resp)=>{
+        console.log(usuario);
+        this.router.navigate(['tabs-profesor']);
+        this.authState.next(true);
+      })
     }
-    return valida;
+
   }
 
   // Nos desconecta de la sesión
