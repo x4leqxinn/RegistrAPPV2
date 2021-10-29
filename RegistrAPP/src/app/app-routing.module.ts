@@ -44,11 +44,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cambiar-contrasenia/cambiar-contrasenia.module').then( m => m.CambiarContraseniaPageModule)
   },
   {
-    // Redirecciona todas las direcciones erronéas a esta página
-    path: '**',
-    loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
-  },
-  {
     path: 'cursos-profesor',
     loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule)
   },
@@ -76,9 +71,11 @@ const routes: Routes = [
     path: 'buscar-asistencia-alumno',
     loadChildren: () => import('./pages/buscar-asistencia-alumno/buscar-asistencia-alumno.module').then( m => m.BuscarAsistenciaAlumnoPageModule)
   },
-
-
-
+  {
+    // Redirecciona todas las direcciones erronéas a esta página
+    path: '**',
+    loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
+  }
 
 ];
 

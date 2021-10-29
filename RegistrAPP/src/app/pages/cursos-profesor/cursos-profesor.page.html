@@ -1,9 +1,16 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>cursos-profesor</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>CURSOS</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <!--Recorremos la lista de cursos -->
+    <ion-item *ngFor="let x of cursos">
+        <div class="item-icon"></div>
+        <ion-label>
+            {{x.nombre}}
+        </ion-label>
+    </ion-item>
 
 </ion-content>

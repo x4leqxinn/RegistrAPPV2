@@ -24,13 +24,28 @@ import json
 # Aquí realizamos los métodos para el Backend
 def alumnos(request):
     print(listarAlumnos()) # Lo tengo!!
-    data = {
-        'rutAlumno':listarAlumnos()[0][0],
-        'dv':listarAlumnos()[0][1],
-        'nombre':listarAlumnos()[0][2],
-    }
-    print(data);
-    return render(request,'core/alumnos.html',data)
+    '''
+    for x in range(len(datos)):
+        data = {
+                'rutAlumno':datos[x][0],
+                'dv':datos[x][1],
+                'nombre':datos[x][2],
+                'nombre_s':datos[x][3],
+                'nombre_t':datos[x][4],
+                'apellido_p':datos[x][5],
+                'apellido_m':datos[x][6],
+                'email':datos[x][7],
+                'usuario':datos[x][8],
+                'genero':datos[x][9],
+                'run':datos[x][10],
+                'idcurso':datos[x][11]
+        }
+    '''
+            
+
+    lista = {"alumnos" : listarAlumnos()};
+
+    return render(request,'core/alumnos.html',lista)
 
 # Método que me rescata a todos los Alumnos de la BDD
 def listarAlumnos():

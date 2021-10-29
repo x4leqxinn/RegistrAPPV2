@@ -59,14 +59,13 @@ export class Mensaje {
                         text: 'No',
                         handler: () => {
                             console.log("Cancelar");
-                            return false;
+                        
                         }
                     },
                     {
                         text: 'Sí',
                         handler: () => {
                             console.log("Sesión finalizada");
-                            return true;
                         }
                     }
                 ]

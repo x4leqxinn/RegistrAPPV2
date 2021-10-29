@@ -79,6 +79,7 @@ export class IniciarSesionPage implements OnInit{
   }
 
   ngOnInit(){
+    this.limpiarCampos();
   }
 
    //Resetea Formulario
@@ -110,8 +111,8 @@ export class IniciarSesionPage implements OnInit{
 
 
   recuperarCuenta(){
-    this.router.navigate(['/cambiar-contrasenia'])
-    //this.router.navigate(['/codigo-qr'])
+    //this.router.navigate(['/cambiar-contrasenia'])
+    this.router.navigate(['/cursos-profesor']);
   }
 
   // Agrego métodos get para validar el Formulario

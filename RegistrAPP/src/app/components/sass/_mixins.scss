@@ -1,6 +1,6 @@
 // Herencia en CSS :OO
-
 // También pueden recibir parámetros
+
 /*
 
 @mixin button {
@@ -39,41 +39,37 @@
 
 */
 
-@mixin btn-primario{
+@mixin btn-primario {
     display: inline-block;
     text-decoration: none;
     --background: var(--ion-color-primario);
     color: var(--ion-color-blanco);
     width: 40%;
     height: 35px;
-
     // & Hereda del padre
     &:focus {
         --background: var(--ion-color-primario-claro);
     }
-
-    &:hover{
+    &:hover {
         --background: var(--ion-color-primario-claro);
     }
 }
 
-@mixin btn-secundario{
+@mixin btn-secundario {
     display: inline-block;
     text-decoration: none;
     --background: var(--ion-color-terciario);
     color: var(--ion-color-blanco);
-
     // & Hereda del padre
     &:focus {
         --background: var(--ion-color-terciario);
     }
-
-    &:hover{
+    &:hover {
         --background: var(--ion-color-terciario);
     }
 }
 
-@mixin btn-terciario{
+@mixin btn-terciario {
     display: inline-block;
     text-decoration: none;
     --background: none;
@@ -83,7 +79,7 @@
     height: 35px;
 }
 
-@mixin form-label-primario{
+@mixin form-label-primario {
     display: inline-block;
     --background: none;
     width: 75%;
@@ -95,18 +91,16 @@
     display: flex;
     text-align: center;
     justify-items: center;
-
-    &::placeholder{
+    &::placeholder {
         color: var(--ion-color-secundario);
     }
-
-    &:focus{
+    &:focus {
         color: var(--ion-color-secundario);
     }
 }
 
 @mixin background-app {
-    position: absolute; 
+    position: absolute;
     width: 100%;
     height: 100vh; // Usa el 100% de la altura del dispositivo móvil
     z-index: -2;
@@ -115,4 +109,12 @@
 @mixin black-block {
     position: absolute;
     --background: var(--ion-color-negro-transparente) 0 0/100% 100% no-repeat;
+}
+
+@mixin item-icon {
+    width: 6px;
+    height: 30px;
+    background-color: var(--ion-color-terciario);
+    border-radius: 20px;
+    margin-right: 15px;
 }
