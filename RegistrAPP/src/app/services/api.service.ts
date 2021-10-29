@@ -37,17 +37,20 @@ export class ApiService {
 
 */ 
   // Definir direcciones HTTP
+  //http://localhost:9100/
+  //http://192.168.43.146:9100/
   direccionHost = "http://localhost:9100/";
   direccionGenerarQR = this.direccionHost + "codigoqr/"; // PUT
   direccionEscanearQR = this.direccionHost + "codigoqr/"; // POST
   direccionIniciarSesion = this.direccionHost + "login/"; // POST
-  direccionCambiarContrasenia = this.direccionHost + "cambiar-contrasenia/"; // POST
+  direccionCambiarContrasenia = this.direccionHost + "cambiar-contrasenia/"; // PUT
   direccionGuardarAsistencia = this.direccionHost + "guardar-asistencia/" // POST
   direccionRegistrarAsistencia = this.direccionHost + "asistencia/"; // POST
   direccionModificarAsistencia = this.direccionHost + "asistencia/"; // PUT
   direccionEliminarAsistencia = this.direccionHost + "asistencia/"; // DELETE + ID
   direccionBuscarAsistencia = this.direccionHost + "asistencia/"; // GET + ID
   direccionListarAsistencias = this.direccionHost + "asistencia/"; // GET
+  direccionListarCursos = this.direccionHost + "listar-cursos-profesor/"; // GET
 
   // FALTAN AGREGAR LOS DE LISTAR ASISTENCIA CON FILTROS PARA LAS VISTAS
 
@@ -86,6 +89,11 @@ export class ApiService {
   // Método para cambiar la contraseña del usuario
   cambiarContraseniaPUT(usuario):Observable<any>{
     return this.http.put(this.direccionIniciarSesion, usuario, this.httpOptions).pipe(retry(3));
+  }
+
+  // Método que recupera los cursos que el profesor imparte
+  listarCursoGET(id):Observable<any>{
+    return this.http.get(this.direccionListarCursos + id).pipe(retry(3));
   }
 
   /*

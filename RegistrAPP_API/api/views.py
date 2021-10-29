@@ -374,7 +374,7 @@ class LoginView(View):
                     }
 
         else:
-            datos={'mensaje':'El nombre de usuario o contraseña incorrectos'}
+            datos={'mensaje':'Error'}
         return JsonResponse(datos)
     
     def put(self,request):

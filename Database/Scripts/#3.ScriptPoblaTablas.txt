@@ -27,6 +27,7 @@ CREATE SEQUENCE seq_detalle_asistencia;
 CREATE SEQUENCE seq_detalle_curso;
 CREATE SEQUENCE seq_errores;
 
+
 -----------------------------------------------------
 -- TIPO USUARIO
 -----------------------------------------------------
@@ -79,6 +80,7 @@ INSERT INTO usuario VALUES ('x4leqxinn', 'admin123',1,2);
 INSERT INTO usuario VALUES ('ratitalizz', 'admin123',1,2);
 INSERT INTO usuario VALUES ('matt69', 'admin123',1,2);
 INSERT INTO USUARIO VALUES ('tom.campos','admin123',1,2);
+INSERT INTO USUARIO VALUES ('Jotap-ux','admin123',1,2);
 
 -- Profesores
 INSERT INTO usuario VALUES ('fre.camposo', 'admin123',1,1);
@@ -150,6 +152,7 @@ INSERT INTO persona VALUES ('20281676','2','JORGE','ALEJANDRO', NULL , 'QUINTUI'
 INSERT INTO persona VALUES ('19317764','6','BARBARA','ELIZABETH', NULL , 'AROCA','ESPINOZA','ba.aroca@gmail.com','ratitalizz',2);
 INSERT INTO persona VALUES ('19708456','1','MATIAS','IGNACIO', NULL , 'AMION','ARANEDA','mat.amion@gmail.com','matt69',1);
 INSERT INTO PERSONA VALUES ('20225887','5','TOMAS','JESUS',null,'CAMPOS','CELIS','tom.campos@duocuc.cl','tom.campos',1);
+INSERT INTO PERSONA VALUES ('20279147 ','6','JUAN','PABLO',NULL,'GONZALEZ','ALONSO','jotap-ux@duocuc.cl','Jotap-ux',1);
 
 -----------------------------------------------------
 -- ALUMNO
@@ -158,6 +161,7 @@ INSERT INTO alumno VALUES ('20281676',10);
 INSERT INTO alumno VALUES ('19317764',10);
 INSERT INTO alumno VALUES ('19708456',10);
 INSERT INTO ALUMNO VALUES ('20225887',11);
+INSERT INTO ALUMNO VALUES('20279147 ',10);
 -----------------------------------------------------
 
 -----------------------------------------------------

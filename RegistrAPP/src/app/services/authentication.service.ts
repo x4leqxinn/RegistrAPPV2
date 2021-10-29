@@ -19,7 +19,6 @@ export class AuthenticationService {
 
   // Aquí debemos hacer el proceso de validación del login
   login(user, password, tipo, rut, bienvenida){
-
     var usuario = {
       nombre: user,
       contrasenia: password,
@@ -44,7 +43,6 @@ export class AuthenticationService {
         this.authState.next(true);
       })
     }
-
   }
 
   // Nos desconecta de la sesión

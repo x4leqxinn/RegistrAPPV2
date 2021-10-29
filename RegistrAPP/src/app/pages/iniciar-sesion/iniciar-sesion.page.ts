@@ -5,7 +5,7 @@ import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 // Importamos el componente NavController
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 //Importamos el componente de Routers
 import { Router } from '@angular/router';
@@ -22,7 +22,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 // Importamos el API SERVICE
 import { ApiService } from 'src/app/services/api.service';
 
-
+// Importamos el Modelo de Usuario
+import { UsuarioLoginI } from 'src/app/components/model/usuario.intefaces';
 
 
 @Component({
@@ -40,6 +41,9 @@ export class IniciarSesionPage implements OnInit{
   // Creamos un FormGroup
   loginForm: FormGroup;
 
+  // Creamos una plantilla de Usuario
+  usuario: UsuarioLoginI;
+
   // Inicializamos el contructor con un router y un navControl
   constructor(
     private router: Router, 
@@ -48,7 +52,8 @@ export class IniciarSesionPage implements OnInit{
     public toastController: ToastController,
     public alertController: AlertController,
     private authService: AuthenticationService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private loadingController: LoadingController
     ) 
   { 
     this.loginForm = this.formBuilder.group({
@@ -88,23 +93,42 @@ export class IniciarSesionPage implements OnInit{
   }
 
 
-  iniciarSesion(credenciales){
+  async iniciarSesion(credenciales){
     // Enviamos un diccionario
-    var usuario = {
+    this.usuario = {
       usuario: credenciales.username,
       contrasenia: credenciales.password,
+      tipo: 0 // Valor por defecto no se usa aquí
     };
 
-    this.apiService.iniciarSesionPOST(usuario).subscribe(
+    const carga = await this.loadingController.create({
+      message:"Cargando ..."
+    });
+
+    await carga.present();
+
+    this.apiService.iniciarSesionPOST(this.usuario).subscribe(
       (data) => {
         console.log(data);
         console.log(data.mensaje)
-        // SI EXISTE EL USUARIO QUE INICIE SESIÓN 
-        this.authService.login(credenciales.username, credenciales.password,data.tipoUsuario,data.rut,data.bienvenida);
+        if(data.mensaje == "Error"){
+          // CARGA DE INICIO DE SESIÓN
+          carga.dismiss();
+          // Mensaje de Usuario o Contraseña incorrectas
+          alert('Usuario o Contraseña incorrectas');
+        }else{
+          this.authService.login(credenciales.username, credenciales.password,data.tipoUsuario,data.rut,data.bienvenida)
+          // CARGA DE INICIO DE SESIÓN
+          carga.dismiss();
+        }
+        
       },
       (error) => {
+        // CARGA DE INICIO DE SESIÓN
+        carga.dismiss();
+        // Alerta de que los servidores están caídos, vuelva más tarde
+        alert('No hay data')
         console.log(error);
-        // Aquí podría poner una alerta de que las credenciales son incorrectas
       }
     );
   }

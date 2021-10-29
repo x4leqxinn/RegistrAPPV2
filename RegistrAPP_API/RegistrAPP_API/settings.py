@@ -63,6 +63,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
+    "http://192.168.43.146"
     #"https://sub.example.com",
     #"http://localhost:8080",
     #"http://127.0.0.1:9000",
@@ -70,7 +71,9 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost",
+    "http://192.168.43.146"
 ]
+
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
