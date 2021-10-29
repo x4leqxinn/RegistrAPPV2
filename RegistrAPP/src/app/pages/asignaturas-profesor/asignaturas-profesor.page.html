@@ -5,5 +5,15 @@
 </ion-header>
 
 <ion-content>
-
+  ID CURSO {{id_curso}}
+  RUT {{rut}}
+      <!--Recorremos la lista de asignaturas -->
+    <ion-list *ngFor="let x of asignaturas">
+        <ion-item button (click)="listarClases(x.id)">
+            <div class="item-icon "></div>
+            <ion-label>
+                {{x.nombre}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

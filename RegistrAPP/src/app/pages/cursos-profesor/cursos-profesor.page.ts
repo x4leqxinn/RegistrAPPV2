@@ -5,13 +5,16 @@ import { CursoI } from 'src/app/components/model/curso.interface';
 import { ApiService } from 'src/app/services/api.service';
 // Importamos NAV CONTROLLER y LoadingController
 import { NavController, LoadingController } from '@ionic/angular';
+//
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cursos-profesor',
   templateUrl: './cursos-profesor.page.html',
   styleUrls: ['./cursos-profesor.page.scss'],
 })
 export class CursosProfesorPage implements OnInit {
-
+  //Recibimos el rut por parametro
+  rut : any;
   // Curso
   curso:CursoI;
 
@@ -24,11 +27,13 @@ export class CursosProfesorPage implements OnInit {
   (
     private apiService:ApiService,
     private loadingController:LoadingController,
-    private navController:NavController
+    private navController:NavController,
+    private router:Router,
   )
   { }
 
   ngOnInit() {
+    this.rut = 17268410;
     this.listarCurso();
    
   }
@@ -63,18 +68,9 @@ export class CursosProfesorPage implements OnInit {
         } // si da un error
       );
   }
-/*
-  async guardar(){
-    const carga = await this.loadingCtrl.create({
-      message:"Guardando ..."
-    });
-    await carga.present();
-    
-    this.personaService.addPersona(this.persona).then(()=>{
-      carga.dismiss();
-      this.nav.navigateForward("/");
-    });
+
+  listarAsignaturas(id){
+    this.router.navigate(['/asignaturas-profesor/',this.rut,id]);
   }
 
-  */
 }

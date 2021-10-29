@@ -1,0 +1,5 @@
+@import "../../components/sass/mixins";
+@import "../../../theme/style.css";
+.item-icon {
+    @include item-icon;
+}

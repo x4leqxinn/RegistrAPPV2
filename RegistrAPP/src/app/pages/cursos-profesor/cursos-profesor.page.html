@@ -6,11 +6,12 @@
 
 <ion-content>
     <!--Recorremos la lista de cursos -->
-    <ion-item *ngFor="let x of cursos">
-        <div class="item-icon"></div>
-        <ion-label>
-            {{x.nombre}}
-        </ion-label>
-    </ion-item>
-
+    <ion-list *ngFor="let x of cursos">
+        <ion-item button (click)="listarAsignaturas(x.id)">
+            <div class="item-icon "></div>
+            <ion-label>
+                {{x.nombre}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>
