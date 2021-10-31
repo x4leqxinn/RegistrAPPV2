@@ -1,13 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>asignaturas-profesor</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>asignaturas-profesor</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  ID CURSO {{id_curso}}
-  RUT {{rut}}
-      <!--Recorremos la lista de asignaturas -->
+    ID CURSO {{id_curso}} RUT {{rut}}
+    <!--Recorremos la lista de asignaturas -->
     <ion-list *ngFor="let x of asignaturas">
         <ion-item button (click)="listarClases(x.id)">
             <div class="item-icon "></div>

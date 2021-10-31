@@ -1,31 +1,32 @@
 <!-- Menú Toolbar para cerrar sesión -->
 <ion-toolbar class="tabs-toolbar">
-  <ion-buttons slot="primary">
-    <ion-button (click)="cerrarSesion()">
-      <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-  <ion-title>Portal Docentes</ion-title>
+    <ion-buttons slot="primary">
+        <ion-button (click)="cerrarSesion()">
+            <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title>Portal Docentes</ion-title>
 </ion-toolbar>
 
 <ion-tabs>
 
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="codigo-qr">
-      <ion-icon name="cellular"></ion-icon>
-      <ion-label>asistencia</ion-label>
-      <ion-badge>6</ion-badge>
-    </ion-tab-button>
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="codigo-qr" [rootParams]="parametro">
+            <!-- PRUEBA -->
+            <ion-icon name="cellular"></ion-icon>
+            <ion-label>asistencia</ion-label>
+            <ion-badge>6</ion-badge>
+        </ion-tab-button>
 
-    <ion-tab-button tab="inicio">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>inicio</ion-label>
-    </ion-tab-button>
+        <ion-tab-button tab="inicio">
+            <ion-icon name="home"></ion-icon>
+            <ion-label>inicio</ion-label>
+        </ion-tab-button>
 
-    <ion-tab-button tab="about">
-      <ion-icon name="analytics"></ion-icon>
-      <ion-label>Estadisticas</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
+        <ion-tab-button tab="about">
+            <ion-icon name="analytics"></ion-icon>
+            <ion-label>Estadisticas</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
 
 </ion-tabs>

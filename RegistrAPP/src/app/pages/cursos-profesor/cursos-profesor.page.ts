@@ -7,6 +7,9 @@ import { ApiService } from 'src/app/services/api.service';
 import { NavController, LoadingController } from '@ionic/angular';
 //
 import { Router } from '@angular/router';
+//
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-cursos-profesor',
   templateUrl: './cursos-profesor.page.html',
@@ -15,6 +18,7 @@ import { Router } from '@angular/router';
 export class CursosProfesorPage implements OnInit {
   //Recibimos el rut por parametro
   rut : any;
+
   // Curso
   curso:CursoI;
 
@@ -29,11 +33,12 @@ export class CursosProfesorPage implements OnInit {
     private loadingController:LoadingController,
     private navController:NavController,
     private router:Router,
+    private activatedRoute: ActivatedRoute
   )
   { }
 
   ngOnInit() {
-    this.rut = 17268410;
+    this.rut = this.activatedRoute.snapshot.paramMap.get("rut");
     this.listarCurso();
    
   }

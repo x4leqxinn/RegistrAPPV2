@@ -5,6 +5,9 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 // importamos el asistente de voz
 import { TtsService } from 'src/app/services/tts.service';
 
+//
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-codigo-qr',
   templateUrl: './codigo-qr.page.html',
@@ -15,6 +18,7 @@ export class CodigoQRPage implements OnInit {
   qrData= null;
   codigoCreado = null;
   codigoScaneado = null;
+  claseID : any;
 
   elementType: 'url' | 'img' | 'canvas' = 'canvas'
 
@@ -22,9 +26,11 @@ export class CodigoQRPage implements OnInit {
   (
     private barcodeScanner: BarcodeScanner,
     private _stts: TtsService,
+    private activatedRoute : ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.claseID = this.activatedRoute.snapshot.paramMap.get("claseID");
   }
   
   //Asistente de voz

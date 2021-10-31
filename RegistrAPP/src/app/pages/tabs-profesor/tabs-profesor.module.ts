@@ -21,11 +21,11 @@ const routes: Routes = [{
       loadChildren: () => import('../asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
     },
     {
-      path: 'inicio/:username/:rut',
+      path: 'inicio/:rut/:cursoID/:claseID',
       loadChildren: () => import('../inicio/inicio.module').then( m => m.InicioPageModule)
     },
     {
-      path: 'codigo-qr',
+      path: 'codigo-qr/:claseID',
       loadChildren: () => import('../codigo-qr/codigo-qr.module').then( m => m.CodigoQRPageModule)
     }
   ]

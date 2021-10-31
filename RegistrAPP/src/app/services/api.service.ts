@@ -50,8 +50,11 @@ export class ApiService {
   direccionEliminarAsistencia = this.direccionHost + "asistencia/"; // DELETE + ID
   direccionBuscarAsistencia = this.direccionHost + "asistencia/"; // GET + ID
   direccionListarAsistencias = this.direccionHost + "asistencia/"; // GET
-  direccionListarCursos = this.direccionHost + "listar-cursos-profesor/"; // GET
-  direccionListarAsignaturas = this.direccionHost + "listar-asignaturas-profesor/";
+  direccionListarCursosDocente = this.direccionHost + "listar-cursos-profesor/"; // GET
+  direccionListarAsignaturasDocente = this.direccionHost + "listar-asignaturas-profesor/";
+  direccionListarClasesDocente= this.direccionHost + "listar-clases-profesor/"; // GET
+
+
   // FALTAN AGREGAR LOS DE LISTAR ASISTENCIA CON FILTROS PARA LAS VISTAS
 
   // Crear los métodos para acceder a cada uno de los métodos de la BDD
@@ -93,11 +96,15 @@ export class ApiService {
 
   // Método que recupera los cursos que el profesor imparte
   listarCursoGET(id):Observable<any>{
-    return this.http.get(this.direccionListarCursos + id).pipe(retry(3));
+    return this.http.get(this.direccionListarCursosDocente + id).pipe(retry(3));
   }
 
-  listarAsignaturaGET(rut,asignaturaID):Observable<any>{
-    return this.http.get(this.direccionListarAsignaturas + rut + '/' + asignaturaID).pipe(retry(3));
+  listarAsignaturaGET(rut,cursoID):Observable<any>{
+    return this.http.get(this.direccionListarAsignaturasDocente + rut + '/' + cursoID).pipe(retry(3));
+  }
+
+  listarClaseDocenteGET(rut, cursoID, asignaturaID):Observable<any>{
+    return this.http.get(this.direccionListarClasesDocente + rut + '/' + cursoID + '/' + asignaturaID).pipe(retry(3));
   }
 
   /*

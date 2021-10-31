@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // Importamos el servicio de Autenticación
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs-profesor',
@@ -10,11 +10,16 @@ import { AlertController } from '@ionic/angular';
 })
 export class TabsProfesorPage implements OnInit {
 
+  parametro: any = { claseID: 3 }
+
   constructor
     (
       private authenticationService: AuthenticationService,
-      private mensaje: AlertController
-    ) { }
+      private mensaje: AlertController,
+      private navParams: NavParams
+    ) {
+      console.log("parametro id " + this.navParams.get("claseID"));
+     }
 
   ngOnInit() {
   }
@@ -50,5 +55,5 @@ export class TabsProfesorPage implements OnInit {
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
   }
-  
+
 }

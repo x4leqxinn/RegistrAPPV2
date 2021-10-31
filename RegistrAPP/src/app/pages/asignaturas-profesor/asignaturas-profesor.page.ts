@@ -7,6 +7,9 @@ import { LoadingController } from '@ionic/angular';
 //
 import { ApiService } from 'src/app/services/api.service';
 
+//
+import { AsignaturaI } from 'src/app/components/model/asignatura.interface';
+
 @Component({
   selector: 'app-asignaturas-profesor',
   templateUrl: './asignaturas-profesor.page.html',
@@ -17,7 +20,11 @@ export class AsignaturasProfesorPage implements OnInit {
   //Recibimos el rut por URL
   rut : any;
   //Recibimos el id_curso por URL
-  asignaturaID : any;
+  cursoID : any;
+  // Creamos un objeto de tipo asignatura
+  asignatura : AsignaturaI;
+  // Creamos una lista de asignaturas
+  asignaturas : AsignaturaI[] = [];
 
   constructor
   (
@@ -30,7 +37,7 @@ export class AsignaturasProfesorPage implements OnInit {
 
   ngOnInit() {
     this.rut = this.activatedRoute.snapshot.paramMap.get("rut");
-    this.asignaturaID = this.activatedRoute.snapshot.paramMap.get("asignaturaID");
+    this.cursoID = this.activatedRoute.snapshot.paramMap.get("cursoID");
     this.listarAsignatura();
   }
 
@@ -43,31 +50,37 @@ export class AsignaturasProfesorPage implements OnInit {
 
     await carga.present();
 
-      // 
-      this.apiService.listarAsignaturaGET(this.rut,this.asignaturaID).subscribe(
+      this.apiService.listarAsignaturaGET(this.rut,this.cursoID).subscribe(
         (data) => {
           console.log(data);
-          /*
-          for(var i = 0; i<data.cursos.length; i++){
-            // Creo un objeto de tipo CURSO
-            this.curso = {
-              id:data.cursos[i][0],
-              nombre:data.cursos[i][1]
+          if(data.mensaje == 'Encontrado'){
+            for(var i = 0; i<data.asignaturas.length; i++){
+
+              // Creo un objeto de tipo Asignatura
+              this.asignatura = {
+                id:data.asignaturas[i][0],
+                nombre:data.asignaturas[i][1],
+                cursoID:data.asignaturas[i][2]
+              }
+              // Lo agrego  a mi Array de ASIGNATURAS
+              this.asignaturas.push(this.asignatura);
             }
-            // Lo agrego  a mi Array de CURSOS
-            this.cursos.push(this.curso);
+            carga.dismiss();
+          }else{
+            // No encontró resultados Mensaje
+            carga.dismiss();
           }
-          */
-          carga.dismiss();
-          //this.navController.navigateForward("/"); esto es para devolverse a la ventana anterior
-        }, //Si recupera un dato 
+        }, 
         (error) => {
           console.log(error);
-        } // si da un error
+          carga.dismiss();
+          // Mensaje de error se cayó el server
+        } 
       );
   }
 
   listarClases(asignaturaID){
-    this.router.navigate(['/clases-profesor/',this.rut,asignaturaID]);
+    this.router.navigate(['clases-profesor/',this.rut,this.cursoID,asignaturaID]);
   }
+
 }

@@ -1151,8 +1151,12 @@ CREATE OR REPLACE PACKAGE BODY pkg_PROFESOR IS
     BEGIN
         -- LISTAR CLASES POR PROFE al elegir un curso, luego la asignatura 
         OPEN lista FOR
-            SELECT id_clase, fecha, hora_inicio, hora_termino
-            FROM CLASE  WHERE rut_profesor = p_rutprofesor and id_curso = p_cursoid and id_asignatura = p_asignaturaid;
+            SELECT c.id_clase,a.descripcion,  c.fecha, c.hora_inicio, c.hora_termino
+            FROM CLASE c
+            INNER JOIN ASIGNATURA a
+            on c.id_asignatura = a.id_asignatura
+            WHERE c.rut_profesor = p_rutprofesor and c.id_curso = p_cursoid and c.id_asignatura = p_asignaturaid;
+            
     EXCEPTION
         WHEN too_many_rows THEN
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;

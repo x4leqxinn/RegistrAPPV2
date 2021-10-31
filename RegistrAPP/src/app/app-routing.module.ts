@@ -20,11 +20,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
   { ///
-    path: 'inicio/:username/:rut',
+    path: 'inicio/:rut/:cursoID/:claseID',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[AuthenGuardService]
   },
   {
-    path: 'codigo-qr',
+    path: 'codigo-qr/:claseID',
     loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQRPageModule)
   },
   {
@@ -44,15 +44,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cambiar-contrasenia/cambiar-contrasenia.module').then( m => m.CambiarContraseniaPageModule)
   },
   {
-    path: 'cursos-profesor',
+    path: 'cursos-profesor/:rut',
     loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule)
   },
   {
-    path: 'asignaturas-profesor/:rut/:asignaturaID',
+    path: 'asignaturas-profesor/:rut/:cursoID',
     loadChildren: () => import('./pages/asignaturas-profesor/asignaturas-profesor.module').then( m => m.AsignaturasProfesorPageModule)
   },
   {
-    path: 'clases-profesor',
+    path: 'clases-profesor/:rut/:cursoID/:asignaturaID',
     loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule)
   },
   {

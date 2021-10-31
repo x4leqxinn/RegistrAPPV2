@@ -31,7 +31,8 @@ export class AuthenticationService {
       this.storage.create();
       this.storage.set('user',usuario).then((resp)=>{
         console.log(usuario);
-        this.router.navigate(['/tabs-profesor/inicio/',bienvenida,rut]);
+        this.router.navigate(['cursos-profesor/',rut]);
+        //this.router.navigate(['/tabs-profesor/inicio/',bienvenida,rut]);
         this.authState.next(true);
       })
 
