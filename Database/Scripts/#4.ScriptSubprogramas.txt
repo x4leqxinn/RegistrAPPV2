@@ -389,6 +389,7 @@ END pkg_codigo_qr;
 CREATE OR REPLACE PACKAGE pkg_usuario IS 
     PROCEDURE sp_login(p_usuario IN usuario.nombre_usuario%TYPE, p_contrasenia IN usuario.contrasenia%TYPE, p_tipo_usuario OUT NUMBER, p_bienvenida OUT varchar2, p_rut OUT persona.rut%type);
     PROCEDURE sp_cambiar_contrasenia(p_correo IN  persona.email%TYPE, p_nueva_pass IN usuario.contrasenia%TYPE, p_valida OUT NUMBER );
+    PROCEDURE SP_LISTAR_PERFIL(p_rut  persona.rut%type, lista OUT SYS_REFCURSOR) ;
 END pkg_usuario;
 
 
@@ -1318,6 +1319,59 @@ CREATE OR REPLACE PACKAGE BODY pkg_usuario IS
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
     END sp_cambiar_contrasenia;
     
+    PROCEDURE SP_LISTAR_PERFIL(p_rut  persona.rut%type, lista OUT SYS_REFCURSOR) IS
+    BEGIN 
+     -- LISTAR CLASES POR PROFE al elegir un curso, luego la asignatura 
+        OPEN lista FOR
+            SELECT pe.rut, pe.dv,  pe.nombre || ' '|| pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p||' '|| pe.apellido_m , 
+            pe.email, pe.nombre_usuario, g.descripcion
+            FROM PERSONA pe
+            INNER JOIN GENERO g
+            ON pe.id_genero = g.id_genero
+            WHERE pe.rut = p_rut;
+            
+    EXCEPTION
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_USUARIO.SP_LISTAR_PERFIL';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_USUARIO.SP_LISTAR_PERFIL';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_USUARIO.SP_LISTAR_PERFIL';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_USUARIO.SP_LISTAR_PERFIL';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_USUARIO.SP_LISTAR_PERFIL';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END SP_LISTAR_perfil;
 END pkg_usuario;
 
 -------------------------------------------------

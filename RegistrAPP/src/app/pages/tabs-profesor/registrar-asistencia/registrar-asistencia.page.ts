@@ -75,6 +75,7 @@ export class RegistrarAsistenciaPage implements OnInit {
           console.log(error);
           carga.dismiss();
           // Mensaje de error se cayó el server
+          this.messageAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
         }
       );
     } else {
@@ -82,19 +83,29 @@ export class RegistrarAsistenciaPage implements OnInit {
     }
   }
 
-  guardarAsistencia() {
+  async guardarAsistencia() {
+    this.asistencias = []
+
+    const carga = await this.loadingController.create({
+      message: "Guardando asistencias"
+    });
+
+    await carga.present();
+
     if (localStorage.getItem('dataDocente')) {
       var guardar = JSON.parse(localStorage.getItem('dataDocente'));
       this.apiService.guardarAsistenciaPOST(guardar).subscribe(
         (data) => {
           console.log(data);
+          carga.dismiss();
           this.messageAlert("¡Éxito!", "¡Se ha guardado la asistencia de la clase con éxito!");
           this.listarAsistencias();
         },
         (error) => {
           console.log(error);
-          // Aquí podría poner una alerta de que las credenciales son incorrectas
-          this.toastAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.', '2000');
+          carga.dismiss();
+          this.messageAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.'); 
+          //          this.toastAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.', '2000');
         }
       );
 

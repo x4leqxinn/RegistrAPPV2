@@ -52,7 +52,8 @@ export class ApiService {
   direccionListarAsistencias = this.direccionHost + "asistencia/"; // GET
   direccionListarCursosDocente = this.direccionHost + "listar-cursos-profesor/"; // GET
   direccionListarAsignaturasDocente = this.direccionHost + "listar-asignaturas-profesor/";
-  direccionListarClasesDocente= this.direccionHost + "listar-clases-profesor/"; // GET
+  direccionListarClasesDocente = this.direccionHost + "listar-clases-profesor/"; // GET
+  direccionMostrarPerfil = this.direccionHost + "perfil-usuario/"; // GET
 
 
   // FALTAN AGREGAR LOS DE LISTAR ASISTENCIA CON FILTROS PARA LAS VISTAS
@@ -80,7 +81,7 @@ export class ApiService {
   }
 
   //Método para eliminar una asistencia por ID
-  deletePost(id) {
+  eliminarAsistenciaDELETE(id) {
     return this.http.delete(this.direccionEliminarAsistencia + id, this.httpOptions).pipe(retry(2));
   }
 
@@ -117,6 +118,10 @@ export class ApiService {
 
   guardarAsistenciaPOST(guardar):Observable<any>{
     return this.http.post(this.direccionGuardarAsistencia, guardar, this.httpOptions).pipe(retry(3));
+  }
+
+  mostrarPerfilUsuarioGET(id):Observable<any>{
+    return this.http.get(this.direccionMostrarPerfil + id).pipe(retry(3));
   }
 
 }

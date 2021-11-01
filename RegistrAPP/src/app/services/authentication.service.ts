@@ -26,13 +26,15 @@ export class AuthenticationService {
       rut:rut,
       bienvenida:bienvenida,
     };
-    // FALTA VALIDAR LA NAVEGACIÓN POR TIPO DE USUARIO Y MANDAR PARAMETROS A LAS VENTANAS
+    
+    // Guardamos en el Local Storage el Mensaje de bienvenida
+    localStorage.setItem('bienvenida',bienvenida);
+    
     if(tipo == 1){
       this.storage.create();
       this.storage.set('user',usuario).then((resp)=>{
         console.log(usuario);
         this.router.navigate(['cursos-profesor/',rut]);
-        //this.router.navigate(['/tabs-profesor/inicio/',bienvenida,rut]);
         this.authState.next(true);
       })
 

@@ -6,22 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  rut : any;
+  inicio : any;
   constructor() { }
 
   ngOnInit() {
-    this.recuperarRut()
+    this.bienvenida()
   }
 
-  recuperarRut() {
+
+  bienvenida() {
     //Obtener data del Local Storage
-    if (localStorage.getItem('dataDocente')) {
+    if (localStorage.getItem('bienvenida')) {
       // Si existe haga esto
-      let datos = localStorage.getItem('dataDocente');
-      let data = JSON.parse(datos); // Lo convertimos a un objeto
-      this.rut = data.rut;
-
-
+      this.inicio = localStorage.getItem('bienvenida');
     } else {
       // No hay datos en el Local Storage
       console.log('Error no hay datos en el Local Storage');

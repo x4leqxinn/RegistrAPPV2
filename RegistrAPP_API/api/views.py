@@ -126,8 +126,7 @@ def buscarAsistencia(asistenciaID):
     valida = cursor.var(cx_Oracle.NUMBER)
     lista = []
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA",
-                        [asistenciaID, out_cursor, valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA",[asistenciaID, out_cursor, valida])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -307,6 +306,20 @@ def listarClaseAlumno(rutAlumno, asignaturaID):
     try:
         cursor.callproc("PKG_ALUMNO.SP_LISTAR_CLASE", [
                         rutAlumno, asignaturaID, out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista
+
+# Método que retorna los datos del Usuario de la sesión
+def perfilUsuario(rut):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_USUARIO.SP_LISTAR_PERFIL", [rut, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -569,5 +582,14 @@ class ListarClaseAlumnoView(View):
             datos = {'mensaje': 'No encontrado'}
         return JsonResponse(datos)
 
+class MostrarPerfilUsuario(View):
+    def get(self, request, rut):
+        usuario = perfilUsuario(rut)
+        if len(usuario) > 0:
+            usuario = usuario[0];
+            datos = {'mensaje': 'Encontrado', 'usuario': usuario}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)    
 
 # FALTAN ALGUNOS MÉTODOS EN PACKAGE ASISTENCIA GET
