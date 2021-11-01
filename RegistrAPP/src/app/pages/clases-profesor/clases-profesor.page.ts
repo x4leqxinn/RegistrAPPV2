@@ -81,9 +81,23 @@ export class ClasesProfesorPage implements OnInit {
   }
   // Método que redireccionará al Docente al Inicio de la app y podrá gestionar las operaciones
   menu(id){
-    this.router.navigate(['tabs-profesor/inicio/',this.rut,this.cursoID,id]);
-    //inicio/:rut/:cursoID/:claseID
+    // Guardamos los parámetros en el local Storage
+    this.guardarDatos(id);
+    // Nos dirijimos al menú de Docentes
+    this.router.navigate(['tabs-profesor/']);
+
   }
+
+guardarDatos(id){
+  // Capturamos la data
+  let data = {
+    rut: this.rut,
+    cursoID: this.cursoID,
+    claseID: id
+  };
+  // Guardamos la data en LOCAL STORAGE Serializamos
+  localStorage.setItem('dataDocente',JSON.stringify(data));
+}
 
 
 }

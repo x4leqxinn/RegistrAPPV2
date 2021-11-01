@@ -77,7 +77,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
   },
 
-
 ];
 
 @NgModule({

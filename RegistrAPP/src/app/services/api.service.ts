@@ -107,11 +107,9 @@ export class ApiService {
     return this.http.get(this.direccionListarClasesDocente + rut + '/' + cursoID + '/' + asignaturaID).pipe(retry(3));
   }
 
-  /*
-  {
-    "email" : "jorgealequinn@gmail.com",
-    "nuevaContrasenia" : "admin123"
-}
-  */
+  generarCodigoQRPUT(data):Observable<any>{
+    return this.http.put(this.direccionGenerarQR, data, this.httpOptions).pipe(retry(3));
+  }
+
 
 }
