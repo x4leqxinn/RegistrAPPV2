@@ -683,7 +683,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
         SELECT COUNT(*) INTO v_cantidad FROM detalle_asistencia;
         IF v_cantidad > 0 THEN 
             OPEN lista FOR 
-                    SELECT alu.rut_alumno, pe.nombre  ||' ' ||pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p ||' '|| pe.apellido_m AS "nombre_completo",
+                    SELECT a.id_asistencia, alu.rut_alumno, pe.nombre  ||' ' ||pe.nombre_s ||' '|| pe.nombre_t ||' '|| pe.apellido_p ||' '|| pe.apellido_m AS "nombre_completo",
                     a.fecha,a.hora, e.descripcion ,codigo_qr
                         FROM ALUMNO alu
                             INNER JOIN PERSONA pe

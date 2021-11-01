@@ -22,8 +22,10 @@ import json
 # Create your views here.
 
 # Aquí realizamos los métodos para el Backend
+
+
 def alumnos(request):
-    print(listarAlumnos()) # Lo tengo!!
+    print(listarAlumnos())  # Lo tengo!!
     '''
     for x in range(len(datos)):
         data = {
@@ -41,25 +43,26 @@ def alumnos(request):
                 'idcurso':datos[x][11]
         }
     '''
-            
 
-    lista = {"alumnos" : listarAlumnos()};
+    lista = {"alumnos": listarAlumnos()}
 
-    return render(request,'core/alumnos.html',lista)
+    return render(request, 'core/alumnos.html', lista)
 
 # Método que me rescata a todos los Alumnos de la BDD
+
+
 def listarAlumnos():
-    # Variable que nos conecta a la BDD 
+    # Variable que nos conecta a la BDD
     django_cursor = connection.cursor()
     # Variable que se conecta con la BDD y puede realizar llamados SP
-    cursor = django_cursor.connection.cursor() 
+    cursor = django_cursor.connection.cursor()
     # Variables de Oracle
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     valida = cursor.var(cx_Oracle.NUMBER)
     lista = []
     try:
         # llamado a la BDD Mediante un SP
-        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ALUMNO",[out_cursor,valida])
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ALUMNO", [out_cursor, valida])
         # Recibimos el cursor y lo transformamos a una lista
         for fila in out_cursor:
             lista.append(fila)
@@ -68,51 +71,63 @@ def listarAlumnos():
     return lista
 
 # Método que me registra la Asistencia
-def agregarAsistencia(estadoID,claseID, rutAlumno):
+
+
+def agregarAsistencia(estadoID, claseID, rutAlumno):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    #Salida
+    cursor = django_cursor.connection.cursor()
+    # Salida
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA",[estadoID,claseID,rutAlumno,valida])
-        #Retorna 0 o 1
+        cursor.callproc("PKG_ASISTENCIA.SP_INSERTAR_ASISTENCIA", [
+                        estadoID, claseID, rutAlumno, valida])
+        # Retorna 0 o 1
         return valida.getvalue()
     except:
         return 0
 
-#Método que me actualiza la asistencia
+# Método que me actualiza la asistencia
+
+
 def modificarAsistencia(asistenciaID, estadoID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    valida = cursor.var(cx_Oracle.NUMBER)    
+    cursor = django_cursor.connection.cursor()
+    valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA",[asistenciaID,estadoID,valida])  
-        #Retorna 0 o 1
-        return valida.getvalue()      
+        cursor.callproc("PKG_ASISTENCIA.SP_MODIFICAR_ASISTENCIA", [
+                        asistenciaID, estadoID, valida])
+        # Retorna 0 o 1
+        return valida.getvalue()
     except:
         return 0
 
 # Método que elimina la asistencia por ID
+
+
 def eliminarAsistencia(asistenciaID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    valida = cursor.var(cx_Oracle.NUMBER)    
+    cursor = django_cursor.connection.cursor()
+    valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA",[asistenciaID,valida])  
-        #Retorna 0 o 1
-        return valida.getvalue()  
+        cursor.callproc("PKG_ASISTENCIA.SP_ELIMINAR_ASISTENCIA", [
+                        asistenciaID, valida])
+        # Retorna 0 o 1
+        return valida.getvalue()
     except:
         return 0
 
 # Método que me busca la Asistencia
+
+
 def buscarAsistencia(asistenciaID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
-    valida = cursor.var(cx_Oracle.NUMBER)    
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
+    valida = cursor.var(cx_Oracle.NUMBER)
     lista = []
-    try:         
-        cursor.callproc("PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA",[asistenciaID,out_cursor,valida])
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA",
+                        [asistenciaID, out_cursor, valida])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -120,141 +135,187 @@ def buscarAsistencia(asistenciaID):
     return lista
 
 # Método que me rescata a todos las Asistencias de la BDD
+
+
 def listarAsistencia():
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     valida = cursor.var(cx_Oracle.NUMBER)
     lista = []
     try:
         # llamado a la BDD Mediante un SP
-        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA",[out_cursor,valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA",
+                        [out_cursor, valida])
         for fila in out_cursor:
             lista.append(fila)
     except:
         valida = 0
     return lista
 
+# Método que lista las asistencias de una clase y curso en especifico
+
+
+def listarAsistenciaClase(claseID, cursoID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
+    valida = cursor.var(cx_Oracle.NUMBER)
+    lista = []
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE", [
+                        claseID, cursoID, out_cursor, valida])
+        for fila in out_cursor:
+            # llamado a la BDD Mediante un SP
+            lista.append(fila)
+    except:
+        valida = 0
+    return lista
+
+
 def iniciarSesion(usuario, contrasenia):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
+    cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     bienvenida = cursor.var(cx_Oracle.STRING)
     rut = cursor.var(cx_Oracle.STRING)
     try:
-        cursor.callproc("PKG_USUARIO.SP_LOGIN",[usuario,contrasenia,valida,bienvenida,rut])
+        cursor.callproc("PKG_USUARIO.SP_LOGIN", [
+                        usuario, contrasenia, valida, bienvenida, rut])
         return valida.getvalue(), bienvenida.getvalue(), rut.getvalue()
     except:
-        return 0 , "", ""
+        return 0, "", ""
+
 
 def cambiarContrasenia(email, nuevaContrasenia):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
+    cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_USUARIO.SP_CAMBIAR_CONTRASENIA",[email,nuevaContrasenia,valida])
+        cursor.callproc("PKG_USUARIO.SP_CAMBIAR_CONTRASENIA",
+                        [email, nuevaContrasenia, valida])
         return valida.getvalue()
     except:
         return 0
+
 
 def guardarAsistencia(claseID, cursoID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
+    cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA",[claseID,cursoID,valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA",
+                        [claseID, cursoID, valida])
         return valida.getvalue()
     except:
         return 0
 
-def generarCodigoQR(claseID,direccionQR):
+
+def generarCodigoQR(claseID, direccionQR):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
+    cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_CODIGO_QR.SP_GENERAR_CODIGO",[claseID,direccionQR,valida])
+        cursor.callproc("PKG_CODIGO_QR.SP_GENERAR_CODIGO",
+                        [claseID, direccionQR, valida])
         return valida.getvalue()
     except:
         return 0
 
-def escanearCodigoQR(claseID,direccionQR):
+
+def escanearCodigoQR(claseID, direccionQR):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
+    cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_CODIGO_QR.SP_ESCANEAR_CODIGO",[claseID,direccionQR,valida])
+        cursor.callproc("PKG_CODIGO_QR.SP_ESCANEAR_CODIGO",
+                        [claseID, direccionQR, valida])
         return valida.getvalue()
     except:
-        return 0  
+        return 0
 
 # Métodos para listar en vista de profe
+
+
 def listarCursoProfe(rutProfesor):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CURSO",[rutProfesor, out_cursor])
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CURSO",
+                        [rutProfesor, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
         lista = []
-    return lista    
+    return lista
+
 
 def listarAsignaturaProfe(rutProfesor, claseID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_PROFESOR.SP_LISTAR_ASIGNATURA",[rutProfesor, claseID, out_cursor])
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_ASIGNATURA",
+                        [rutProfesor, claseID, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
         lista = []
-    return lista   
+    return lista
+
 
 def listarClaseProfe(rutProfesor, claseID, asignaturaID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CLASE",[rutProfesor, claseID, asignaturaID, out_cursor])
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CLASE", [
+                        rutProfesor, claseID, asignaturaID, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
         lista = []
-    return lista   
+    return lista
 
 # Métodos listar para la vista de Alumno
+
+
 def listarAsignaturaAlumno(rutAlumno):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ASIGNATURA",[rutAlumno, out_cursor])
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ASIGNATURA",
+                        [rutAlumno, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
         lista = []
-    return lista    
+    return lista
+
 
 def listarClaseAlumno(rutAlumno, asignaturaID):
     django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor() 
-    out_cursor = django_cursor.connection.cursor() # Recibe los datos
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_ALUMNO.SP_LISTAR_CLASE",[rutAlumno, asignaturaID, out_cursor])
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_CLASE", [
+                        rutAlumno, asignaturaID, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
         lista = []
-    return lista    
+    return lista
 
 # Vista de la API
+
+
 class AlumnoViewSet(generics.ListAPIView):
     queryset = Persona.objects.all()
     serializer_class = AlumnoSerializers
@@ -262,222 +323,251 @@ class AlumnoViewSet(generics.ListAPIView):
 #################################################
 # API con métodos (POST - GET - PUT - DELETE)
 #################################################
+
+
 class AlumnoView(View):
 
-    def get(self,request):
+    def get(self, request):
         # alumnos = list(Persona.objects.values()) Serializar JSON
         alumnos = listarAlumnos()
-        if len(alumnos)>0:
-            datos={'mensaje':'Hay datos', 'alumnos':alumnos}
+        if len(alumnos) > 0:
+            datos = {'mensaje': 'Hay datos', 'alumnos': alumnos}
         else:
-            datos={'mensaje':'No hay datos'}
+            datos = {'mensaje': 'No hay datos'}
 
         return JsonResponse(datos)
-    
-    def post(self,request):
+
+    def post(self, request):
         pass
-    
-    def put(self,request):
+
+    def put(self, request):
         pass
-    
-    def delete(self,request):
+
+    def delete(self, request):
         pass
 
 # Método API para Agregar, Modificar, Eliminar, Buscar y Listar (ASISTENCIAS)
+
+
 class AsistenciaView(View):
-    # Se ejecuta cada vez que queremos realizar una acción 
+    # Se ejecuta cada vez que queremos realizar una acción
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self,request, id=0):
-        if(id>0):
+    def get(self, request, id=0):
+        if(id > 0):
             asistencia = buscarAsistencia(id)
-            if len(asistencia)>0:
+            if len(asistencia) > 0:
                 asistencia = asistencia[0]
-                datos={'mensaje':'Encontrado', 'asistencia':asistencia}
+                datos = {'mensaje': 'Encontrado', 'asistencia': asistencia}
             else:
-                datos={'mensaje':'No encontrado'}
+                datos = {'mensaje': 'No encontrado'}
 
             return JsonResponse(datos)
         else:
             asistencias = listarAsistencia()
-            if len(asistencias)>0:
-                datos={'mensaje':'Hay datos', 'asistencias':asistencias}
+            if len(asistencias) > 0:
+                datos = {'mensaje': 'Hay datos', 'asistencias': asistencias}
             else:
-                datos={'mensaje':'No hay datos'}
+                datos = {'mensaje': 'No hay datos'}
 
             return JsonResponse(datos)
-    
-    def post(self,request):        
+
+    def post(self, request):
         jsonData = json.loads(request.body)
-        valida = agregarAsistencia(jsonData["estadoID"], jsonData["claseID"], jsonData["rutALumno"])
+        valida = agregarAsistencia(
+            jsonData["estadoID"], jsonData["claseID"], jsonData["rutALumno"])
         if valida == 1:
-            datos={'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos={'mensaje':'No se pudo ingresar'}
+            datos = {'mensaje': 'No se pudo ingresar'}
         return JsonResponse(datos)
-    
-    def put(self,request,id):
+
+    def put(self, request, id):
         jsonData = json.loads(request.body)
         asistencia = buscarAsistencia(id)
-        if len(asistencia)>0:
+        if len(asistencia) > 0:
             valida = modificarAsistencia(id, jsonData["estadoID"])
             if valida == 1:
-                datos={'mensaje':'Success'}
+                datos = {'mensaje': 'Success'}
             else:
-                datos={'mensaje':'No se pudo actualizar'}
+                datos = {'mensaje': 'No se pudo actualizar'}
         else:
-            datos={'mensaje':'No encontrado'}
+            datos = {'mensaje': 'No encontrado'}
         return JsonResponse(datos)
-    
-    def delete(self,request,id):
+
+    def delete(self, request, id):
         valida = eliminarAsistencia(id)
         if valida == 1:
-            datos={'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos={'mensaje':'No se pudo eliminar'}
+            datos = {'mensaje': 'No se pudo eliminar'}
         return JsonResponse(datos)
 
 # Método API para GUARDAR ASISTENCIAS AUSENTES
+
+
 class GuardarAsistenciaView(View):
-    # Se ejecuta cada vez que queremos realizar una acción 
+    # Se ejecuta cada vez que queremos realizar una acción
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
-    def post(self,request):        
+
+    def post(self, request):
         jsonData = json.loads(request.body)
         valida = guardarAsistencia(jsonData["claseID"], jsonData["cursoID"])
         if valida == 1:
-            datos = {'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos={'mensaje':'Error'}
-        return JsonResponse(datos)  
+            datos = {'mensaje': 'Error'}
+        return JsonResponse(datos)
 
 # Método API para iniciar sesión y modificar contraseña de usuario
+
+
 class LoginView(View):
-    # Se ejecuta cada vez que queremos realizar una acción 
+    # Se ejecuta cada vez que queremos realizar una acción
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
-    def post(self,request):        
+
+    def post(self, request):
         jsonData = json.loads(request.body)
-        valida, bienvenida, rut = iniciarSesion(jsonData["usuario"], jsonData["contrasenia"])
+        valida, bienvenida, rut = iniciarSesion(
+            jsonData["usuario"], jsonData["contrasenia"])
         if valida >= 1:
             datos = {
-                        'mensaje':'Success',
-                        'bienvenida': bienvenida,
-                        'tipoUsuario': valida,
-                        'rut' : rut
-                    }
+                'mensaje': 'Success',
+                'bienvenida': bienvenida,
+                'tipoUsuario': valida,
+                'rut': rut
+            }
 
         else:
-            datos={'mensaje':'Error'}
+            datos = {'mensaje': 'Error'}
         return JsonResponse(datos)
-    
-    def put(self,request):
+
+    def put(self, request):
         jsonData = json.loads(request.body)
-        valida = cambiarContrasenia(jsonData["email"], jsonData["nuevaContrasenia"])
+        valida = cambiarContrasenia(
+            jsonData["email"], jsonData["nuevaContrasenia"])
         if valida == 1:
-            datos = {'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos ={'mensaje':'No se pudo cambiar la contraseña'}
+            datos = {'mensaje': 'No se pudo cambiar la contraseña'}
         return JsonResponse(datos)
+
 
 class CambiarContraseniaView(View):
-    # Se ejecuta cada vez que queremos realizar una acción 
+    # Se ejecuta cada vez que queremos realizar una acción
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self,request):
+    def post(self, request):
         jsonData = json.loads(request.body)
-        valida = cambiarContrasenia(jsonData["email"], jsonData["nuevaContrasenia"])
+        valida = cambiarContrasenia(
+            jsonData["email"], jsonData["nuevaContrasenia"])
         if valida == 1:
-            datos = {'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos ={'mensaje':'No se pudo cambiar la contraseña'}
+            datos = {'mensaje': 'No se pudo cambiar la contraseña'}
         return JsonResponse(datos)
 
 
 # Método API para Modificar código QR y Escanear código QR
 class CodigoQRView(View):
-    # Se ejecuta cada vez que queremos realizar una acción 
+    # Se ejecuta cada vez que queremos realizar una acción
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self,request):        
+    def post(self, request):
         jsonData = json.loads(request.body)
         valida = escanearCodigoQR(jsonData["claseID"], jsonData["direccionQR"])
         if valida == 1:
-            datos = {'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos={'mensaje':'Escanea el código de la clase'}
+            datos = {'mensaje': 'Escanea el código de la clase'}
         return JsonResponse(datos)
-    
-    def put(self,request):
+
+    def put(self, request):
         jsonData = json.loads(request.body)
         valida = generarCodigoQR(jsonData["claseID"], jsonData["direccionQR"])
         if valida == 1:
-            datos = {'mensaje':'Success'}
+            datos = {'mensaje': 'Success'}
         else:
-            datos ={'mensaje':'No se pudo generar el código qr para la clase'}
+            datos = {'mensaje': 'No se pudo generar el código qr para la clase'}
         return JsonResponse(datos)
+
 
 class ListarCursoProfeView(View):
 
-    def get(self,request, rutProfesor):
-            cursos = listarCursoProfe(rutProfesor)
-            if len(cursos)>0:
-                datos={'mensaje':'Encontrado', 'cursos':cursos}
-            else:
-                datos={'mensaje':'No encontrado'}
-            return JsonResponse(datos)
+    def get(self, request, rutProfesor):
+        cursos = listarCursoProfe(rutProfesor)
+        if len(cursos) > 0:
+            datos = {'mensaje': 'Encontrado', 'cursos': cursos}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+
 
 class ListarAsignaturaProfeView(View):
 
-    def get(self,request, rutProfesor, cursoID):
-            asignaturas = listarAsignaturaProfe(rutProfesor, cursoID)
-            if len(asignaturas)>0:
-                datos={'mensaje':'Encontrado', 'asignaturas':asignaturas}
-            else:
-                datos={'mensaje':'No encontrado'}
-            return JsonResponse(datos)
+    def get(self, request, rutProfesor, cursoID):
+        asignaturas = listarAsignaturaProfe(rutProfesor, cursoID)
+        if len(asignaturas) > 0:
+            datos = {'mensaje': 'Encontrado', 'asignaturas': asignaturas}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+
 
 class ListarClaseProfeView(View):
 
-    def get(self,request, rutProfesor, cursoID, asignaturaID):
-            clases = listarClaseProfe(rutProfesor, cursoID, asignaturaID)
-            if len(clases)>0:
-                datos={'mensaje':'Encontrado', 'clases':clases}
-            else:
-                datos={'mensaje':'No encontrado'}
-            return JsonResponse(datos)
+    def get(self, request, rutProfesor, cursoID, asignaturaID):
+        clases = listarClaseProfe(rutProfesor, cursoID, asignaturaID)
+        if len(clases) > 0:
+            datos = {'mensaje': 'Encontrado', 'clases': clases}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+
+
+class ListarAsistenciaClase(View):
+
+    def get(self, request, claseID, cursoID):
+        asistencias = listarAsistenciaClase(claseID, cursoID)
+        if len(asistencias) > 0:
+            datos = {'mensaje': 'Encontrado', 'asistencias': asistencias}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
 
 # ZONA DE VISTA IONIC ALUMNO
 
+
 class ListarAsignaturaAlumnoView(View):
 
-    def get(self,request, rutAlumno):
-            clases = listarAsignaturaAlumno(rutAlumno)
-            if len(clases)>0:
-                datos={'mensaje':'Encontrado', 'asignaturas':clases}
-            else:
-                datos={'mensaje':'No encontrado'}
-            return JsonResponse(datos)
+    def get(self, request, rutAlumno):
+        clases = listarAsignaturaAlumno(rutAlumno)
+        if len(clases) > 0:
+            datos = {'mensaje': 'Encontrado', 'asignaturas': clases}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+
 
 class ListarClaseAlumnoView(View):
 
-    def get(self,request, rutAlumno, asignaturaID):
-            clases = listarClaseAlumno(rutAlumno, asignaturaID)
-            if len(clases)>0:
-                datos={'mensaje':'Encontrado', 'clases':clases}
-            else:
-                datos={'mensaje':'No encontrado'}
-            return JsonResponse(datos)
+    def get(self, request, rutAlumno, asignaturaID):
+        clases = listarClaseAlumno(rutAlumno, asignaturaID)
+        if len(clases) > 0:
+            datos = {'mensaje': 'Encontrado', 'clases': clases}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
 
 
 # FALTAN ALGUNOS MÉTODOS EN PACKAGE ASISTENCIA GET

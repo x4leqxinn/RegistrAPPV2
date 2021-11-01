@@ -17,6 +17,7 @@ urlpatterns = [
     path('alumno/',AlumnoView.as_view(), name = "listaAlumnos"),
     path('asistencia/',AsistenciaView.as_view(), name = "listaAsistencias"),
     path('asistencia/<int:id>',AsistenciaView.as_view(), name = "procesoAsistencia"),
+    path('asistencia/<int:claseID>/<int:cursoID>',ListarAsistenciaClase.as_view(), name = "listarAsistenciaClases"),
     path('login/',LoginView.as_view(), name = "Login"),
     path('guardar-asistencia/',GuardarAsistenciaView.as_view(), name = "guardarAsistencia"),
     path('codigoqr/',CodigoQRView.as_view(), name = "procesoCodigoQR"),
