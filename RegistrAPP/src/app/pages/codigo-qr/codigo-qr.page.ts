@@ -18,7 +18,9 @@ export class CodigoQRPage implements OnInit {
   qrData= null;
   codigoCreado = null;
   codigoScaneado = null;
+  rut:any;
   claseID : any;
+  cursoID:any;
 
   elementType: 'url' | 'img' | 'canvas' = 'canvas'
 
@@ -30,6 +32,8 @@ export class CodigoQRPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.rut = this.activatedRoute.snapshot.paramMap.get("rut");
+    this.cursoID = this.activatedRoute.snapshot.paramMap.get("cursoID");
     this.claseID = this.activatedRoute.snapshot.paramMap.get("claseID");
   }
   

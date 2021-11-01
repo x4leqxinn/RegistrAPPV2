@@ -24,7 +24,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[AuthenGuardService]
   },
   {
-    path: 'codigo-qr/:claseID',
+    path: 'codigo-qr/rut/:cursoID/:claseID',
     loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQRPageModule)
   },
   {
@@ -75,7 +75,8 @@ const routes: Routes = [
     // Redirecciona todas las direcciones erronéas a esta página
     path: '**',
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
-  }
+  },
+
 
 ];
 

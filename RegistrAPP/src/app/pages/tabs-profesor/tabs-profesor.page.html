@@ -1,31 +1,29 @@
-<!-- Menú Toolbar para cerrar sesión -->
-<ion-toolbar class="tabs-toolbar">
-    <ion-buttons slot="primary">
-        <ion-button (click)="cerrarSesion()">
-            <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
-        </ion-button>
-    </ion-buttons>
-    <ion-title>Portal Docentes</ion-title>
-</ion-toolbar>
+<ion-tabs #tabs (ionTabsDidChange)="setCurrentTab($event)">
 
-<ion-tabs>
-
+    <!-- -------------------Custom Tabs with fab button------------------------------- -->
+    <ion-fab vertical="bottom" horizontal="center" translucent="true">
+        <ion-fab-button [routerLink]="['/tabs-profesor/generar-qr/']">
+            <ion-icon name="qr-code"></ion-icon>
+            <!-- <ion-icon name="add-circle" color="primary"></ion-icon> -->
+        </ion-fab-button>
+    </ion-fab>
     <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="codigo-qr" [rootParams]="parametro">
-            <!-- PRUEBA -->
-            <ion-icon name="cellular"></ion-icon>
-            <ion-label>asistencia</ion-label>
-            <ion-badge>6</ion-badge>
+        <ion-tab-button tab="home">
+            <ion-icon [name]="selectTab == 'home' ? 'home' : 'home-outline'"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button tab="registrar-asistencia">
+            <ion-icon [name]="selectTab == 'registrar-asistencia' ? 'time' : 'time-outline'"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button tab="inicio">
-            <ion-icon name="home"></ion-icon>
-            <ion-label>inicio</ion-label>
-        </ion-tab-button>
+        <ion-tab-button></ion-tab-button>
 
-        <ion-tab-button tab="about">
-            <ion-icon name="analytics"></ion-icon>
-            <ion-label>Estadisticas</ion-label>
+        <ion-tab-button tab="lista-asistencias">
+            <ion-icon [name]="selectTab == 'lista-asistencias' ? 'stats-chart' : 'stats-chart-outline'"></ion-icon>
+            <ion-badge color="danger"></ion-badge>
+            <!-- <ion-badge color="danger">1</ion-badge> -->
+        </ion-tab-button>
+        <ion-tab-button tab="perfil">
+            <ion-icon [name]="selectTab == 'perfil' ? 'person' : 'person-outline'"></ion-icon>
         </ion-tab-button>
     </ion-tab-bar>
 

@@ -136,7 +136,7 @@ export class IniciarSesionPage implements OnInit{
 
   recuperarCuenta(){
     //this.router.navigate(['/cambiar-contrasenia'])
-    this.router.navigate(['/cursos-profesor']);
+    this.router.navigate(['/tabs-profesor']);
   }
 
   // Agrego métodos get para validar el Formulario

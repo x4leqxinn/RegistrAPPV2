@@ -1,59 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-// Importamos el servicio de Autenticación
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { AlertController, NavParams } from '@ionic/angular';
-
+// Importamos ViewChild
+import { Component, OnInit, ViewChild } from '@angular/core';
+// Importamos IonTabs
+import { IonTabs } from '@ionic/angular';
 @Component({
   selector: 'app-tabs-profesor',
   templateUrl: './tabs-profesor.page.html',
   styleUrls: ['./tabs-profesor.page.scss'],
 })
 export class TabsProfesorPage implements OnInit {
+  // Variable de tab seleccionada
+  selectTab: any;
+  @ViewChild('tabs') tabs: IonTabs;
 
-  parametro: any = { claseID: 3 }
-
-  constructor
-    (
-      private authenticationService: AuthenticationService,
-      private mensaje: AlertController,
-      private navParams: NavParams
-    ) {
-      console.log("parametro id " + this.navParams.get("claseID"));
-     }
+  constructor(
+  ) { }
 
   ngOnInit() {
   }
 
-  cerrarSesion() {
-    this.mensajeCerrarSesion();
+  setCurrentTab(event) {
+    console.log(event);   
+    this.selectTab = this.tabs.getSelected();
   }
 
-
-  async mensajeCerrarSesion() {
-    const alert = await this.mensaje.create({
-      header: "Cerrar sesión",
-      message: "¿Estás seguro?",
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            console.log("Cancelar");
-
-          }
-        },
-        {
-          text: 'Sí',
-          handler: () => {
-            console.log("Sesión finalizada");
-            //Cierra la sesión del usuario actual
-            this.authenticationService.logout();
-          }
-        }
-      ]
-    });
-    await alert.present();
-    //Que se cierre cuando aprete el botón
-    await alert.onDidDismiss();
-  }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // Importamos activated route para recibir parametros
 import { ActivatedRoute } from '@angular/router';
+import { NavParams } from '@ionic/angular';
 ///
 import { TtsService } from 'src/app/services/tts.service';
 
@@ -19,7 +20,8 @@ export class InicioPage implements OnInit {
   constructor
   (
     private _stts:TtsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private navParams: NavParams
   ) { }
 
   hablar(esp:string){
@@ -29,6 +31,7 @@ export class InicioPage implements OnInit {
   ngOnInit() {
     this.username = this.activatedRoute.snapshot.paramMap.get("username");
     this.rut = this.activatedRoute.snapshot.paramMap.get("rut");
+    console.log('Passed params', this.navParams.data);
   }
 
 }
