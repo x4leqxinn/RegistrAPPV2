@@ -19,17 +19,9 @@ const routes: Routes = [
     path: 'asistencia',
     loadChildren: () => import('./pages/asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
-  { ///
-    path: 'inicio/:rut/:cursoID/:claseID',
-    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[AuthenGuardService]
-  },
-  {
-    path: 'codigo-qr/rut/:cursoID/:claseID',
-    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQRPageModule)
-  },
   {
     path: 'tabs-alumno',
-    loadChildren: () => import('./pages/tabs-alumno/tabs-alumno.module').then( m => m.TabsAlumnoPageModule)
+    loadChildren: () => import('./pages/tabs-alumno/tabs-alumno.module').then( m => m.TabsAlumnoPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'tabs-profesor',
@@ -45,15 +37,15 @@ const routes: Routes = [
   },
   {
     path: 'cursos-profesor/:rut',
-    loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule)
+    loadChildren: () => import('./pages/cursos-profesor/cursos-profesor.module').then( m => m.CursosProfesorPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'asignaturas-profesor/:rut/:cursoID',
-    loadChildren: () => import('./pages/asignaturas-profesor/asignaturas-profesor.module').then( m => m.AsignaturasProfesorPageModule)
+    loadChildren: () => import('./pages/asignaturas-profesor/asignaturas-profesor.module').then( m => m.AsignaturasProfesorPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'clases-profesor/:rut/:cursoID/:asignaturaID',
-    loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule)
+    loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'asignaturas-alumno',
@@ -64,19 +56,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
   },
   {
-    path: 'lista-asistencia-profesor',
-    loadChildren: () => import('./pages/lista-asistencia-profesor/lista-asistencia-profesor.module').then( m => m.ListaAsistenciaProfesorPageModule)
-  },
-  {
-    path: 'buscar-asistencia-alumno',
-    loadChildren: () => import('./pages/buscar-asistencia-alumno/buscar-asistencia-alumno.module').then( m => m.BuscarAsistenciaAlumnoPageModule)
-  },
-  {
     // Redirecciona todas las direcciones erronéas a esta página
     path: '**',
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
   },
-
 ];
 
 @NgModule({

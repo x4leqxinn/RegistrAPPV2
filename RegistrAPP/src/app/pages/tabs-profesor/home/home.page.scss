@@ -1,0 +1,42 @@
+@import "../../../components/sass/mixins";
+@import "../../../../theme/style.css";
+// Imagen de fondo de la APP
+.img-background {
+    --background: url(../../../../assets/img/Backgrounds/inicio.png) 0 0/100% 100% no-repeat;
+}
+
+// Zona de header
+.toolbar-primaria__titulo {
+    text-align: left;
+    margin-right: 10%;
+    margin-left: 10%;
+    width: 30%;
+    color: black;
+}
+
+.contenedor {
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.contenedor-header__titulo {
+    color: var(--ion-color-blanco);
+    padding: 250x;
+    font-size: 50px;
+}
+
+.contenedor-header__logo {
+    width: 50%;
+}
+
+.bienvenida {
+    @include form-label-primario;
+    margin-top: 50px;
+}
+
+.comentario {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+}
