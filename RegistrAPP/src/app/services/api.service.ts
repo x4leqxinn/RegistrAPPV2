@@ -107,9 +107,16 @@ export class ApiService {
     return this.http.get(this.direccionListarClasesDocente + rut + '/' + cursoID + '/' + asignaturaID).pipe(retry(3));
   }
 
+  listarAsistenciaClaseGET(claseID, cursoID):Observable<any>{
+    return this.http.get(this.direccionListarAsistencias + claseID + '/' + cursoID).pipe(retry(3));
+  }
+
   generarCodigoQRPUT(data):Observable<any>{
     return this.http.put(this.direccionGenerarQR, data, this.httpOptions).pipe(retry(3));
   }
 
+  guardarAsistenciaPOST(guardar):Observable<any>{
+    return this.http.post(this.direccionGuardarAsistencia, guardar, this.httpOptions).pipe(retry(3));
+  }
 
 }

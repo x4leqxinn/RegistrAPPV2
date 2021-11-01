@@ -2,6 +2,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 // Importamos IonTabs
 import { IonTabs } from '@ionic/angular';
+//
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-tabs-profesor',
   templateUrl: './tabs-profesor.page.html',
@@ -12,7 +15,9 @@ export class TabsProfesorPage implements OnInit {
   selectTab: any;
   @ViewChild('tabs') tabs: IonTabs;
 
-  constructor(
+  constructor
+  (
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -22,6 +27,5 @@ export class TabsProfesorPage implements OnInit {
     console.log(event);   
     this.selectTab = this.tabs.getSelected();
   }
-
 
 }

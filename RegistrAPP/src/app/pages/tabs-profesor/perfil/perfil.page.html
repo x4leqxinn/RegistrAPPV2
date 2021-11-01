@@ -1,9 +1,75 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>Perfil</ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
 
-<ion-content>
+    <ion-grid class="main-header">
+        <div align="center">
+            <ion-avatar>
+                <img src="../../../../assets/img/Logos/Logo.png" />
+            </ion-avatar>
+        </div>
+    </ion-grid>
+
+    <ion-row class="ion-padding-horizontal">
+        <ion-col size="6">
+            <ion-item lines="none" class="ion-text-center">
+                <ion-icon name="water" color="primary"></ion-icon>
+                <ion-label>
+                    12
+                    <p>Experiencia</p>
+                </ion-label>
+            </ion-item>
+        </ion-col>
+        <ion-col size="6">
+            <ion-item lines="none" class="ion-text-center">
+                <ion-icon name="trophy" color="primary"></ion-icon>
+                <ion-label>
+                    99
+                    <p>Certificados</p>
+                </ion-label>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <ion-list lines="full">
+        <ion-item>
+            <ion-label>
+                <ion-text>Nombre</ion-text>
+                <p>
+                    <ion-text color="dark">Freddy Campos</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <ion-text>Rut</ion-text>
+                <p>
+                    <ion-text color="dark">12832842-1</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <ion-text>Genero</ion-text>
+                <p>
+                    <ion-text color="dark">Masculino</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <ion-text>Usuario</ion-text>
+                <p>
+                    <ion-text color="dark">Fre.Camposo</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <ion-text>Correo Electrónico</ion-text>
+                <p>
+                    <ion-text color="dark">fre.campos@profesorduocuc.cl</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

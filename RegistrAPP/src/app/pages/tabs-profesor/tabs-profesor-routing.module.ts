@@ -37,7 +37,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'detalle-registro',
+    path: 'detalle-registro/:id',
     loadChildren: () => import('./detalle-registro/detalle-registro.module').then( m => m.DetalleRegistroPageModule)
   },
   {

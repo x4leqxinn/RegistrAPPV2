@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api.service';
+import { RegistroAsistenciaI } from 'src/app/components/model/registro-asistencia.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-asistencia',
@@ -6,10 +10,126 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registrar-asistencia.page.scss'],
 })
 export class RegistrarAsistenciaPage implements OnInit {
+  // Modelo
+  asistencia: RegistroAsistenciaI;
+  asistencias: RegistroAsistenciaI[] = [];
 
-  constructor() { }
+  constructor
+    (
+      private apiService: ApiService,
+      private loadingController: LoadingController,
+      private alertController: AlertController,
+      private toastController: ToastController,
+      private router: Router
+    ) { }
+  
+    ngOnInit() {}
+    
+  /*
+    ionViewWillEnter(){
+      this.listarAsistencias();
+    }
+  */
 
-  ngOnInit() {
+  // Método que se ejecuta cada vez que se entra a esta vista
+  ionViewDidEnter() {
+    this.listarAsistencias();
+  }
+
+  async listarAsistencias() {
+    this.asistencias = []
+    if (localStorage.getItem('dataDocente')) {
+      var datos = JSON.parse(localStorage.getItem('dataDocente'));
+      const carga = await this.loadingController.create({
+        message: "Cargando asistencias"
+      });
+
+      await carga.present();
+
+      this.apiService.listarAsistenciaClaseGET(datos.claseID, datos.cursoID).subscribe(
+        (data) => {
+          console.log(data);
+          if (data.mensaje == 'Encontrado') {
+            for (var i = 0; i < data.asistencias.length; i++) {
+
+              // Creo un objeto de tipo Registro Asistencia
+              this.asistencia = {
+                id: data.asistencias[i][0],
+                rut: data.asistencias[i][1],
+                nombre: data.asistencias[i][2],
+                fecha: data.asistencias[i][3],
+                horaRegistro: data.asistencias[i][4],
+                estado: data.asistencias[i][5],
+                codigoClase: data.asistencias[i][6]
+              }
+              // Lo agrego  a mi Array de ASISTENCIAS
+              this.asistencias.push(this.asistencia);
+            }
+            carga.dismiss();
+          } else {
+            // No encontró resultados Mensaje
+            carga.dismiss();
+          }
+        },
+        (error) => {
+          console.log(error);
+          carga.dismiss();
+          // Mensaje de error se cayó el server
+        }
+      );
+    } else {
+      // No hay info en el Local
+    }
+  }
+
+  guardarAsistencia() {
+    if (localStorage.getItem('dataDocente')) {
+      var guardar = JSON.parse(localStorage.getItem('dataDocente'));
+      this.apiService.guardarAsistenciaPOST(guardar).subscribe(
+        (data) => {
+          console.log(data);
+          this.messageAlert("¡Éxito!", "¡Se ha guardado la asistencia de la clase con éxito!");
+          this.listarAsistencias();
+        },
+        (error) => {
+          console.log(error);
+          // Aquí podría poner una alerta de que las credenciales son incorrectas
+          this.toastAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.', '2000');
+        }
+      );
+
+    } else {
+      // No hay datos en el local storage
+    }
+  }
+
+  async messageAlert(titulo, mensaje) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ["OK"],
+    })
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+
+
+  // Función asincróna para personalizar mi Toast e invocarlo
+  async toastAlert(titulo, mensaje, duracion) {
+    const toast = await this.toastController.create({
+      header: titulo,
+      message: mensaje,
+      duration: duracion,
+      position: 'top',
+      animated: true,
+      translucent: false
+    });
+    toast.present();
+  }
+
+  detalleRegistro(id){
+    this.router.navigate(['tabs-profesor/detalle-registro/',id]);
   }
 
 }

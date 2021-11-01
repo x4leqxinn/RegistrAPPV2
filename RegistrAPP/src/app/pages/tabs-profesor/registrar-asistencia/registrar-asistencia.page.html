@@ -5,5 +5,14 @@
 </ion-header>
 
 <ion-content>
-
+    <!--Recorremos la lista de asignaturas -->
+    <ion-list *ngFor="let x of asistencias">
+        <ion-item button (click)="detalleRegistro(x.id)">
+            <div class="item-icon"></div>
+            <ion-label>
+                {{x.nombre}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
+    <ion-button expand="full" (click)="guardarAsistencia()">Guardar</ion-button>
 </ion-content>
