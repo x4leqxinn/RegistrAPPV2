@@ -39,7 +39,11 @@ export class GenerarQrPage implements OnInit {
 
   //Asistente de voz
   asistente() {
-    this._stts.ayudaGenerarQR();
+    if(localStorage.getItem('bienvenida')){
+      this._stts.ayudaGenerarQR(localStorage.getItem('bienvenida'));
+    }else{
+      console.log('No hay data');
+    }
   }
 
   crearCodigo() {

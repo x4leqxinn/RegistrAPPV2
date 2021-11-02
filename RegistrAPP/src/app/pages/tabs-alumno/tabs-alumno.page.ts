@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonTabs } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs-alumno',
@@ -6,10 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs-alumno.page.scss'],
 })
 export class TabsAlumnoPage implements OnInit {
+  // Variable de tab seleccionada
+  selectTab: any;
+  @ViewChild('tabs') tabs: IonTabs;
 
-  constructor() { }
+  constructor
+  (
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  setCurrentTab(event) {
+    console.log(event);   
+    this.selectTab = this.tabs.getSelected();
   }
 
 }

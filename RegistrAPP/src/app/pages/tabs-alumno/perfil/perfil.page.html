@@ -1,9 +1,78 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>perfil</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
 
-<ion-content>
+    <ion-grid class="main-header">
+        <div align="center">
+            <ion-avatar>
+                <img src="../../../../assets/img/Logos/Logo.png" />
+            </ion-avatar>
+        </div>
+    </ion-grid>
+
+    <ion-row class="ion-padding-horizontal">
+        <ion-col size="6">
+            <ion-item lines="none" class="ion-text-center">
+                <ion-icon name="water" color="primary"></ion-icon>
+                <ion-label>
+                    12
+                    <p>Experiencia</p>
+                </ion-label>
+            </ion-item>
+        </ion-col>
+        <ion-col size="6">
+            <ion-item lines="none" class="ion-text-center">
+                <ion-icon name="trophy" color="primary"></ion-icon>
+                <ion-label>
+                    99
+                    <p>Certificados</p>
+                </ion-label>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <ion-list lines="full">
+        <ion-item *ngIf="perfil">
+            <ion-label>
+                <ion-text>Nombre</ion-text>
+                <p>
+                    <ion-text color="dark">{{ perfil.nombre }}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="perfil">
+            <ion-label>
+                <ion-text>Rut</ion-text>
+                <p>
+                    <ion-text color="dark">{{ perfil.rut }} - {{ perfil.dv }}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="perfil">
+            <ion-label>
+                <ion-text>Género</ion-text>
+                <p>
+                    <ion-text color="dark">{{ perfil.genero }}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="perfil">
+            <ion-label>
+                <ion-text>Usuario</ion-text>
+                <p>
+                    <ion-text color="dark">{{ perfil.usuario }}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="perfil">
+            <ion-label>
+                <ion-text>Correo Electrónico</ion-text>
+                <p>
+                    <ion-text color="dark">{{ perfil.email }}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

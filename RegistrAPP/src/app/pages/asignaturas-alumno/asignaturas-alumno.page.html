@@ -1,9 +1,17 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>asignaturas-alumno</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Asignaturas</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <!--Recorremos la lista de asignaturas -->
+    <ion-list *ngFor="let x of asignaturas">
+        <ion-item button (click)="listarClases(x.id)">
+            <div class="item-icon "></div>
+            <ion-label>
+                {{x.nombre}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

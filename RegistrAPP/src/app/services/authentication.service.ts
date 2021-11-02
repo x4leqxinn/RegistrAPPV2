@@ -42,7 +42,7 @@ export class AuthenticationService {
       this.storage.create();
       this.storage.set('user',usuario).then((resp)=>{
         console.log(usuario);
-        this.router.navigate(['/tabs-alumno/inicio/',bienvenida,rut]);
+        this.router.navigate(['asignaturas-alumno/',rut]);
         this.authState.next(true);
       })
     }

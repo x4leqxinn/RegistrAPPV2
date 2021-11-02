@@ -24,22 +24,17 @@
     </div>
 
     <!-- Sección Crear código -->
+    <!--
     <ion-card *ngIf="codigoCreado" class="contenedor-qr">
         <div class="contenedor-qr__item">
-            <ngx-qrcode [elementType]='elementType' [value]="codigoCreado"></ngx-qrcode>
-            <ion-card-content>
-                <!--
-                <p>Código generado para :</p>
-                <p>{{ codigoCreado }}</p>
-                -->
-            </ion-card-content>
-        </div>
-    </ion-card>
+            -->
+    <ngx-qrcode *ngIf="codigoCreado" [elementType]='elementType' [value]="codigoCreado"></ngx-qrcode>
 
+    <!--
     <ion-card *ngIf="codigoScaneado">
         <ion-card-content>
             Scan Exitoso : {{ codigoScaneado }}
         </ion-card-content>
     </ion-card>
-
+-->
 </ion-content>

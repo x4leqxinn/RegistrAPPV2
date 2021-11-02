@@ -23,7 +23,6 @@ export class PerfilPage implements OnInit {
       this.apiService.mostrarPerfilUsuarioGET(this.obtenerRut()).subscribe(
         (data) => {
           console.log(data);
-          console.log(data.usuario[0]);
           this.perfil = {
             rut : data.usuario[0],
             dv : data.usuario[1],
@@ -32,7 +31,6 @@ export class PerfilPage implements OnInit {
             usuario : data.usuario[4],
             genero : data.usuario[5]
           }
-          console.log("Su nombre es " + this.perfil.nombre);
         }, //Si recupera un dato 
         (error) => {
           console.log(error);

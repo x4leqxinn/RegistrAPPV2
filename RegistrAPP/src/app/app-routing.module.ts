@@ -16,12 +16,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'asistencia',
-    loadChildren: () => import('./pages/asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
-  },
-  {
     path: 'tabs-alumno',
-    loadChildren: () => import('./pages/tabs-alumno/tabs-alumno.module').then( m => m.TabsAlumnoPageModule), canActivate:[AuthenGuardService]
+    loadChildren: () => import('./pages/tabs-alumno/tabs-alumno.module').then( m => m.TabsAlumnoPageModule) 
   },
   {
     path: 'tabs-profesor',
@@ -48,11 +44,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/clases-profesor/clases-profesor.module').then( m => m.ClasesProfesorPageModule), canActivate:[AuthenGuardService]
   },
   {
-    path: 'asignaturas-alumno',
+    path: 'asignaturas-alumno/:rut',
     loadChildren: () => import('./pages/asignaturas-alumno/asignaturas-alumno.module').then( m => m.AsignaturasAlumnoPageModule)
   },
   {
-    path: 'clases-alumno',
+    path: 'clases-alumno/:rut/:asignaturaID',
     loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
   },
   {

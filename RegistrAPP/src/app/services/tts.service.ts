@@ -10,7 +10,7 @@ export class TtsService {
 
   constructor(private _tts: TextToSpeech) { }
 
-  decir(texto:string){
+  voz(texto:string){
     this._tts.speak({
       text:texto,
       locale:'es-CL', //Idioma
@@ -21,37 +21,16 @@ export class TtsService {
     );
   }
 
-  ayudaGenerarQR(){
-    this._tts.speak({
-      text:'Hola bienvenido, yo soy tu asistente virtual, a continuación ingrese alguna dirección, luego presione en el botón generar y nosotros nos encargaremos de crear un código QR por ti.',
-      locale:'es-CL', //Idioma
-      rate:1
-      // Función de flecha que nos indica si funciona o no el método
-    }).then(()=>console.log('Funciona'))
-    .catch((resp:any)=>console.error(resp) 
-    );
+  ayudaGenerarQR(bienvenida){
+    this.voz(bienvenida + ', ingrese una dirección para generar un código qr válido para la clase de hoy y a continuación presione el botón.');
   }
 
-  ayudaScanearQR(){
-    this._tts.speak({
-      text:'Hola bienvenido, yo soy tu asistente virtual, a continuación presione, el botón Escanear QR, se abrirá la cámara de tu dispositivo móvil y registrará tu asistencia al cuadrar el código entregado por tu profesor.',
-      locale:'es-CL', //Idioma
-      rate:1
-      // Función de flecha que nos indica si funciona o no el método
-    }).then(()=>console.log('Funciona'))
-    .catch((resp:any)=>console.error(resp) 
-    );
+  ayudaScanearQR(bienvenida){
+    this.voz(bienvenida + ', consulte a su docente por el código qr de la clase y abra la cámara de su dispositivo para registrar su asistencia con el botón presentado en pantalla.');
   }
 
   asistenciaRegistrada(){
-    this._tts.speak({
-      text:'Tu asistencia ha sido registrada.',
-      locale:'es-CL', //Idioma
-      rate:1
-      // Función de flecha que nos indica si funciona o no el método
-    }).then(()=>console.log('Funciona'))
-    .catch((resp:any)=>console.error(resp) 
-    );
+    this.voz('Tu asistencia ha sido registrada con éxito.');
   }
 
 
