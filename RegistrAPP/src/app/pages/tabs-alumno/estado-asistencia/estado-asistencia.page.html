@@ -4,6 +4,21 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    EL ESTADO DE SU ASISTENCIA ES {{estado}}
+<ion-content class="img-background">
+    <div class="instrucciones">
+        <ion-label class="instrucciones__label">Escanea el código QR brindado <br> por su profesor.</ion-label>
+        <ion-button class="instrucciones__btn" fill="clear" (click)="asistente()">
+            <ion-icon class="instrucciones__icon" slot="icon-only" name="play"></ion-icon>
+        </ion-button>
+    </div>
+
+    <!--
+    <div class="contenedor-btn">
+        <ion-button class="btn-generar" full (click)="scannearCodigo()">
+            <ion-icon name="camera"></ion-icon>
+        </ion-button>
+    </div>
+  -->
+    {{estado}}
+
 </ion-content>
