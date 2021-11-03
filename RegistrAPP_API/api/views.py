@@ -1,3 +1,4 @@
+from django import views
 from django.http.response import JsonResponse
 from django.shortcuts import render
 # Importamos la librería para conectarnos a ORACLE
@@ -133,8 +134,19 @@ def buscarAsistencia(asistenciaID):
         valida = 0
     return lista
 
-# Método que me rescata a todos las Asistencias de la BDD
+# Método que me indica el estado actual de la asistencia del Alumno en un clase
+def buscarAsistencia2(rutAlumno, claseID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    valida = cursor.var(cx_Oracle.NUMBER)
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_BUSCAR_ASISTENCIA2",[rutAlumno, claseID, valida])
+        return valida.getvalue()    
+    except:
+        return 0
 
+
+# Método que me rescata a todos las Asistencias de la BDD
 
 def listarAsistencia():
     django_cursor = connection.cursor()
@@ -144,8 +156,7 @@ def listarAsistencia():
     lista = []
     try:
         # llamado a la BDD Mediante un SP
-        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA",
-                        [out_cursor, valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA",[out_cursor, valida])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -162,8 +173,7 @@ def listarAsistenciaClase(claseID, cursoID):
     valida = cursor.var(cx_Oracle.NUMBER)
     lista = []
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE", [
-                        claseID, cursoID, out_cursor, valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE", [claseID, cursoID, out_cursor, valida])
         for fila in out_cursor:
             # llamado a la BDD Mediante un SP
             lista.append(fila)
@@ -179,8 +189,7 @@ def iniciarSesion(usuario, contrasenia):
     bienvenida = cursor.var(cx_Oracle.STRING)
     rut = cursor.var(cx_Oracle.STRING)
     try:
-        cursor.callproc("PKG_USUARIO.SP_LOGIN", [
-                        usuario, contrasenia, valida, bienvenida, rut])
+        cursor.callproc("PKG_USUARIO.SP_LOGIN", [usuario, contrasenia, valida, bienvenida, rut])
         return valida.getvalue(), bienvenida.getvalue(), rut.getvalue()
     except:
         return 0, "", ""
@@ -191,8 +200,7 @@ def cambiarContrasenia(email, nuevaContrasenia):
     cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_USUARIO.SP_CAMBIAR_CONTRASENIA",
-                        [email, nuevaContrasenia, valida])
+        cursor.callproc("PKG_USUARIO.SP_CAMBIAR_CONTRASENIA",[email, nuevaContrasenia, valida])
         return valida.getvalue()
     except:
         return 0
@@ -203,8 +211,7 @@ def guardarAsistencia(claseID, cursoID):
     cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA",
-                        [claseID, cursoID, valida])
+        cursor.callproc("PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA",[claseID, cursoID, valida])
         return valida.getvalue()
     except:
         return 0
@@ -215,8 +222,7 @@ def generarCodigoQR(claseID, direccionQR):
     cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_CODIGO_QR.SP_GENERAR_CODIGO",
-                        [claseID, direccionQR, valida])
+        cursor.callproc("PKG_CODIGO_QR.SP_GENERAR_CODIGO",[claseID, direccionQR, valida])
         return valida.getvalue()
     except:
         return 0
@@ -227,8 +233,7 @@ def escanearCodigoQR(claseID, direccionQR):
     cursor = django_cursor.connection.cursor()
     valida = cursor.var(cx_Oracle.NUMBER)
     try:
-        cursor.callproc("PKG_CODIGO_QR.SP_ESCANEAR_CODIGO",
-                        [claseID, direccionQR, valida])
+        cursor.callproc("PKG_CODIGO_QR.SP_ESCANEAR_CODIGO",[claseID, direccionQR, valida])
         return valida.getvalue()
     except:
         return 0
@@ -242,8 +247,7 @@ def listarCursoProfe(rutProfesor):
     out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CURSO",
-                        [rutProfesor, out_cursor])
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CURSO",[rutProfesor, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -257,8 +261,7 @@ def listarAsignaturaProfe(rutProfesor, claseID):
     out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_PROFESOR.SP_LISTAR_ASIGNATURA",
-                        [rutProfesor, claseID, out_cursor])
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_ASIGNATURA",[rutProfesor, claseID, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -272,8 +275,7 @@ def listarClaseProfe(rutProfesor, claseID, asignaturaID):
     out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CLASE", [
-                        rutProfesor, claseID, asignaturaID, out_cursor])
+        cursor.callproc("PKG_PROFESOR.SP_LISTAR_CLASE", [rutProfesor, claseID, asignaturaID, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -289,8 +291,7 @@ def listarAsignaturaAlumno(rutAlumno):
     out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ASIGNATURA",
-                        [rutAlumno, out_cursor])
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_ASIGNATURA",[rutAlumno, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -304,8 +305,7 @@ def listarClaseAlumno(rutAlumno, asignaturaID):
     out_cursor = django_cursor.connection.cursor()  # Recibe los datos
     lista = []
     try:
-        cursor.callproc("PKG_ALUMNO.SP_LISTAR_CLASE", [
-                        rutAlumno, asignaturaID, out_cursor])
+        cursor.callproc("PKG_ALUMNO.SP_LISTAR_CLASE", [rutAlumno, asignaturaID, out_cursor])
         for fila in out_cursor:
             lista.append(fila)
     except:
@@ -582,7 +582,21 @@ class ListarClaseAlumnoView(View):
             datos = {'mensaje': 'No encontrado'}
         return JsonResponse(datos)
 
-class MostrarPerfilUsuario(View):
+class EstadoAsistenciaAlumnoView(View):
+
+    def get(self, request, rutAlumno, claseID):
+        estado = buscarAsistencia2(rutAlumno, claseID)
+        if estado == 1:
+            datos = {'mensaje': 'Encontrado', 'estado': 'PRESENTE'}
+        elif estado == 2:
+            datos = {'mensaje': 'Encontrado', 'estado': 'AUSENTE'}
+        elif estado == 3:
+            datos = {'mensaje': 'Encontrado', 'estado': 'JUSTIFICADO'}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+
+class MostrarPerfilUsuarioView(View):
     def get(self, request, rut):
         usuario = perfilUsuario(rut)
         if len(usuario) > 0:
