@@ -27,6 +27,8 @@ urlpatterns = [
     path('listar-asignaturas-alumno/<int:rutAlumno>/',ListarAsignaturaAlumnoView.as_view(), name = "listarAsignaturasAlumno"),
     path('listar-clases-alumno/<int:rutAlumno>/<int:asignaturaID>/',ListarClaseAlumnoView.as_view(), name = "listarClasesAlumno"),
     path('buscar-estado-asistencia/<int:rutAlumno>/<int:claseID>/',EstadoAsistenciaAlumnoView.as_view(), name = "estadoAsistencia"),
+    path('listar-asistencias-alumno/<int:rutAlumno>/',ListarAsistenciasAsignaturaAlumnoView.as_view(), name = "listarAsistenciasAlumno"),
+    path('listar-asistencias-profesor/<int:rutProfesor>/',ListarAsistenciasAsignaturaProfesorView.as_view(), name = "listarAsistenciasProfesor"),
     path('perfil-usuario/<int:rut>/',MostrarPerfilUsuarioView.as_view(), name = "mostrarPerfilUsuario"),
     url(r'^apirest/alumno/$',views.AlumnoViewSet.as_view()),
 ]

@@ -56,6 +56,7 @@ export class ApiService {
   direccionMostrarPerfil = this.direccionHost + "perfil-usuario/"; // GET
   direccionListarAsignaturasAlumno = this.direccionHost + "listar-asignaturas-alumno/"; // GET
   direccionListarClaseAlumno = this.direccionHost + "listar-clases-alumno/"; // GET
+  direccionBuscarAsitenciaAlumno = this.direccionHost + "buscar-estado-asistencia/"; // GET
 
   // FALTAN AGREGAR LOS DE LISTAR ASISTENCIA CON FILTROS PARA LAS VISTAS
 
@@ -131,6 +132,10 @@ export class ApiService {
 
   listarClaseAlumnoGET(rut, asignaturaID):Observable<any>{
     return this.http.get(this.direccionListarClaseAlumno + rut + '/' + asignaturaID).pipe(retry(3));
+  }
+
+  buscarEstadoAsistenciaGET(rut, claseID):Observable<any>{
+    return this.http.get(this.direccionBuscarAsitenciaAlumno + rut + '/' + claseID).pipe(retry(3));
   }
 
 }

@@ -27,6 +27,7 @@ import json
 
 def alumnos(request):
     print(listarAlumnos())  # Lo tengo!!
+    #print(listarAsistenciaAsignatura(20281676))
     '''
     for x in range(len(datos)):
         data = {
@@ -179,6 +180,36 @@ def listarAsistenciaClase(claseID, cursoID):
             lista.append(fila)
     except:
         valida = 0
+    return lista
+
+# Método que retorna una lista con la cantidad de asistencias por asignaturas del alumno de la sesión
+def listarAsistenciaAsignatura(rutAlumno):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA", [rutAlumno, out_cursor])
+        for fila in out_cursor:
+            # llamado a la BDD Mediante un SP
+            lista.append(fila)
+    except:
+        print('No se encontraron datos.')
+    return lista
+
+# Método que retorna una lista con la cantidad del registro de asistencias de las asignaturas impartidad por el profesor de la sesión
+def listarAsistenciaAsignatura2(rutProfesor):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA2", [rutProfesor, out_cursor])
+        for fila in out_cursor:
+            # llamado a la BDD Mediante un SP
+            lista.append(fila)
+    except:
+        print('No se encontraron datos.')
     return lista
 
 
@@ -593,7 +624,7 @@ class EstadoAsistenciaAlumnoView(View):
         elif estado == 3:
             datos = {'mensaje': 'Encontrado', 'estado': 'JUSTIFICADO'}
         else:
-            datos = {'mensaje': 'No encontrado'}
+            datos = {'mensaje': estado}
         return JsonResponse(datos)
 
 class MostrarPerfilUsuarioView(View):
@@ -606,4 +637,21 @@ class MostrarPerfilUsuarioView(View):
             datos = {'mensaje': 'No encontrado'}
         return JsonResponse(datos)    
 
-# FALTAN ALGUNOS MÉTODOS EN PACKAGE ASISTENCIA GET
+class ListarAsistenciasAsignaturaAlumnoView(View):
+    def get(self, request, rutAlumno):
+        asistencias = listarAsistenciaAsignatura(rutAlumno)
+        if len(asistencias) > 0:
+            datos = {'mensaje': 'Encontrado', 'asistencias': asistencias}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+
+class ListarAsistenciasAsignaturaProfesorView(View):
+    def get(self, request, rutProfesor):
+        asistencias = listarAsistenciaAsignatura2(rutProfesor)
+        if len(asistencias) > 0:
+            datos = {'mensaje': 'Encontrado', 'asistencias': asistencias}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
+

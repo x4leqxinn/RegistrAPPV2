@@ -82,6 +82,7 @@ INSERT INTO usuario VALUES ('matt69', 'admin123',1,2);
 INSERT INTO USUARIO VALUES ('tom.campos','admin123',1,2);
 INSERT INTO USUARIO VALUES ('jotap-ux','admin123',1,2);
 insert into usuario values ('acelga','admin123',1,2);
+insert into usuario values ('kamiewe','RegistrAPP69!',1,2);
 
 -- Profesores
 INSERT INTO usuario VALUES ('fre.camposo', 'admin123',1,1);
@@ -155,6 +156,7 @@ INSERT INTO persona VALUES ('19708456','1','MATIAS','IGNACIO', NULL , 'AMION','A
 INSERT INTO PERSONA VALUES ('20225887','5','TOMAS','JESUS',null,'CAMPOS','CELIS','tom.campos@duocuc.cl','tom.campos',1);
 INSERT INTO PERSONA VALUES ('20279147 ','6','JUAN','PABLO',NULL,'GONZALEZ','ALONSO','jotap-ux@duocuc.cl','Jotap-ux',1);
 INSERT INTO PERSONA VALUES ('20995150','9','CONSTANZA','IVONNE',NULL,'ROJAS','TORRES','chayanneesmipadre@gmail.com','acelga',2);
+INSERT INTO PERSONA VALUES ('19571271','9','CAMILA','ANDREA',NULL,'PLAZA','TOBAR','kamila_owo@gmail.com','kamiewe',2);
 
 -----------------------------------------------------
 -- ALUMNO
@@ -165,6 +167,7 @@ INSERT INTO alumno VALUES ('19708456',10);
 INSERT INTO ALUMNO VALUES ('20225887',11);
 INSERT INTO ALUMNO VALUES('20279147 ',10);
 insert into alumno values('20995150',11);
+insert into alumno values('19571271',10);
 -----------------------------------------------------
 
 -----------------------------------------------------

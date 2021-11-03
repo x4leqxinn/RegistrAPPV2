@@ -347,6 +347,8 @@ CREATE OR REPLACE PACKAGE  pkg_asistencia IS
     PROCEDURE sp_buscar_asistencia2(p_rutalumno IN alumno.rut_alumno%type, p_claseid IN CLASE.id_clase%type ,valida OUT NUMBER);
     -- Crear un SP que liste la cantidad de asistencias por asignatura (de un alumno en especifico) 
     PROCEDURE SP_LISTAR_ASISTENCIA_ASIGNATURA(p_rutalumno IN alumno.rut_alumno%type, lista OUT SYS_REFCURSOR);
+    -- Crear SP que liste la cantidad de asistencias por asignaturas que realiza el profesor
+    PROCEDURE SP_LISTAR_ASISTENCIA_ASIGNATURA2(p_rutprofesor IN profesor.rut_profesor%type, lista OUT SYS_REFCURSOR);
 END pkg_asistencia;
 
 -------------------------------------------------
@@ -773,7 +775,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
                         PKG_ASISTENCIA.sp_insertar_asistencia(2, p_claseid, x.rut_alumno,v_valida);
                         pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
                         pkg_errores.reg_errores.codigo_error := SQLCODE;
-                        pkg_errores.reg_errores.mensaje_error := 'El alumno del curso'||p_cursoid||' con el rut '||x.rut_alumno|| ' NO ESCANEÓ EL CÓDIDO QR DE LA CLASE ' || p_claseid;
+                        pkg_errores.reg_errores.mensaje_error := 'El alumno del curso '||p_cursoid||' con el rut '||x.rut_alumno|| ' NO ESCANEÓ EL CÓDIDO QR DE LA CLASE ' || p_claseid;
                         pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_GUARDAR_ASISTENCIA';
                         pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
                         pkg_errores.reg_errores.hora := pkg_errores.v_hora;
@@ -786,7 +788,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
     PROCEDURE sp_buscar_asistencia2(p_rutalumno IN alumno.rut_alumno%type, p_claseid IN CLASE.id_clase%type ,valida OUT NUMBER) IS
         v_cantidad NUMBER DEFAULT 0;
     BEGIN 
-        valida := 0;
+    valida := 2;
         SELECT COUNT(*) INTO v_cantidad FROM detalle_asistencia WHERE rut_alumno = p_rutalumno and id_clase = p_claseid;
             IF v_cantidad > 0 THEN 
                         SELECT  e.id_estado INTO valida
@@ -820,7 +822,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -828,7 +830,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -836,7 +838,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -844,7 +846,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
@@ -852,14 +854,59 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
             pkg_errores.reg_errores.codigo_error := SQLCODE;
             pkg_errores.reg_errores.mensaje_error := sqlerrm;
-            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_CLASE';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA';
             pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
     END SP_LISTAR_ASISTENCIA_ASIGNATURA;
     
+    PROCEDURE SP_LISTAR_ASISTENCIA_ASIGNATURA2(p_rutprofesor IN profesor.rut_profesor%type, lista OUT SYS_REFCURSOR) IS
+        BEGIN 
+            OPEN lista FOR SELECT * FROM RESUMEN_ASISTENCIA WHERE rut_profesor = p_rutprofesor;
+    exception
+        WHEN too_many_rows THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se retornan más filas de las requeridas.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA2';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN invalid_number THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una conversión númerica que no coincide con el tipo de dato definido.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA2';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN no_data_found THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'No se encuentran datos.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA2';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN zero_divide THEN
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := 'Se intentó hacer una división por 0.';
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA2';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+        WHEN OTHERS THEN 
+            pkg_errores.reg_errores.ID := seq_errores.NEXTVAL;
+            pkg_errores.reg_errores.codigo_error := SQLCODE;
+            pkg_errores.reg_errores.mensaje_error := sqlerrm;
+            pkg_errores.reg_errores.subprograma := 'PKG_ASISTENCIA.SP_LISTAR_ASISTENCIA_ASIGNATURA2';
+            pkg_errores.reg_errores.fecha := pkg_errores.v_fecha;
+            pkg_errores.reg_errores.hora := pkg_errores.v_hora;
+            pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
+    END SP_LISTAR_ASISTENCIA_ASIGNATURA2;
+    
 END pkg_asistencia;
-
 
 ----------------------------------------------------
 -- PACKAGE BOBY ALUMNO
@@ -1537,8 +1584,7 @@ BEGIN
   dbms_scheduler.drop_job(job_name => 'JOB_RESUMEN_ASISTENCIA_DIARIA'); 
 END;
 
-
-
+commit;
 
 -------------------------------------
 -- ZONA  DE TESTS 
@@ -1571,5 +1617,3 @@ END;
 TRUNCATE TABLE DETALLE_ASISTENCIA;
 TRUNCATE TABLE ASISTENCIA;
 COMMIT;
-
-commit;
