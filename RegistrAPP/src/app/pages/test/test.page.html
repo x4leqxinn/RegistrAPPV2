@@ -1,0 +1,38 @@
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label stacked>Name</ion-label>
+            <ion-input [(ngModel)]="product.name"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Price</ion-label>
+            <ion-input type="number" [(ngModel)]="product.price"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Currency</ion-label>
+            <ion-select [(ngModel)]="product.currency">
+                <ion-option value="OMR">OMR</ion-option>
+                <ion-option value="USD">USD</ion-option>
+            </ion-select>
+        </ion-item>
+        <div text-center margin-top padding>
+            <button *ngIf="!product.id" ion-button margin-right (click)="add()" block>
+                  Add
+                </button>
+            <button *ngIf="product.id" ion-button margin-right (click)="edit()" block>
+                  Save
+                </button>
+        </div>
+    </ion-list>
+
+</ion-content>
+
+<ion-footer no-border class="animated fadeInUp">
+    <ion-toolbar>
+        <ion-title>
+            Habib Dev.
+        </ion-title>
+    </ion-toolbar>
+</ion-footer>
+
+<img class="bg-header animated fadeIn" src="assets/imgs/bg-header.png" alt="">

@@ -22,9 +22,9 @@ export class RegistrarAsistenciaPage implements OnInit {
       private toastController: ToastController,
       private router: Router
     ) { }
-  
-    ngOnInit() {}
-    
+
+  ngOnInit() { }
+
   /*
     ionViewWillEnter(){
       this.listarAsistencias();
@@ -104,7 +104,7 @@ export class RegistrarAsistenciaPage implements OnInit {
         (error) => {
           console.log(error);
           carga.dismiss();
-          this.messageAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.'); 
+          this.messageAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
           //          this.toastAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.', '2000');
         }
       );
@@ -139,8 +139,10 @@ export class RegistrarAsistenciaPage implements OnInit {
     toast.present();
   }
 
-  detalleRegistro(id){
-    this.router.navigate(['tabs-profesor/detalle-registro/',id]);
+  detalleRegistro(id) {
+    this.router.navigate(['tabs-profesor/detalle-registro/', id]);
   }
+
+
 
 }

@@ -52,10 +52,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
   },
   {
+    path: 'test',
+    loadChildren: () => import('./pages/test/test.module').then( m => m.TestPageModule)
+  },
+  {
     // Redirecciona todas las direcciones erronéas a esta página
     path: '**',
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
   },
+
 ];
 
 @NgModule({

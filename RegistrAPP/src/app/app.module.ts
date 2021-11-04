@@ -27,6 +27,10 @@ import { Mensaje } from './components/ts/alertas/mensaje-alerta';
 // Importamos el HTTP CLIENT
 import { HttpClientModule } from '@angular/common/http';
 
+//
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -44,7 +48,9 @@ import { HttpClientModule } from '@angular/common/http';
    AuthenticationService, // Authentication
    Storage, // Storage
    AlertasToast, // Importo de forma global la clase de Alertas Toast
-   Mensaje // Importo de forma global la clase de Mensajes de alerta
+   Mensaje, // Importo de forma global la clase de Mensajes de alerta
+   StatusBar,
+   SplashScreen,
   ],
   bootstrap: [AppComponent],
 })

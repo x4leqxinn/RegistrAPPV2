@@ -92,6 +92,7 @@ export class DetalleRegistroPage implements OnInit {
           handler: () => {
             console.log("Eliminado");
             this.eliminar(id);
+            this.aplicarSonido();
           }
         },
         {
@@ -116,6 +117,13 @@ export class DetalleRegistroPage implements OnInit {
     await alert.present();
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
+  }
+
+  aplicarSonido(): void {
+    const audio = new Audio();
+    audio.src = '../assets/sounds/EliminarAsistencia.mp3';
+    audio.load();
+    audio.play();
   }
 
   /*

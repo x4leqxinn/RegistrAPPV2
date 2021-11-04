@@ -36,6 +36,8 @@ export class AuthenticationService {
         console.log(usuario);
         this.router.navigate(['cursos-profesor/',rut]);
         this.authState.next(true);
+        //Música
+        this.aplicarSonido();
       })
 
     }else if(tipo == 2){
@@ -44,6 +46,8 @@ export class AuthenticationService {
         console.log(usuario);
         this.router.navigate(['asignaturas-alumno/',rut]);
         this.authState.next(true);
+        //Música
+        this.aplicarSonido();
       })
     }
   }
@@ -70,4 +74,13 @@ export class AuthenticationService {
       }
     });
   }
+
+  // Música al iniciar sesión
+  aplicarSonido(): void {
+    const audio = new Audio();
+    audio.src = '../assets/sounds/IniciarSesion.mp3';
+    audio.load();
+    audio.play();
+  }
+
 }
