@@ -24,6 +24,27 @@
         </ion-button>
     </div>
   -->
-    {{estado}}
+    <ion-list class="lista-estado" *ngIf="estado" [ngSwitch]="estado">
+        <ion-item *ngSwitchCase="'PRESENTE'" color="success">
+            <ion-icon name="checkmark-done-sharp"></ion-icon>
+            <ion-label class="label-alumno">
+                {{estado}}
+            </ion-label>
+        </ion-item>
+        <ion-item *ngSwitchCase="'JUSTIFICADO'" color="warning">
+            <ion-icon name="alert-sharp"></ion-icon>
+            <ion-label class="label-alumno">
+                {{estado}}
+            </ion-label>
+        </ion-item>
+        <ion-item *ngSwitchCase="'AUSENTE'" color="danger">
+            <ion-icon name="close-sharp"></ion-icon>
+            <ion-label class="label-alumno">
+                {{estado}}
+            </ion-label>
+        </ion-item>
+
+    </ion-list>
+
 
 </ion-content>

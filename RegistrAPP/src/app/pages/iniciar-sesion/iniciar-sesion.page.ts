@@ -136,8 +136,8 @@ export class IniciarSesionPage implements OnInit{
 
   recuperarCuenta(){
     //this.router.navigate(['/cambiar-contrasenia'])
-    this.router.navigate(['/tabs-profesor']);
-    //this.router.navigate(['/tabs-alumno']);
+    //this.router.navigate(['/tabs-profesor']);
+    this.router.navigate(['/tabs-alumno']);
     //this.router.navigate(['/test']);
   }
 

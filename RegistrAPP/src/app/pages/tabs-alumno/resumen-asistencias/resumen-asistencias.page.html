@@ -9,6 +9,16 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="asistencia">
-    {{asistencia.rutAlumno}}
+<ion-content>
+    <ion-list *ngFor="let x of asistencias">
+        <ion-item button (click)="detalleResumen(x.nombreProfesor, x.cantidadAsistencia)">
+            <ion-label>
+                {{x.asignatura}}
+            </ion-label>
+            <ion-label style="text-align: end;">
+                <ion-icon color="danger" name="school-sharp"></ion-icon>
+                {{x.cantidadAsistencia}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

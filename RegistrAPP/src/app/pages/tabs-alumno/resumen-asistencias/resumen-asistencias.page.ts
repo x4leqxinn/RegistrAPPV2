@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { ResumenAsistenciaI } from 'src/app/components/model/resumen-asistencia.interface';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -18,7 +18,8 @@ export class ResumenAsistenciasPage implements OnInit {
     (
       private apiService: ApiService,
       private authentication: AuthenticationService,
-      private alertController: AlertController
+      private alertController: AlertController,
+      private toastController : ToastController
     ) { }
 
   ngOnInit() {
@@ -90,5 +91,23 @@ export class ResumenAsistenciasPage implements OnInit {
     await alert.present();
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
+  }
+
+  detalleResumen(profesor, cantidad) {
+    this.mostrarToast(profesor,"Asistencias totales " + cantidad, 2000);
+  }
+
+  async mostrarToast(titulo:string, mensaje:string, duracion:number){
+    let toast = await this.toastController.create({
+      header: titulo,
+      message: mensaje,
+      duration: duracion,
+      position: 'top',
+      animated: true,
+      translucent: false,
+      //showCloseButton: true
+      //closeBttonText: "Cerrar"
+    });
+    toast.present();
   }
 }
