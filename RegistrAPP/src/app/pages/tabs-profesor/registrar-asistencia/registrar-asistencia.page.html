@@ -1,16 +1,22 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="end">
+            <ion-button color="light" (click)="cerrarSesion()">
+                <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Registro Asistencias</ion-title>
     </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
     <!--Recorremos la lista de asignaturas -->
-    <ion-list *ngFor="let x of asistencias">
+    <ion-list *ngFor="let x of asistencias" [ngSwitch]="x.estado">
         <ion-item button (click)="detalleRegistro(x.id)">
-            <div class="item-icon"></div>
-            <ion-label>
+            <ion-icon *ngSwitchCase="'PRESENTE'" name="checkmark-done-sharp" color="success"></ion-icon>
+            <ion-icon *ngSwitchCase="'JUSTIFICADO'" name="alert-sharp" color="warning"></ion-icon>
+            <ion-icon *ngSwitchCase="'AUSENTE'" name="close-sharp" color="danger"></ion-icon>
+            <ion-label class="label-alumno">
                 {{x.nombre}}
             </ion-label>
         </ion-item>

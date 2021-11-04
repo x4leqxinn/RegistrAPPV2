@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { ResumenAsistenciaI } from 'src/app/components/model/resumen-asistencia.interface';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-resumen-asistencias',
@@ -14,7 +16,9 @@ export class ResumenAsistenciasPage implements OnInit {
 
   constructor
     (
-      private apiService: ApiService
+      private apiService: ApiService,
+      private authentication: AuthenticationService,
+      private alertController: AlertController
     ) { }
 
   ngOnInit() {
@@ -63,4 +67,28 @@ export class ResumenAsistenciasPage implements OnInit {
     return rut;
   }
 
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
 }

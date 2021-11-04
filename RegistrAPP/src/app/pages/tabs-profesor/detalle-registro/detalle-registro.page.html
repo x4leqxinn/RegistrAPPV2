@@ -1,56 +1,99 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="start">
+            <ion-back-button color="light"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button color="light" (click)="cerrarSesion()">
+                <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Detalle</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <!--
-          id: data.asistencia[0],
-          asignatura:data.asistencia[1],
-          fechaClase:data.asistencia[2],
-          horaInicio:data.asistencia[3],
-          horaTermino:data.asistencia[4],
-          estado: data.asistencia[5],
-          fechaRegistro:data.asistencia[6],
-          horaRegistro : data.asistencia[7],
-          rut: data.asistencia[8],
-          nombre : data.asistencia[9],
-          curso : data.asistencia[10]
-        }
-        -->
-        <!--
-        <ion-item *ngIf="asistencia">
-            <ion-input type="text" [(ngModel)]="asistencia.rut"></ion-input>
-        </ion-item>
-        -->
-        <ion-item *ngIf="asistencia">
-            <ion-label>RUT : {{asistencia.rut}}</ion-label>
-        </ion-item>
+    <ion-grid class="main-header">
+        <div align="center">
+            <ion-avatar>
+                <img src="../../../../assets/img/Logos/Logo.png" />
+            </ion-avatar>
+        </div>
+    </ion-grid>
 
-        <ion-item *ngIf="asistencia">
-            <ion-label>NOMBRE : {{asistencia.nombre}}</ion-label>
-        </ion-item>
+    <ion-row class="ion-padding-horizontal">
+        <ion-col size="6">
+            <ion-item lines="none" class="ion-text-center">
+                <ion-icon name="water" color="primary"></ion-icon>
+                <ion-label>
+                    12
+                    <p>Experiencia</p>
+                </ion-label>
+            </ion-item>
+        </ion-col>
+        <ion-col size="6">
+            <ion-item lines="none" class="ion-text-center">
+                <ion-icon name="trophy" color="primary"></ion-icon>
+                <ion-label>
+                    99
+                    <p>Certificados</p>
+                </ion-label>
+            </ion-item>
+        </ion-col>
+    </ion-row>
 
+    <ion-list lines="full">
         <ion-item *ngIf="asistencia">
-            <ion-label>CURSO : {{asistencia.curso}}</ion-label>
+            <ion-label>
+                <ion-text>Rut</ion-text>
+                <p>
+                    <ion-text color="dark"> {{asistencia.rut}}</ion-text>
+                </p>
+            </ion-label>
         </ion-item>
-
         <ion-item *ngIf="asistencia">
-            <ion-label>FECHA DE REGISTRO : {{asistencia.fechaRegistro}}</ion-label>
+            <ion-label>
+                <ion-text>Nombre</ion-text>
+                <p>
+                    <ion-text color="dark"> {{asistencia.nombre}}</ion-text>
+                </p>
+            </ion-label>
         </ion-item>
-
         <ion-item *ngIf="asistencia">
-            <ion-label>HORA DE REGISTRO : {{asistencia.horaRegistro}}</ion-label>
+            <ion-label>
+                <ion-text>Curso</ion-text>
+                <p>
+                    <ion-text color="dark"> {{asistencia.curso}}</ion-text>
+                </p>
+            </ion-label>
         </ion-item>
-
         <ion-item *ngIf="asistencia">
-            <ion-label>ESTADO ASISTENCIA : {{asistencia.estado}}</ion-label>
+            <ion-label>
+                <ion-text>Fecha de Registro</ion-text>
+                <p>
+                    <ion-text color="dark"> {{asistencia.fechaRegistro}}</ion-text>
+                </p>
+            </ion-label>
         </ion-item>
-
+        <ion-item *ngIf="asistencia">
+            <ion-label>
+                <ion-text>Hora de registro</ion-text>
+                <p>
+                    <ion-text color="dark"> {{asistencia.horaRegistro}}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="asistencia">
+            <ion-label>
+                <ion-text>Estado de Asistencia</ion-text>
+                <p>
+                    <ion-text color="dark"> {{asistencia.estado}}</ion-text>
+                </p>
+            </ion-label>
+        </ion-item>
 
     </ion-list>
+
     <ion-button expand="full" (click)="actualizar()">Actualizar</ion-button>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="eliminarAsistencia(asistencia.id)">

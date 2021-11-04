@@ -1,7 +1,12 @@
 <ion-app [fullscreen]="true">
 
-    <ion-header class="contenedor-header">
-        <ion-toolbar class="toolbar-primaria">
+    <ion-header>
+        <ion-toolbar color="danger">
+            <ion-buttons slot="end">
+                <ion-button color="light" (click)="cerrarSesion()">
+                    <ion-icon name="ellipsis-vertical"></ion-icon>
+                </ion-button>
+            </ion-buttons>
             <ion-title>Portal Docentes</ion-title>
         </ion-toolbar>
     </ion-header>

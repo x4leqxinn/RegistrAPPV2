@@ -5,6 +5,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { AlertController } from '@ionic/angular';
 //
 import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 // importamos el asistente de voz
 import { TtsService } from 'src/app/services/tts.service';
@@ -30,7 +31,8 @@ export class GenerarQrPage implements OnInit {
       private barcodeScanner: BarcodeScanner,
       private _stts: TtsService,
       private apiService: ApiService,
-      private alertController: AlertController
+      private alertController: AlertController,
+      private authentication : AuthenticationService
     ) { }
 
   ngOnInit() {
@@ -99,4 +101,30 @@ export class GenerarQrPage implements OnInit {
     }
 
   }
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+  
 }

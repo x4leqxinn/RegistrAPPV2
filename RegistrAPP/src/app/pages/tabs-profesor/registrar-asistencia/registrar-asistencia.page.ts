@@ -3,6 +3,7 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { ApiService } from 'src/app/services/api.service';
 import { RegistroAsistenciaI } from 'src/app/components/model/registro-asistencia.interface';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-registrar-asistencia',
@@ -20,7 +21,8 @@ export class RegistrarAsistenciaPage implements OnInit {
       private loadingController: LoadingController,
       private alertController: AlertController,
       private toastController: ToastController,
-      private router: Router
+      private router: Router,
+      private authentication : AuthenticationService,
     ) { }
 
   ngOnInit() { }
@@ -143,6 +145,28 @@ export class RegistrarAsistenciaPage implements OnInit {
     this.router.navigate(['tabs-profesor/detalle-registro/', id]);
   }
 
-
-
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
 }

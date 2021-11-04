@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { PerfilUsuarioI } from 'src/app/components/model/perfil-usuario.interface';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-perfil',
@@ -12,7 +14,11 @@ export class PerfilPage implements OnInit {
   perfil: PerfilUsuarioI;
 
   constructor
-    (private apiService: ApiService) { }
+    (
+      private apiService: ApiService,
+      private authentication : AuthenticationService,
+      private alertController : AlertController
+    ) { }
 
   ngOnInit() {
     this.mostrarPerfil();
@@ -24,12 +30,12 @@ export class PerfilPage implements OnInit {
         (data) => {
           console.log(data);
           this.perfil = {
-            rut : data.usuario[0],
-            dv : data.usuario[1],
-            nombre : data.usuario[2],
-            email : data.usuario[3],
-            usuario : data.usuario[4],
-            genero : data.usuario[5]
+            rut: data.usuario[0],
+            dv: data.usuario[1],
+            nombre: data.usuario[2],
+            email: data.usuario[3],
+            usuario: data.usuario[4],
+            genero: data.usuario[5]
           }
         }, //Si recupera un dato 
         (error) => {
@@ -51,6 +57,31 @@ export class PerfilPage implements OnInit {
       console.log("No hay data del docente");
     }
     return rut;
+  }
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
   }
 
 }

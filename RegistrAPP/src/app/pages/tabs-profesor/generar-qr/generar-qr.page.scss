@@ -43,15 +43,8 @@
 }
 
 .contenedor-qr {
-    margin-top: 20px;
-    text-align: center;
     display: flex;
-    align-items: center;
+    text-align: center;
     justify-content: center;
-    background: var(--ion-color-primario);
-}
-
-.contenedor-qr__item {
-    height: 100%;
-    padding: auto;
+    margin-top: 50px;
 }

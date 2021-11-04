@@ -1,5 +1,13 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="start">
+            <ion-back-button color="light"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button color="light" (click)="cerrarSesion()">
+                <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Código QR</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -28,7 +36,10 @@
     <ion-card *ngIf="codigoCreado" class="contenedor-qr">
         <div class="contenedor-qr__item">
             -->
-    <ngx-qrcode *ngIf="codigoCreado" [elementType]='elementType' [value]="codigoCreado"></ngx-qrcode>
+    <div class="contenedor-qr">
+        <ngx-qrcode *ngIf="codigoCreado" [elementType]='elementType' [value]="codigoCreado"></ngx-qrcode>
+    </div>
+
 
     <!--
     <ion-card *ngIf="codigoScaneado">

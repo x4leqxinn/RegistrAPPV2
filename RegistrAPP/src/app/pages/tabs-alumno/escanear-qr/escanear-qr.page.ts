@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { AlertController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { TtsService } from 'src/app/services/tts.service';
 
 @Component({
@@ -13,6 +15,8 @@ export class EscanearQrPage implements OnInit {
   constructor
   (
     private _tts:TtsService,
+    private authentication: AuthenticationService,
+    private alertController: AlertController,
     private barcodeScanner: BarcodeScanner
   ) { }
 
@@ -40,5 +44,31 @@ export class EscanearQrPage implements OnInit {
       }
     )
   }
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+
 
 }

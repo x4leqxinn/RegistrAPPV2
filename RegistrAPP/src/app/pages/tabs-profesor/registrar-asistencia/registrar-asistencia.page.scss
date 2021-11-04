@@ -3,3 +3,8 @@
 .item-icon {
     @include item-icon;
 }
+
+.label-alumno {
+    text-align: left;
+    margin-left: 30px;
+}

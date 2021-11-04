@@ -40,10 +40,6 @@ const routes: Routes = [
     path: 'detalle-registro/:id',
     loadChildren: () => import('./detalle-registro/detalle-registro.module').then( m => m.DetalleRegistroPageModule)
   },
-  {
-    path: 'detalle-resumen',
-    loadChildren: () => import('./detalle-resumen/detalle-resumen.module').then( m => m.DetalleResumenPageModule)
-  },
 ];
 
 @NgModule({

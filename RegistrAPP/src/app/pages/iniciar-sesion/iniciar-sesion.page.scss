@@ -17,18 +17,19 @@
 
 .contenedor {
     text-align: center;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
 
 .contenedor-header__titulo {
     color: var(--ion-color-blanco);
-    padding: 250x;
-    font-size: 50px;
+    text-shadow: 2px 2px var(--ion-color-negro);
+    font-size: 60px;
 }
 
 .contenedor-header__logo {
-    width: 40%;
+    width: 105px;
+    opacity: .9;
 }
 
 .formulario-login__item {
@@ -42,7 +43,7 @@
 
 .boton-primario {
     @include btn-primario;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .boton-terciario {

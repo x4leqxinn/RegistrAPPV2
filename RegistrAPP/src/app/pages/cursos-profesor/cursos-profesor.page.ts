@@ -102,4 +102,9 @@ export class CursosProfesorPage implements OnInit {
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
   }
+
+  cerrarSesion2(){
+    this.authentication.logout();
+  }
+  
 }

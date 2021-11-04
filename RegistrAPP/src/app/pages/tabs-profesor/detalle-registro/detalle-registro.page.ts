@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { DetalleAsistenciaI } from 'src/app/components/model/detalle-asistencia.interface';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 @Component({
   selector: 'app-detalle-registro',
   templateUrl: './detalle-registro.page.html',
@@ -19,7 +20,8 @@ export class DetalleRegistroPage implements OnInit {
       private activatedRoute: ActivatedRoute,
       private nav: NavController,
       private alertController: AlertController,
-      private loadingController: LoadingController
+      private loadingController: LoadingController,
+      private authentication: AuthenticationService
     ) { }
 
   ngOnInit() {
@@ -73,7 +75,7 @@ export class DetalleRegistroPage implements OnInit {
       (e) => {
         console.log(e);
         carga.dismiss();
-        this.messageAlert('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.'); 
+        this.messageAlert('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
       }
     );
 
@@ -144,4 +146,30 @@ export class DetalleRegistroPage implements OnInit {
   horaRegistro : string;
   estado: string;
   codigoClase:string;  */
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+
 }
