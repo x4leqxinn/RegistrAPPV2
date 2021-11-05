@@ -349,6 +349,8 @@ CREATE OR REPLACE PACKAGE  pkg_asistencia IS
     PROCEDURE SP_LISTAR_ASISTENCIA_ASIGNATURA(p_rutalumno IN alumno.rut_alumno%type, lista OUT SYS_REFCURSOR);
     -- Crear SP que liste la cantidad de asistencias por asignaturas que realiza el profesor
     PROCEDURE SP_LISTAR_ASISTENCIA_ASIGNATURA2(p_rutprofesor IN profesor.rut_profesor%type, lista OUT SYS_REFCURSOR);
+    -- SP que devuelve los estados de asistencia para reccorrerlos en la vista
+    PROCEDURE SP_LISTAR_ESTADOS(p_lista OUT SYS_REFCURSOR);
 END pkg_asistencia;
 
 -------------------------------------------------
@@ -905,6 +907,12 @@ CREATE OR REPLACE PACKAGE BODY pkg_asistencia IS
             pkg_errores.reg_errores.hora := pkg_errores.v_hora;
             pkg_errores.sp_errores (pkg_errores.reg_errores.ID , pkg_errores.reg_errores.codigo_error, pkg_errores.reg_errores.mensaje_error, pkg_errores.reg_errores.subprograma, pkg_errores.reg_errores.fecha, pkg_errores.reg_errores.hora);
     END SP_LISTAR_ASISTENCIA_ASIGNATURA2;
+    
+    PROCEDURE SP_LISTAR_ESTADOS(p_lista OUT SYS_REFCURSOR) IS
+    BEGIN 
+        OPEN p_lista FOR 
+            SELECT * FROM ESTADO_ASISTENCIA;
+    END SP_LISTAR_ESTADOS;
     
 END pkg_asistencia;
 
@@ -1589,6 +1597,7 @@ commit;
 -------------------------------------
 -- ZONA  DE TESTS 
 -------------------------------------
+
 
 
 SET SERVEROUTPUT ON;

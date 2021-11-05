@@ -7,13 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestPage implements OnInit {
 
-  product = {
-    id:       undefined,
-    name:     undefined, 
-    price:    undefined,
-    currency: "OMR"
+  value_selected:string = '2';
+
+  valueChanged(){
+    alert(this.value_selected);
   }
-  
+
+
   ngOnInit() {
 
   }

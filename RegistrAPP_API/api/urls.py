@@ -30,6 +30,7 @@ urlpatterns = [
     path('listar-asistencias-alumno/<int:rutAlumno>/',ListarAsistenciasAsignaturaAlumnoView.as_view(), name = "listarAsistenciasAlumno"),
     path('listar-asistencias-profesor/<int:rutProfesor>/',ListarAsistenciasAsignaturaProfesorView.as_view(), name = "listarAsistenciasProfesor"),
     path('perfil-usuario/<int:rut>/',MostrarPerfilUsuarioView.as_view(), name = "mostrarPerfilUsuario"),
+    path('listar-estados/',ListarEstadosAsistenciaView.as_view(), name = "mostrarEstadosAsistencia"),
     url(r'^apirest/alumno/$',views.AlumnoViewSet.as_view()),
 ]
 

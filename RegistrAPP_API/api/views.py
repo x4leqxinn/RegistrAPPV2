@@ -357,6 +357,20 @@ def perfilUsuario(rut):
         lista = []
     return lista
 
+# Método que lista todos los estados de asistencia de la DB
+def listarEstados():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cursor = django_cursor.connection.cursor()  # Recibe los datos
+    lista = []
+    try:
+        cursor.callproc("PKG_ASISTENCIA.SP_LISTAR_ESTADOS", [out_cursor])
+        for fila in out_cursor:
+            lista.append(fila)
+    except:
+        lista = []
+    return lista
+
 # Vista de la API
 
 
@@ -655,3 +669,12 @@ class ListarAsistenciasAsignaturaProfesorView(View):
             datos = {'mensaje': 'No encontrado'}
         return JsonResponse(datos)
 
+class ListarEstadosAsistenciaView(View):
+
+    def get(self, request,):
+        estados = listarEstados()
+        if len(estados) > 0:
+            datos = {'mensaje': 'Encontrado', 'estados': estados}
+        else:
+            datos = {'mensaje': 'No encontrado'}
+        return JsonResponse(datos)
