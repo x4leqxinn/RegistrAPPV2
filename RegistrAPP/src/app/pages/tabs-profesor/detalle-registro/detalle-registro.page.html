@@ -85,16 +85,23 @@
         </ion-item>
         <ion-item *ngIf="asistencia">
             <ion-label>
-                <ion-text>Estado de Asistencia</ion-text>
+                <ion-text>Estado actual de Asistenica</ion-text>
                 <p>
                     <ion-text color="dark"> {{asistencia.estado}}</ion-text>
                 </p>
             </ion-label>
         </ion-item>
 
+        <ion-radio-group *ngIf="asistencia" [(ngModel)]="valorSeleccionado">
+            <!--(ionChange)="valorCambiado()"-->
+            <ion-item *ngFor="let x of estados">
+                <ion-label>{{x.nombre}}</ion-label>
+                <ion-radio value={{x.nombre}}></ion-radio>
+            </ion-item>
+        </ion-radio-group>
     </ion-list>
 
-    <ion-button expand="full" (click)="actualizar()">Actualizar</ion-button>
+    <ion-button expand="full" (click)="actualizar(asistencia.id)">Actualizar</ion-button>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="eliminarAsistencia(asistencia.id)">
             <ion-icon name="trash"></ion-icon>

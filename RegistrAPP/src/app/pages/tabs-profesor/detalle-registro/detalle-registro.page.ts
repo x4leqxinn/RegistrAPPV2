@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { DetalleAsistenciaI } from 'src/app/components/model/detalle-asistencia.interface';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { EstadoI } from 'src/app/components/model/estado.interface';
+import { EstadoI2 } from 'src/app/components/model/estado2.interfase';
 @Component({
   selector: 'app-detalle-registro',
   templateUrl: './detalle-registro.page.html',
@@ -13,6 +15,16 @@ export class DetalleRegistroPage implements OnInit {
   // Recibo el id de la asistencia
   id: any;
   asistencia: DetalleAsistenciaI;
+  // Variable que guarda el valor seleccionado y que por defecto sea el del estado actual de asistencia del alumno
+  valorSeleccionado: string;
+
+  //
+  estado: EstadoI;
+
+  estadoM: EstadoI2; //Modificar
+
+  estados: EstadoI[] = [];
+
 
   constructor
     (
@@ -21,14 +33,35 @@ export class DetalleRegistroPage implements OnInit {
       private nav: NavController,
       private alertController: AlertController,
       private loadingController: LoadingController,
-      private authentication: AuthenticationService
+      private authentication: AuthenticationService,
+      private toastController: ToastController
     ) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
+    this.listarEstadosAsistencia();
     this.buscarAsistencia(this.id);
   }
 
+  listarEstadosAsistencia() {
+    this.apiService.listarEstadosAsistenciaGET().subscribe(
+      (data) => {
+        console.log(data);
+        for (let i = 0; i < data.estados.length; i++) {
+          // Rellenamos el estado
+          this.estado = {
+            id: data.estados[i][0],
+            nombre: data.estados[i][1]
+          }
+
+          this.estados.push(this.estado);
+        }
+      }, //Si recupera un dato 
+      (error) => {
+        console.log(error);
+      } // si da un error
+    );
+  }
 
   buscarAsistencia(id) {
     this.apiService.buscarAsistenciaGET(id).subscribe(
@@ -48,6 +81,8 @@ export class DetalleRegistroPage implements OnInit {
           nombre: data.asistencia[9],
           curso: data.asistencia[10]
         }
+
+        this.valorSeleccionado = this.asistencia.estado;
 
       }, //Si recupera un dato 
       (error) => {
@@ -128,24 +163,34 @@ export class DetalleRegistroPage implements OnInit {
     audio.play();
   }
 
-  /*
-  async actualizar(){
-    const carga = await this.loadingCtrl.create({
-      message:"Actualizando ..."
+
+  async actualizar(id) {
+    const carga = await this.loadingController.create({
+      message: "Actualizando ..."
     });
     await carga.present();
-    this.personaService.updatePersona(this.persona, this.personaID).then(()=>{
-      carga.dismiss();
-      this.nav.navigateForward("/");
-    })
-  */
 
-  /* 
-      nombre: string;
-  fecha:string;
-  horaRegistro : string;
-  estado: string;
-  codigoClase:string;  */
+    var estadoID = this.validarEstado(this.valorSeleccionado);
+    
+    this.estadoM = {
+      estadoID: estadoID,
+    }
+
+    this.apiService.modificarAsistenciaPUT(id, this.estadoM).subscribe(
+      (success) => {
+        console.log(success);
+        carga.dismiss();
+        this.messageAlert("¡Éxito!", "¡Se ha actualizado la asistencia con éxito!");
+        this.nav.navigateForward('tabs-profesor/home');
+        //this.nav.navigateBack("/");
+      },
+      (e) => {
+        console.log(e);
+        carga.dismiss();
+        this.messageAlert('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
+      }
+    );
+  }
 
   async cerrarSesion() {
     const alert = await this.alertController.create({
@@ -171,5 +216,27 @@ export class DetalleRegistroPage implements OnInit {
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
   }
+
+
+  validarEstado(estado):number{
+    var valida = 0;
+    if (estado == 'PRESENTE') {
+      valida = 1;
+    } else if (estado == 'AUSENTE') {
+      valida = 2;
+    } else if (estado == 'JUSTIFICADO') {
+      valida = 3;
+    }
+    return valida;
+  }
+
+  // Mandar un toast al seleccionar un valor del Radio Button
+ 
+  /*
+  valorCambiado(){
+    // Método que captura el valor seleccionado actual del radio button
+    this.invocar(this.valorSeleccionado,"",3000);
+  }
+  */
 
 }

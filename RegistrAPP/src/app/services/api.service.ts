@@ -59,6 +59,7 @@ export class ApiService {
   direccionBuscarAsitenciaAlumno = this.direccionHost + "buscar-estado-asistencia/"; // GET
   direccionListarAsistenciasAsignaturaAlumno = this.direccionHost + "listar-asistencias-alumno/"; // GET
   direccionListarAsistenciasAsignaturaProfesor = this.direccionHost + "listar-asistencias-profesor/"; // GET
+  direcccionListarEstados = this.direccionHost + "listar-estados/";// GET
  
   // Crear los métodos para acceder a cada uno de los métodos de la BDD
 
@@ -78,8 +79,8 @@ export class ApiService {
   }
 
   // Método para modificar una asistencia 
-  modificarAsistenciaPUT(id, asistencia): Observable<any> {
-    return this.http.put(this.direccionModificarAsistencia + id, asistencia, this.httpOptions).pipe(retry(2));
+  modificarAsistenciaPUT(id, estado): Observable<any> {
+    return this.http.put(this.direccionModificarAsistencia + id, estado, this.httpOptions).pipe(retry(2));
   }
 
   //Método para eliminar una asistencia por ID
@@ -145,4 +146,9 @@ export class ApiService {
   listarAsistenciasAsignaturaProfesorGET(rut):Observable<any>{
     return this.http.get(this.direccionListarAsistenciasAsignaturaProfesor + rut ).pipe(retry(3));
   }
+
+  listarEstadosAsistenciaGET():Observable<any>{
+    return this.http.get(this.direcccionListarEstados).pipe(retry(3));
+  }
+  
 }
