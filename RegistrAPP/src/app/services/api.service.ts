@@ -119,6 +119,10 @@ export class ApiService {
     return this.http.put(this.direccionGenerarQR, data, this.httpOptions).pipe(retry(3));
   }
 
+  escanearCodigoQRPOST(data):Observable<any>{
+    return this.http.post(this.direccionEscanearQR, data, this.httpOptions).pipe(retry(3));
+  }
+
   guardarAsistenciaPOST(guardar):Observable<any>{
     return this.http.post(this.direccionGuardarAsistencia, guardar, this.httpOptions).pipe(retry(3));
   }

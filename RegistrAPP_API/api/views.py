@@ -435,7 +435,7 @@ class AsistenciaView(View):
     def post(self, request):
         jsonData = json.loads(request.body)
         valida = agregarAsistencia(
-            jsonData["estadoID"], jsonData["claseID"], jsonData["rutALumno"])
+            jsonData["estadoID"], jsonData["claseID"], jsonData["rutAlumno"])
         if valida == 1:
             datos = {'mensaje': 'Success'}
         else:

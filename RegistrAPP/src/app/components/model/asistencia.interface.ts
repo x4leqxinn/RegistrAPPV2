@@ -1,4 +1,4 @@
-export interface Asistencia{
+export interface AsistenciaI{
     id : number;
     estadoID : number;
     claseID: number;
