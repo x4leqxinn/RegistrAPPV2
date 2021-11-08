@@ -78,6 +78,7 @@ export class CursosProfesorPage implements OnInit {
   listarAsignaturas(id) {
     this.router.navigate(['/asignaturas-profesor/', this.rut, id]);
   }
+  
   async cerrarSesion() {
     const alert = await this.alertController.create({
       header: "Cerrar sesión",

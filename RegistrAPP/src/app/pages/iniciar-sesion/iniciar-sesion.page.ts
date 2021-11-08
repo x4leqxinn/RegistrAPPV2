@@ -1,5 +1,5 @@
 // Importamos el componente OnInit
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 //Importamos el componente de manejo de forms
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -32,7 +32,7 @@ import { UsuarioLoginI } from 'src/app/components/model/usuario.intefaces';
   styleUrls: ['./iniciar-sesion.page.scss'],
 })
 
-export class IniciarSesionPage implements OnInit{
+export class IniciarSesionPage implements OnInit {
 
   // Creamos atributos de clase
   //nombreUsuario:String;
@@ -46,44 +46,43 @@ export class IniciarSesionPage implements OnInit{
 
   // Inicializamos el contructor con un router y un navControl
   constructor(
-    private router: Router, 
-    private navControl: NavController, 
+    private router: Router,
+    private navControl: NavController,
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     public alertController: AlertController,
     private authService: AuthenticationService,
     private apiService: ApiService,
     private loadingController: LoadingController
-    ) 
-  { 
+  ) {
     this.loginForm = this.formBuilder.group({
       // Creamos Controles de Formularios
       username: new FormControl("",
         Validators.compose([
-        Validators.required, // Campo requerido
-        Validators.minLength(5),
-        Validators.maxLength(15),
-        Validators.pattern("^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$") // Expresión Regular para validar el username
-      ])),
+          Validators.required, // Campo requerido
+          Validators.minLength(5),
+          Validators.maxLength(15),
+          Validators.pattern("^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$") // Expresión Regular para validar el username
+        ])),
       password: new FormControl("",
         Validators.compose([
-        Validators.required, // Campo requerido
-        Validators.minLength(8),
-        Validators.maxLength(20),
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')// Expresión Regular para validar el password
-        /* 
-          La pass debe 
-          Minimo 8 caracteres
-          Al menos una letra mayúscula
-          Al menos una letra minuscula
-          Al menos un dígito
-          Al menos 1 caracter especial
-        */
-      ]))
+          Validators.required, // Campo requerido
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')// Expresión Regular para validar el password
+          /* 
+            La pass debe 
+            Minimo 8 caracteres
+            Al menos una letra mayúscula
+            Al menos una letra minuscula
+            Al menos un dígito
+            Al menos 1 caracter especial
+          */
+        ]))
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.limpiarCampos();
   }
 
@@ -91,13 +90,12 @@ export class IniciarSesionPage implements OnInit{
     this.limpiarCampos();
   }
 
-   //Resetea Formulario
-  limpiarCampos(){
+  //Resetea Formulario
+  limpiarCampos() {
     this.loginForm.reset();
   }
 
-
-  async iniciarSesion(credenciales){
+  async iniciarSesion(credenciales) {
     // Enviamos un diccionario
     this.usuario = {
       usuario: credenciales.username,
@@ -106,7 +104,7 @@ export class IniciarSesionPage implements OnInit{
     };
 
     const carga = await this.loadingController.create({
-      message:"Cargando ..."
+      message: "Cargando ..."
     });
 
     await carga.present();
@@ -115,38 +113,53 @@ export class IniciarSesionPage implements OnInit{
       (data) => {
         console.log(data);
         console.log(data.mensaje)
-        if(data.mensaje == "Error"){
+        if (data.mensaje == "Error") {
           // CARGA DE INICIO DE SESIÓN
           carga.dismiss();
           // Mensaje de Usuario o Contraseña incorrectas
-          alert('Usuario o Contraseña incorrectas');
-        }else{
-          this.authService.login(credenciales.username, credenciales.password,data.tipoUsuario,data.rut,data.bienvenida)
+          this.mensajeOk('¡Error!', '¡Usuario o contraseña incorrectos!');
+        } else {
+          this.authService.login(credenciales.username, credenciales.password, data.tipoUsuario, data.rut, data.bienvenida)
           // CARGA DE INICIO DE SESIÓN
           carga.dismiss();
         }
-        
+
       },
       (error) => {
         // CARGA DE INICIO DE SESIÓN
         carga.dismiss();
         // Alerta de que los servidores están caídos, vuelva más tarde
-        alert('No hay data')
         console.log(error);
+        this.mensajeOk('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
       }
     );
   }
 
-
-  recuperarCuenta(){
-    //this.router.navigate(['/cambiar-contrasenia'])
+  recuperarCuenta() {
+    this.router.navigate(['/cambiar-contrasenia']);
     //this.router.navigate(['/tabs-profesor']);
-    this.router.navigate(['/tabs-alumno']);
+    //this.router.navigate(['/tabs-alumno']);
     //this.router.navigate(['/test']);
   }
 
+  paginaError(){
+    this.router.navigate(['/paginaerror']);
+  }
+
+  // Alerta de confirmación
+  async mensajeOk(titulo, mensaje) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ["OK"],
+    })
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+
   // Agrego métodos get para validar el Formulario
-  get username(){ return this.loginForm.get('username'); }
-  get password(){ return this.loginForm.get('password'); }
+  get username() { return this.loginForm.get('username'); }
+  get password() { return this.loginForm.get('password'); }
 
 }

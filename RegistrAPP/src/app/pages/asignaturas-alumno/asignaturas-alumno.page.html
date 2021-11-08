@@ -1,9 +1,16 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="start">
+            <ion-back-button color="light" (click)="cerrarSesion2()"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button color="light" (click)="cerrarSesion()">
+                <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Asignaturas</ion-title>
     </ion-toolbar>
 </ion-header>
-
 <ion-content>
     <!--Recorremos la lista de asignaturas -->
     <ion-list *ngFor="let x of asignaturas">

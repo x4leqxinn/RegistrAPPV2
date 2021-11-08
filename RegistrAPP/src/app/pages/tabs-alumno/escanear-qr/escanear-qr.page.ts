@@ -23,7 +23,7 @@ export class EscanearQrPage implements OnInit {
       private authentication: AuthenticationService,
       private alertController: AlertController,
       private barcodeScanner: BarcodeScanner,
-      private apiService : ApiService
+      private apiService: ApiService
     ) { }
 
   ngOnInit() {
@@ -32,13 +32,15 @@ export class EscanearQrPage implements OnInit {
       this._tts.asistenciaRegistrada();
     }
     */
-    
+
   }
 
-  test(){
+  test() {
     // Funciona!
-    console.log(this.validarCodigo(this.obtenerClaseID(),'www.youtube.com'));
+    console.log(this.validarCodigo(this.obtenerClaseID(), 'www.youtube.co'));
   }
+
+
   asistente() {
     if (localStorage.getItem('bienvenida')) {
       this._tts.ayudaScanearQR(localStorage.getItem('bienvenida'));
@@ -51,9 +53,11 @@ export class EscanearQrPage implements OnInit {
     this.barcodeScanner.scan().then
       (barcodeData => {
         this.codigoScaneado = barcodeData.text;
+        // Si al escanear el código de la clase este coincide con el generado
+        // Registrará automáticamente la asistencia de el alumno
+        this.validarCodigo(this.obtenerClaseID(), this.codigoScaneado);
       }
       )
-    this.escanearCodigo //////////////////////
   }
 
   async cerrarSesion() {
@@ -76,12 +80,13 @@ export class EscanearQrPage implements OnInit {
         }
       ]
     });
+
     await alert.present();
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
   }
 
-  validarCodigo(claseID, direccionQR){
+  validarCodigo(claseID, direccionQR) {
     this.validarScan = {
       claseID: claseID,
       direccionQR: direccionQR
@@ -90,32 +95,33 @@ export class EscanearQrPage implements OnInit {
     this.apiService.escanearCodigoQRPOST(this.validarScan).subscribe(
       (data) => {
         console.log(data);
-        if(data.mensaje == 'Success'){
+        if (data.mensaje == 'Success') {
           console.log('Escaneo exitoso, registrar asistencia');
           // Si el código QR coincide con el código ingresado por el Profesor que lo registre
-          this.registrarAsistencia(claseID,this.obtenerRutAlumno());
-        }else{
-          console.log('Escanea el código de la clase!');
+          this.registrarAsistencia(claseID, this.obtenerRutAlumno());
+        } else {
+          this.mensajeOk('¡Error!', '¡Asegúrate de escanear el código QR de la clase!');
         }
       },
       (error) => {
         console.log(error);
+        this.mensajeOk('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
       }
     );
   }
 
-  obtenerClaseID():number{
+  obtenerClaseID(): number {
     var valida = 0;
-    if(localStorage.getItem('dataAlumno')){
+    if (localStorage.getItem('dataAlumno')) {
       var data = JSON.parse(localStorage.getItem('dataAlumno'));
       valida = data.claseID;
-    }else{
+    } else {
       console.log('No hay data en el localstorage');
     }
     return valida;
   }
 
-  registrarAsistencia(claseID, rutAlumno){
+  registrarAsistencia(claseID, rutAlumno) {
     this.asistencia = {
       id: 0,
       claseID: claseID,
@@ -126,28 +132,46 @@ export class EscanearQrPage implements OnInit {
     this.apiService.agregarAsistenciaPOST(this.asistencia).subscribe(
       (data) => {
         console.log(data);
-        if(data.mensaje == 'Success'){
+        if (data.mensaje == 'Success') {
           console.log('Asistencia registrada con éxito');
-        }else{
+          this.mensajeOk('¡Éxito!', '¡Asistencia de la clase registrada!');
+          // El tts avisa el registro de la asistencia
+          this._tts.asistenciaRegistrada();
+        } else {
           console.log('¡Su asistencia, ya ha sido registrada!');
+          this.mensajeOk('¡Error!', '¡Su asistencia ya ha sido registrada!');
         }
       },
       (error) => {
         console.log(error);
+        this.mensajeOk('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
       }
     );
 
   }
 
-  obtenerRutAlumno(){
+  obtenerRutAlumno() {
     var valida = 0;
-    if(localStorage.getItem('dataAlumno')){
+    if (localStorage.getItem('dataAlumno')) {
       var data = JSON.parse(localStorage.getItem('dataAlumno'));
       valida = data.rut;
-    }else{
+    } else {
       console.log('No hay data en el localstorage');
     }
     return valida;
   }
+
+  // Alerta de confirmación
+  async mensajeOk(titulo, mensaje) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ["OK"],
+    })
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+
 
 }

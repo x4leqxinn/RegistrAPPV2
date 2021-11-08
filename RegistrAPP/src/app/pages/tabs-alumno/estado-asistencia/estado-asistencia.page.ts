@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -16,13 +16,16 @@ export class EstadoAsistenciaPage implements OnInit {
   (
     private apiService : ApiService,
     private authentication : AuthenticationService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingController: LoadingController
   )
   { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidEnter() {
     this.buscarEstadoAsistencia();
-  }
+  };
 
   obtenerData(){
     if(localStorage.getItem('dataAlumno')){
@@ -34,15 +37,24 @@ export class EstadoAsistenciaPage implements OnInit {
     }
   }
 
-  buscarEstadoAsistencia(){
+  async buscarEstadoAsistencia(){
+
+    const carga = await this.loadingController.create({
+      message: "Cargando estado ..."
+    });
+
+    await carga.present();
+
     this.obtenerData();
       this.apiService.buscarEstadoAsistenciaGET(this.rut,this.claseID).subscribe(
         (data) => {
           console.log(data);
+          carga.dismiss();
           this.estado = data.estado; 
         },
         (error) => {
           console.log(error);
+          carga.dismiss();
         }
       );
   }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { AsignaturaI } from 'src/app/components/model/asignatura.interface';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-asignaturas-alumno',
@@ -25,7 +26,9 @@ export class AsignaturasAlumnoPage implements OnInit {
     private activatedRoute: ActivatedRoute, // Para recibir los parametros
     private apiService: ApiService,
     private loadingController: LoadingController,
-    private router:Router
+    private router:Router,
+    private authentication: AuthenticationService,
+    private alertController: AlertController
   )
    { }
 
@@ -75,4 +78,34 @@ export class AsignaturasAlumnoPage implements OnInit {
   listarClases(asignaturaID){
     this.router.navigate(['clases-alumno/',this.rut,asignaturaID]);
   }
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
+    });
+    await alert.present();
+    //Que se cierre cuando aprete el botón
+    await alert.onDidDismiss();
+  }
+
+  cerrarSesion2(){
+    this.authentication.logout();
+  }
+
 }

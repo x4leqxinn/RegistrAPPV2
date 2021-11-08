@@ -1,8 +1,17 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="start">
+            <ion-back-button color="light"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button color="light" (click)="cerrarSesion()">
+                <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Clases</ion-title>
     </ion-toolbar>
 </ion-header>
+
 <!-- CARDS de Clases -->
 <ion-content>
     <ion-card *ngFor="let x of clases" (click)="menu(x.id)">

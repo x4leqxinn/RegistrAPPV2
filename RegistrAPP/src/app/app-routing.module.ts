@@ -17,11 +17,11 @@ const routes: Routes = [
   },
   {
     path: 'tabs-alumno',
-    loadChildren: () => import('./pages/tabs-alumno/tabs-alumno.module').then( m => m.TabsAlumnoPageModule) 
+    loadChildren: () => import('./pages/tabs-alumno/tabs-alumno.module').then( m => m.TabsAlumnoPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'tabs-profesor',
-    loadChildren: () => import('./pages/tabs-profesor/tabs-profesor.module').then( m => m.TabsProfesorPageModule)
+    loadChildren: () => import('./pages/tabs-profesor/tabs-profesor.module').then( m => m.TabsProfesorPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'mapa',
@@ -45,11 +45,11 @@ const routes: Routes = [
   },
   {
     path: 'asignaturas-alumno/:rut',
-    loadChildren: () => import('./pages/asignaturas-alumno/asignaturas-alumno.module').then( m => m.AsignaturasAlumnoPageModule)
+    loadChildren: () => import('./pages/asignaturas-alumno/asignaturas-alumno.module').then( m => m.AsignaturasAlumnoPageModule), canActivate:[AuthenGuardService]
   },
   {
     path: 'clases-alumno/:rut/:asignaturaID',
-    loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule)
+    loadChildren: () => import('./pages/clases-alumno/clases-alumno.module').then( m => m.ClasesAlumnoPageModule), canActivate:[AuthenGuardService]
   },
   {
     // Redirecciona todas las direcciones erronéas a esta página

@@ -77,7 +77,7 @@ export class RegistrarAsistenciaPage implements OnInit {
           console.log(error);
           carga.dismiss();
           // Mensaje de error se cayó el server
-          this.messageAlert('¡Error!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
+          this.messageAlert('¡Lo sentimos!', 'EL servicio no se encuentra disponible en este momento, vuelva más tarde.');
         }
       );
     } else {

@@ -2,7 +2,8 @@
 
     <!-- -------------------Custom Tabs with fab button------------------------------- -->
     <ion-fab vertical="bottom" horizontal="center" translucent="true">
-        <ion-fab-button [routerLink]="['/tabs-alumno/escanear-qr/']">
+        <ion-fab-button (click)="escanearCodigo()">
+            <!-- [routerLink]="['/tabs-alumno/escanear-qr/']" -->
             <ion-icon name="camera"></ion-icon>
             <!-- <ion-icon name="add-circle" color="primary"></ion-icon> -->
         </ion-fab-button>

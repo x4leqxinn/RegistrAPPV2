@@ -7,7 +7,7 @@
 @import "../../../theme/style.css";
 // Imagen de fondo de la APP
 .img-background {
-    --background: url(../../../assets/img/Backgrounds/students2.png) 0 0/100% 100% no-repeat;
+    --background: url(../../../assets/img/Backgrounds/login.png) 0 0/100% 100% no-repeat;
 }
 
 // Zona de header
@@ -18,17 +18,17 @@
 .contenedor {
     text-align: center;
     padding-top: 5px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .contenedor-header__titulo {
     color: var(--ion-color-blanco);
     text-shadow: 2px 2px var(--ion-color-negro);
-    font-size: 60px;
+    font-size: 50px;
 }
 
 .contenedor-header__logo {
-    width: 105px;
+    width: 80px;
     opacity: .9;
 }
 
@@ -73,7 +73,7 @@
 // Zona de footer
 .creditos {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     color: var(--ion-color-secundario);
 }
 

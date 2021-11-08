@@ -19,24 +19,23 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class AsignaturasProfesorPage implements OnInit {
 
   //Recibimos el rut por URL
-  rut : any;
+  rut: any;
   //Recibimos el id_curso por URL
-  cursoID : any;
+  cursoID: any;
   // Creamos un objeto de tipo asignatura
-  asignatura : AsignaturaI;
+  asignatura: AsignaturaI;
   // Creamos una lista de asignaturas
-  asignaturas : AsignaturaI[] = [];
+  asignaturas: AsignaturaI[] = [];
 
   constructor
-  (
-    private activatedRoute: ActivatedRoute, // Para recibir los parametros
-    private apiService: ApiService,
-    private loadingController: LoadingController,
-    private router:Router,
-    private authentication:AuthenticationService,
-    private alertController:AlertController
-  )
-   { }
+    (
+      private activatedRoute: ActivatedRoute, // Para recibir los parametros
+      private apiService: ApiService,
+      private loadingController: LoadingController,
+      private router: Router,
+      private authentication: AuthenticationService,
+      private alertController: AlertController
+    ) { }
 
   ngOnInit() {
     this.rut = this.activatedRoute.snapshot.paramMap.get("rut");
@@ -46,69 +45,69 @@ export class AsignaturasProfesorPage implements OnInit {
 
 
 
-  async listarAsignatura(){
+  async listarAsignatura() {
     const carga = await this.loadingController.create({
-      message:"Cargando ..."
+      message: "Cargando ..."
     });
 
     await carga.present();
 
-      this.apiService.listarAsignaturaGET(this.rut,this.cursoID).subscribe(
-        (data) => {
-          console.log(data);
-          if(data.mensaje == 'Encontrado'){
-            for(var i = 0; i<data.asignaturas.length; i++){
+    this.apiService.listarAsignaturaGET(this.rut, this.cursoID).subscribe(
+      (data) => {
+        console.log(data);
+        if (data.mensaje == 'Encontrado') {
+          for (var i = 0; i < data.asignaturas.length; i++) {
 
-              // Creo un objeto de tipo Asignatura
-              this.asignatura = {
-                id:data.asignaturas[i][0],
-                nombre:data.asignaturas[i][1],
-                cursoID:data.asignaturas[i][2]
-              }
-              // Lo agrego  a mi Array de ASIGNATURAS
-              this.asignaturas.push(this.asignatura);
+            // Creo un objeto de tipo Asignatura
+            this.asignatura = {
+              id: data.asignaturas[i][0],
+              nombre: data.asignaturas[i][1],
+              cursoID: data.asignaturas[i][2]
             }
-            carga.dismiss();
-          }else{
-            // No encontró resultados Mensaje
-            carga.dismiss();
+            // Lo agrego  a mi Array de ASIGNATURAS
+            this.asignaturas.push(this.asignatura);
           }
-        }, 
-        (error) => {
-          console.log(error);
           carga.dismiss();
-          // Mensaje de error se cayó el server
-        } 
-      );
+        } else {
+          // No encontró resultados Mensaje
+          carga.dismiss();
+        }
+      },
+      (error) => {
+        console.log(error);
+        carga.dismiss();
+        // Mensaje de error se cayó el server
+      }
+    );
   }
 
-  listarClases(asignaturaID){
-    this.router.navigate(['clases-profesor/',this.rut,this.cursoID,asignaturaID]);
+  listarClases(asignaturaID) {
+    this.router.navigate(['clases-profesor/', this.rut, this.cursoID, asignaturaID]);
   }
 
 
-  async cerrarSesion(){
+  async cerrarSesion() {
     const alert = await this.alertController.create({
-        header: "Cerrar sesión",
-        message: "¿Estás seguro?",
-        buttons: [
-            {
-                text: 'Sí',
-                handler: () => {
-                    console.log("Sesión finalizada");
-                    this.authentication.logout();
-                }
-            },
-            {
-                text: 'No',
-                handler: () => {
-                    console.log("Cancelar");
-                }
-            }
-        ]
+      header: "Cerrar sesión",
+      message: "¿Estás seguro?",
+      buttons: [
+        {
+          text: 'Sí',
+          handler: () => {
+            console.log("Sesión finalizada");
+            this.authentication.logout();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log("Cancelar");
+          }
+        }
+      ]
     });
     await alert.present();
     //Que se cierre cuando aprete el botón
     await alert.onDidDismiss();
-}
+  }
 }
