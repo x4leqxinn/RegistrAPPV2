@@ -277,6 +277,9 @@ class EstadoAsistencia(models.Model):
     id_estado = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.descripcion
+
     class Meta:
         managed = False
         db_table = 'estado_asistencia'
@@ -294,6 +297,9 @@ class EstadoUsuario(models.Model):
 class Genero(models.Model):
     id_genero = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.descripcion
 
     class Meta:
         managed = False
@@ -369,6 +375,9 @@ class TipoUsuario(models.Model):
     id_tipo = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.descripcion
+
     class Meta:
         managed = False
         db_table = 'tipo_usuario'
@@ -379,6 +388,9 @@ class Usuario(models.Model):
     contrasenia = models.CharField(max_length=25)
     id_estado = models.ForeignKey(EstadoUsuario, models.DO_NOTHING, db_column='id_estado')
     id_tipo = models.ForeignKey(TipoUsuario, models.DO_NOTHING, db_column='id_tipo')
+
+    def __str__(self):
+        return self.nombre_usuario
 
     class Meta:
         managed = False
