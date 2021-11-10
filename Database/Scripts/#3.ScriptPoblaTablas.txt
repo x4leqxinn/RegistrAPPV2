@@ -76,27 +76,31 @@ INSERT INTO estado_asistencia VALUES (3, 'JUSTIFICADO');
 
 -- Alumnos
 
-INSERT INTO usuario VALUES ('x4leqxinn', 'admin123',1,2);
-INSERT INTO usuario VALUES ('ratitalizz', 'admin123',1,2);
-INSERT INTO usuario VALUES ('matt69', 'admin123',1,2);
-INSERT INTO USUARIO VALUES ('tom.campos','admin123',1,2);
-INSERT INTO USUARIO VALUES ('jotap-ux','admin123',1,2);
-insert into usuario values ('acelga','admin123',1,2);
-insert into usuario values ('kamiewe','RegistrAPP69!',1,2);
+INSERT INTO usuario VALUES ('x4leqxinn', 'RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('ratitalizz', 'RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('matt69', 'RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('tom.campos','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('jotap-ux','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('acelga','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('kamiewe','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('RJdrak','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('Ahome','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES('nicco.moreira','RegistrAPP1!',1,2);
+INSERT INTO usuario VALUES ('AmIEvil','RegistrAPP1!',1,2);
 
 -- Profesores
-INSERT INTO usuario VALUES ('fre.camposo', 'admin123',1,1);
-INSERT INTO usuario VALUES ('panshoots', 'admin123',1,1);
-INSERT INTO usuario VALUES ('je.leonelli', 'admin123',1,1);
-INSERT INTO usuario VALUES ('alambrito', 'admin123',1,1);
-INSERT INTO usuario VALUES ('elizeus', 'admin123',1,1);
-INSERT INTO usuario VALUES ('pavesito', 'admin123',1,1);
-INSERT INTO usuario VALUES ('hackerman', 'admin123',1,1);
-INSERT INTO usuario VALUES ('lu.millao', 'admin123',1,1);
-INSERT INTO usuario VALUES ('v.vasquez', 'admin123',1,1);
-INSERT INTO usuario VALUES ('fab.bravoa', 'admin123',1,1);
-INSERT INTO usuario VALUES ('jul.tapiaa', 'admin123',1,1);
-INSERT INTO usuario VALUES ('f.cordovez', 'admin123',1,1);
+INSERT INTO usuario VALUES ('fre.camposo', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('panshoots', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('je.leonelli', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('alambrito', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('elizeus', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('pavesito', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('hackerman', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('lu.millao', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('v.vasquez', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('fab.bravoa', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('jul.tapiaa', 'RegistrAPP1!',1,1);
+INSERT INTO usuario VALUES ('f.cordovez', 'RegistrAPP1!',1,1);
 
 -----------------------------------------------------
 -- PERSONA
@@ -150,13 +154,18 @@ INSERT INTO curso VALUES(seq_curso.NEXTVAL, 'CUARTO MEDIO C','12647021');
 -- PERSONA
 -----------------------------------------------------
 -- ALUMNOS
-INSERT INTO persona VALUES ('20281676','2','JORGE','ALEJANDRO', NULL , 'QUINTUI','VERGARA','jorgealequinn@gmail.com','x4leqxinn',1);
+INSERT INTO persona VALUES ('20281676','2','JORGE','ALEJANDRO', NULL , 'QUINTUI','VERGARA','jo.quintui@gmail.com','x4leqxinn',1);
 INSERT INTO persona VALUES ('19317764','6','BARBARA','ELIZABETH', NULL , 'AROCA','ESPINOZA','ba.aroca@gmail.com','ratitalizz',2);
 INSERT INTO persona VALUES ('19708456','1','MATIAS','IGNACIO', NULL , 'AMION','ARANEDA','mat.amion@gmail.com','matt69',1);
-INSERT INTO PERSONA VALUES ('20225887','5','TOMAS','JESUS',null,'CAMPOS','CELIS','tom.campos@duocuc.cl','tom.campos',1);
-INSERT INTO PERSONA VALUES ('20279147 ','6','JUAN','PABLO',NULL,'GONZALEZ','ALONSO','jotap-ux@duocuc.cl','Jotap-ux',1);
-INSERT INTO PERSONA VALUES ('20995150','9','CONSTANZA','IVONNE',NULL,'ROJAS','TORRES','chayanneesmipadre@gmail.com','acelga',2);
-INSERT INTO PERSONA VALUES ('19571271','9','CAMILA','ANDREA',NULL,'PLAZA','TOBAR','kamila_owo@gmail.com','kamiewe',2);
+INSERT INTO persona VALUES ('20225887','5','TOMAS','JESUS',NULL,'CAMPOS','CELIS','tom.campos@gmail.com','tom.campos',1);
+INSERT INTO persona VALUES ('20279147 ','6','JUAN','PABLO',NULL,'GONZALEZ','ALONSO','jotap-ux@gmail.com','Jotap-ux',1);
+INSERT INTO persona VALUES ('20995150','9','CONSTANZA','IVONNE',NULL,'ROJAS','TORRES','chayanneesmipadre@gmail.com','acelga',2);
+INSERT INTO persona VALUES ('19571271','9','CAMILA','ANDREA',NULL,'PLAZA','TOBAR','kamila_owo@gmail.com','kamiewe',2);
+INSERT INTO persona VALUES('20640300','4','JOAQUÍN','ANTONIO',NULL,'REYES','MONTERO','joac.reyes@gmail.com','RJdrak',1);
+INSERT INTO persona VALUES('20558252','5','NICOLAS','ALEJANDRO',NULL,'MOREIRA','ACUÑA','nicco.mor@gmail.com','nicco.moreira',1);
+INSERT INTO persona VALUES('20279147','6','GONZALO','GASPAR',NULL,'CARO','OTAROLA','gonza.caro@gmail.com','AmIEvil',1);
+INSERT INTO persona VALUES('20280386','5','GISELLE','ANGELICA',NULL,'CAMPOS','QUINTEROS','giselle.camp@gmail.com','Ahome',2);
+
 
 -----------------------------------------------------
 -- ALUMNO
@@ -164,24 +173,30 @@ INSERT INTO PERSONA VALUES ('19571271','9','CAMILA','ANDREA',NULL,'PLAZA','TOBAR
 INSERT INTO alumno VALUES ('20281676',10);
 INSERT INTO alumno VALUES ('19317764',10);
 INSERT INTO alumno VALUES ('19708456',10);
-INSERT INTO ALUMNO VALUES ('20225887',11);
-INSERT INTO ALUMNO VALUES('20279147 ',10);
-insert into alumno values('20995150',11);
-insert into alumno values('19571271',10);
+INSERT INTO alumno VALUES ('20225887',11);
+INSERT INTO alumno VALUES('20279147 ',10);
+INSERT INTO alumno VALUES('20995150',11);
+INSERT INTO alumno VALUES('19571271',11);
+INSERT INTO alumno VALUES('20640300',11);
+INSERT INTO alumno VALUES('20558252',10);
+INSERT INTO alumno VALUES('20279147',10);
+INSERT INTO alumno VALUES('20280386',11);
+
+
 -----------------------------------------------------
 
 -----------------------------------------------------
 -- CLASE
 -----------------------------------------------------
-INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','08:00','09:30',10,NULL,'17268410',7);
-INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','08:00','09:30',1,NULL,'12647021',10); -- CLASE DE MATE POR EL PROFE FREDDY AL CURSO DE 4TO MEDIO A
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'10/11/2021','08:00','09:30',10,NULL,'17268410',11);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'10/11/2021','08:00','09:30',1,NULL,'12647021',10); -- CLASE DE MATE POR EL PROFE FREDDY AL CURSO DE 4TO MEDIO A
 
 
-INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','09:45','11:15',1,NULL,'12647021',7);
-INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','09:45','11:15',4,NULL,'13285237',10); -- CLASE DE FÍSICA POR EL PROFE VICTOR AL CURSO DE 4TO MEDIO A
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'10/11/2021','09:45','11:15',1,NULL,'12647021',11);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'10/11/2021','09:45','11:15',4,NULL,'13285237',10); -- CLASE DE FÍSICA POR EL PROFE VICTOR AL CURSO DE 4TO MEDIO A
 
-INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','11:30','13:00',10,NULL,'17268410',10); -- CLASE DE FILOSOFÍA POR EL PROFE JUILLET AL CURSO 4TO MEDIO A
-INSERT INTO clase VALUES (seq_clase.NEXTVAL,'5/11/2021','11:30','13:00',4,NULL,'13285237',7);
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'10/11/2021','11:30','13:00',10,NULL,'17268410',10); -- CLASE DE FILOSOFÍA POR EL PROFE JUILLET AL CURSO 4TO MEDIO A
+INSERT INTO clase VALUES (seq_clase.NEXTVAL,'10/11/2021','11:30','13:00',4,NULL,'13285237',11);
 
 
 
