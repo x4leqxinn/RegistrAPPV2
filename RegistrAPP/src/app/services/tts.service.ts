@@ -33,5 +33,9 @@ export class TtsService {
     this.voz('Tu asistencia ha sido registrada con éxito.');
   }
 
+  aviso(){
+    this.voz('Lamentablemente no es posible conectarse a la API desde un teléfono celular en este momento, carita triste');
+  }
+
 
 }

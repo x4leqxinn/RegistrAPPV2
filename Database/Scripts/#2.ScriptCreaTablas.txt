@@ -1,5 +1,5 @@
 -- Generado por Oracle SQL Developer Data Modeler 18.4.0.339.1532
---   en:        2021-10-23 22:43:43 CLST
+--   en:        2021-11-14 19:27:35 CLST
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
@@ -29,7 +29,7 @@ CREATE TABLE asistencia (
 ALTER TABLE asistencia ADD CONSTRAINT asistencia_pk PRIMARY KEY ( id_asistencia );
 
 CREATE TABLE auditoria_ddl (
-    correlativo       NUMBER(4) NOT NULL,
+    correlativo       NUMBER(7) NOT NULL,
     usuario           VARCHAR2(30) NOT NULL,
     objeto_afectado   VARCHAR2(80) NOT NULL,
     nombre_objeto     VARCHAR2(200) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE profesor (
 ALTER TABLE profesor ADD CONSTRAINT profesor_pk PRIMARY KEY ( rut_profesor );
 
 CREATE TABLE registro_error (
-    id              NUMBER(4) NOT NULL,
+    id              NUMBER(7) NOT NULL,
     codigo_error    VARCHAR2(30) NOT NULL,
     mensaje_error   VARCHAR2(300) NOT NULL,
     subprograma     VARCHAR2(80) NOT NULL,
@@ -151,7 +151,7 @@ CREATE TABLE registro_error (
 ALTER TABLE registro_error ADD CONSTRAINT registro_error_pk PRIMARY KEY ( id );
 
 CREATE TABLE registro_logs (
-    correlativo   NUMBER(4) NOT NULL,
+    correlativo   NUMBER(7) NOT NULL,
     operacion     VARCHAR2(15) NOT NULL,
     mensaje       VARCHAR2(100) NOT NULL,
     fecha         DATE NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE registro_logs (
 ALTER TABLE registro_logs ADD CONSTRAINT registro_logs_pk PRIMARY KEY ( correlativo );
 
 CREATE TABLE resumen_asistencia (
-    id_resumen        NUMBER(5) NOT NULL,
+    id_resumen        NUMBER(7) NOT NULL,
     rut_alumno        VARCHAR2(12) NOT NULL,
     rut_profesor      VARCHAR2(12) NOT NULL,
     profesor          VARCHAR2(150) NOT NULL,
@@ -241,7 +241,7 @@ ALTER TABLE detalle_curso
         REFERENCES curso ( id_curso );
 
 ALTER TABLE detalle_curso
-    ADD CONSTRAINT detalle_curso_profesor_fk FOREIGN KEY ( rut_profesor )
+    ADD CONSTRAINT detalle_curso_profe_fk FOREIGN KEY ( rut_profesor )
         REFERENCES profesor ( rut_profesor );
 
 ALTER TABLE persona

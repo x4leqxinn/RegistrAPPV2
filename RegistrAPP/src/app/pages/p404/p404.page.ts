@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TtsService } from 'src/app/services/tts.service';
 
 @Component({
   selector: 'app-p404',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class P404Page implements OnInit {
 
-  constructor() { }
+  constructor
+  (
+    private ttsService : TtsService
+  )
+  { }
 
   ngOnInit() {
+    this.ttsService.aviso();
   }
 
 }

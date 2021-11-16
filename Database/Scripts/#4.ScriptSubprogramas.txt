@@ -50,7 +50,7 @@ END trg_login_session;
 ------------------------------------------------------------------------------
 
 -- Alteramos el formato fecha de la sesión para que muestre la hora, los minutos y los segundos
-ALTER SESSION SET  nls_date_format = 'dd-mm-yyyy hh24:mi:ss';
+ALTER SESSION SET  nls_date_format = 'dd-mm-yyyy';
 
 -- Indicamos el lenguaje
 ALTER SESSION SET  nls_date_language='SPANISH';
@@ -266,6 +266,18 @@ EXCEPTION
         RETURN v_cantidad;
 END;
 
+CREATE OR REPLACE PROCEDURE sp_resetear_secuencia( p_seq_name IN VARCHAR2 )
+IS
+    l_val NUMBER;
+BEGIN
+    EXECUTE IMMEDIATE 'select ' || p_seq_name || '.nextval from dual' INTO l_val;
+
+    EXECUTE IMMEDIATE 'alter sequence ' || p_seq_name || ' increment by -' || l_val || ' minvalue 0';
+    EXECUTE IMMEDIATE 'select ' || p_seq_name || '.nextval from dual' INTO l_val;
+
+    EXECUTE IMMEDIATE 'alter sequence ' || p_seq_name || ' increment by 1 minvalue 0';
+END;
+
 -------------------------------------------------
 -- PROCEDIMIENTO ALMACENDO
 -- RESUMEN ASISTENCIA 
@@ -294,6 +306,7 @@ CREATE OR REPLACE PROCEDURE sp_resumen_asistencia IS
 BEGIN
     -- TRUNCAR LA TABLA DE RESUMEN ANTES DE INSERTAR DATOS
     v_valida := fn_truncar_tabla('RESUMEN_ASISTENCIA');
+    SP_RESETEAR_SECUENCIA('SEQ_RESUMEN_ASISTENCIA');
     IF v_valida = 1 THEN 
         OPEN cur_resumen;
         LOOP 
