@@ -1,0 +1,7 @@
+
+djangorestframework
+cx_oracle
+django-admin-interface
+pillow
+requests
+django-cors-headers
