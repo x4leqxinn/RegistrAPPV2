@@ -3,7 +3,7 @@ from .views import *
 
 #
 from api import views
-from django.conf.urls import url
+#from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns 
 
 #Importar una libreria de ubicaciones estáticas para poder cargar imagenes
@@ -31,7 +31,7 @@ urlpatterns = [
     path('listar-asistencias-profesor/<int:rutProfesor>/',ListarAsistenciasAsignaturaProfesorView.as_view(), name = "listarAsistenciasProfesor"),
     path('perfil-usuario/<int:rut>/',MostrarPerfilUsuarioView.as_view(), name = "mostrarPerfilUsuario"),
     path('listar-estados/',ListarEstadosAsistenciaView.as_view(), name = "mostrarEstadosAsistencia"),
-    url(r'^apirest/alumno/$',views.AlumnoViewSet.as_view()),
+    #url(r'^apirest/alumno/$',views.AlumnoViewSet.as_view()),
 ]
 
 # 
